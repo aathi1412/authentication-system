@@ -1,13 +1,14 @@
 package com.aathi.authenticationsystem.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,28 +24,32 @@ public class User {
     private String name;
 
     @Column(nullable = false, unique = true)
-    @Email
     private String email;
 
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean enabled = false;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean accountLocked = false;
 
+    @Builder.Default
     @Column(nullable = false)
     private int failedAttempts = 0;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @PrePersist
