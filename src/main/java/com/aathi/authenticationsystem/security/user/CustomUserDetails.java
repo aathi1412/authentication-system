@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.security.user;
 
+import com.aathi.authenticationsystem.entity.Role;
 import com.aathi.authenticationsystem.entity.User;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +30,29 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getName();
+        return user.getEmail();
     }
 
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isAccountLocked();
+        return !user.isAccountLocked();
     }
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return !user.isEnabled();
+    }
+
+    public long getId(){
+        return user.getId();
+    }
+
+    public Role getRole(){
+        return user.getRole();
+    }
+
+    public String getName(){
+        return user.getName();
     }
 }
