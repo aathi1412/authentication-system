@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.controller;
 
+import com.aathi.authenticationsystem.DTO.AuthResponse;
 import com.aathi.authenticationsystem.DTO.LoginRequest;
 import com.aathi.authenticationsystem.DTO.RegisterRequest;
 import com.aathi.authenticationsystem.DTO.RegisterResponse;
@@ -30,7 +31,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String loginRequest(@RequestBody LoginRequest request){
-        return "";
+    public ResponseEntity<?> loginRequest(@RequestBody LoginRequest request){
+        AuthResponse authResponse = authService.login(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(authResponse);
     }
 }
