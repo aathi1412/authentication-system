@@ -1,3 +1,4 @@
+
 package com.aathi.authenticationsystem.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,6 @@ public class HelloController {
 
     @GetMapping("")
     public String getHomePage(){
-        return "Welcome Login Successfulll!";
+        return "Welcome Login Successfull!";
     }
 }
