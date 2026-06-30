@@ -1,7 +1,7 @@
-package com.aathi.authenticationsystem.security;
+package com.aathi.authenticationsystem.security.jwt;
 
-import com.aathi.authenticationsystem.service.CustomUserDetailsService;
-import com.aathi.authenticationsystem.service.JwtService;
+import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
+import com.aathi.authenticationsystem.security.userdetails.CustomUserDetailsService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtService jwtService;

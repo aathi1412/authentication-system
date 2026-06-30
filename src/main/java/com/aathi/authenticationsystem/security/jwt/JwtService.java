@@ -1,7 +1,8 @@
-package com.aathi.authenticationsystem.service;
+package com.aathi.authenticationsystem.security.jwt;
 
 import com.aathi.authenticationsystem.configuration.JwtProperties;
-import com.aathi.authenticationsystem.security.CustomUserDetails;
+import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,16 +26,16 @@ public class JwtService {
 
     private static final Duration EXPIRATION = Duration.ofMinutes(15);
 
-    public String generateAccessToken(UserDetails userDetails){
+    public String generateAccessToken(User user){
         return Jwts.builder()
-                .subject(userDetails.getUsername())
+                .subject(user.getEmail())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(Date.from(Instant.now().plus(EXPIRATION)))
                 .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
     }
 
-    public String generateRefreshToken(UserDetails userDetails){
+    public String generateRefreshToken(){
         SecureRandom random = new SecureRandom();
         byte[] bytes = new byte[32];
         random.nextBytes(bytes);
