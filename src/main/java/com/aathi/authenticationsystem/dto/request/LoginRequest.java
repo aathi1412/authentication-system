@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.DTO;
+package com.aathi.authenticationsystem.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
