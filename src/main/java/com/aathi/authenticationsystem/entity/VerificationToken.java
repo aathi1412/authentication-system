@@ -22,6 +22,7 @@ public class VerificationToken {
     @Column(nullable = false)
     private LocalDateTime expiryDate;
 
+    @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
