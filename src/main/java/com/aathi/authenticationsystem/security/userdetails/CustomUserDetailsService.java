@@ -1,11 +1,9 @@
-package com.aathi.authenticationsystem.service;
+package com.aathi.authenticationsystem.security.userdetails;
 
 import com.aathi.authenticationsystem.entity.User;
 import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
 import com.aathi.authenticationsystem.repository.UserRepository;
-import com.aathi.authenticationsystem.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
