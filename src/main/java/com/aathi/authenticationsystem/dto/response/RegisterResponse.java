@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.DTO;
+package com.aathi.authenticationsystem.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

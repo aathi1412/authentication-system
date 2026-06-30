@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.DTO;
+package com.aathi.authenticationsystem.dto.response;
 
 import com.aathi.authenticationsystem.entity.Role;
 import lombok.AllArgsConstructor;
