@@ -1,5 +1,7 @@
 package com.aathi.authenticationsystem.service;
 
+import com.aathi.authenticationsystem.configuration.JwtProperties;
+import com.aathi.authenticationsystem.security.CustomUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,16 +17,20 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-        private final String KEY = "jf1^/,+^J+Y(/cN4BU;SBYmjHtr>;/ZRt[u>6v36.;[";
-        private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(KEY.getBytes());
-        private final Duration EXPIRATION = Duration.ofMinutes(15);
+    private final SecretKey secretKey;
+
+    public JwtService(JwtProperties jwtProperties) {
+        this.secretKey = Keys.hmacShaKeyFor(jwtProperties.secretKey().getBytes());
+    }
+
+    private static final Duration EXPIRATION = Duration.ofMinutes(15);
 
     public String generateAccessToken(UserDetails userDetails){
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(Date.from(Instant.now().plus(EXPIRATION)))
-                .signWith(SECRET_KEY, Jwts.SIG.HS256)
+                .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
     }
 
@@ -36,5 +42,19 @@ public class JwtService {
         return Base64.getUrlEncoder()
                 .withoutPadding()
                 .encodeToString(bytes);
+    }
+
+    public String extractEmail(String token){
+
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+    public boolean validateToken(String token, CustomUserDetails customUserDetails){
+        return extractEmail(token).equals(customUserDetails.getUsername());
     }
 }
