@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.security.user;
+package com.aathi.authenticationsystem.security;
 
 import com.aathi.authenticationsystem.entity.Role;
 import com.aathi.authenticationsystem.entity.User;
