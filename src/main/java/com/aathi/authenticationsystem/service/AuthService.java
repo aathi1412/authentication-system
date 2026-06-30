@@ -6,7 +6,7 @@ import com.aathi.authenticationsystem.entity.User;
 import com.aathi.authenticationsystem.exception.EmailAlreadyExistsException;
 import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
 import com.aathi.authenticationsystem.repository.UserRepository;
-import com.aathi.authenticationsystem.security.user.CustomUserDetails;
+import com.aathi.authenticationsystem.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -73,7 +73,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .message("Login Successful")
-                .tokenType("Bearer ")
+                .tokenType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .expiresIn(900)
