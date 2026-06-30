@@ -1,8 +1,9 @@
-package com.aathi.authenticationsystem.security;
+package com.aathi.authenticationsystem.security.userdetails;
 
 import com.aathi.authenticationsystem.entity.Role;
 import com.aathi.authenticationsystem.entity.User;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Builder
 @RequiredArgsConstructor
+@Getter
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
