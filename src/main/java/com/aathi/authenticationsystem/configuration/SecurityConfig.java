@@ -1,7 +1,7 @@
 package com.aathi.authenticationsystem.configuration;
 
-import com.aathi.authenticationsystem.security.JwtFilter;
-import com.aathi.authenticationsystem.service.CustomUserDetailsService;
+import com.aathi.authenticationsystem.security.jwt.JwtAuthenticationFilter;
+import com.aathi.authenticationsystem.security.userdetails.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtFilter jwtFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -39,7 +39,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/success").authenticated()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
