@@ -1,10 +1,12 @@
 package com.aathi.authenticationsystem.service;
 
+import com.aathi.authenticationsystem.configuration.JwtProperties;
+import com.aathi.authenticationsystem.dto.internal.LoginResult;
+import com.aathi.authenticationsystem.dto.internal.RefreshResult;
 import com.aathi.authenticationsystem.dto.request.LoginRequest;
-import com.aathi.authenticationsystem.dto.request.RefreshTokenRequest;
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.LoginResponse;
-import com.aathi.authenticationsystem.dto.response.TokenResponse;
+import com.aathi.authenticationsystem.dto.response.AccessTokenResponse;
 import com.aathi.authenticationsystem.dto.response.RegisterResponse;
 import com.aathi.authenticationsystem.dto.response.UserResponse;
 import com.aathi.authenticationsystem.entity.RefreshToken;
@@ -35,6 +37,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
+    private final JwtProperties jwtProperties;
 
     public RegisterResponse register(RegisterRequest request){
 
@@ -63,7 +66,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public LoginResponse login(LoginRequest request){
+    public LoginResult login(LoginRequest request){
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -83,33 +86,45 @@ public class AuthenticationService {
         String accessToken = jwtService.generateAccessToken(customUserDetails.getUser());
         String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.getUser());
 
-        return LoginResponse.builder()
-                .tokenResponse(TokenResponse.builder()
-                        .message("Login Successful")
-                        .tokenType("Bearer")
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .expiresIn(900)
-                        .build()
-                )
-                .userResponse(UserResponse.builder()
-                        .id(customUserDetails.getId())
-                        .name(customUserDetails.getName())
-                        .email(customUserDetails.getUsername())
-                        .role(customUserDetails.getRole())
-                        .build()
-                )
-                .build();
-
+        return new LoginResult(
+                LoginResponse.builder()
+                        .accessTokenResponse(AccessTokenResponse.builder()
+                                .message("Login Successful")
+                                .tokenType("Bearer")
+                                .accessToken(accessToken)
+                                .expiresIn(jwtProperties.accessTokenExpiration().toSeconds())
+                                .build()
+                        )
+                        .userResponse(UserResponse.builder()
+                                .id(customUserDetails.getId())
+                                .name(customUserDetails.getName())
+                                .email(customUserDetails.getUsername())
+                                .role(customUserDetails.getRole())
+                                .build()
+                        )
+                        .build(),
+                refreshToken  // refresh token
+        );
     }
 
-    public void refresh(RefreshTokenRequest request){
-        RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(request.getRefreshToken());
+    public RefreshResult refresh(String token){
+        RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(token);
 
         User user = refreshToken.getUser();
 
         String accessToken = jwtService.generateAccessToken(user);
 
+        String newRefreshToken = refreshTokenService.rotateToken(user, refreshToken);
+
+        return new RefreshResult(
+                AccessTokenResponse.builder()
+                        .message("new access token generated")
+                        .tokenType("Bearer")
+                        .accessToken(accessToken)
+                        .expiresIn(jwtProperties.accessTokenExpiration().toSeconds())
+                        .build(),
+                newRefreshToken
+        );
 
 
     }
