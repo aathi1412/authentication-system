@@ -1,9 +1,9 @@
 package com.aathi.authenticationsystem.constants;
 
-import org.springframework.stereotype.Component;
+public final class SecurityConstants {
 
-@Component
-public class SecurityConstants {
-    public static final String REFRESH_TOKEN_COOKIE = "refreshToken";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String TOKEN_TYPE = "Bearer ";
 
+    private SecurityConstants(){}
 }
