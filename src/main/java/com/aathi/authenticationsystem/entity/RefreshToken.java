@@ -2,11 +2,14 @@ package com.aathi.authenticationsystem.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+@SuppressWarnings("ALL")
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +26,10 @@ public class RefreshToken {
     private String token;
 
     private Instant expiryDate;
+
+    public boolean isExpired(){
+        return expiryDate.isBefore(Instant.now());
+    }
 
     private Instant createdAt;
 
