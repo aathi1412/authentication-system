@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TokenResponse {
+public class AccessTokenResponse {
 
     private String message;
     private String tokenType;
     private String accessToken;
-    private String refreshToken;
     private long expiresIn;
 }
