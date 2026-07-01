@@ -1,29 +1,41 @@
 package com.aathi.authenticationsystem.controller;
 
-import com.aathi.authenticationsystem.DTO.AuthResponse;
-import com.aathi.authenticationsystem.DTO.LoginRequest;
-import com.aathi.authenticationsystem.DTO.RegisterRequest;
-import com.aathi.authenticationsystem.DTO.RegisterResponse;
-import com.aathi.authenticationsystem.service.AuthService;
+import com.aathi.authenticationsystem.configuration.JwtProperties;
+import com.aathi.authenticationsystem.dto.internal.LoginResult;
+import com.aathi.authenticationsystem.dto.internal.RefreshResult;
+import com.aathi.authenticationsystem.dto.response.AccessTokenResponse;
+import com.aathi.authenticationsystem.dto.response.LoginResponse;
+import com.aathi.authenticationsystem.dto.request.LoginRequest;
+import com.aathi.authenticationsystem.dto.request.RegisterRequest;
+import com.aathi.authenticationsystem.dto.response.RegisterResponse;
+import com.aathi.authenticationsystem.security.CookieService;
+import com.aathi.authenticationsystem.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.aathi.authenticationsystem.constants.SecurityConstants.REFRESH_TOKEN_COOKIE;
+
+//import static com.aathi.authenticationsystem.security.CookieService.REFRESH_TOKEN_COOKIE;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthenticationService authenticationService;
+    private final JwtProperties jwtProperties;
+
+    private final CookieService cookieService;
+
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerRequest(@Valid @RequestBody RegisterRequest request){
-        RegisterResponse response = authService.register(request);
+    public ResponseEntity<RegisterResponse> registerRequest(@Valid @RequestBody RegisterRequest request){
+        RegisterResponse response = authenticationService.register(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -31,11 +43,27 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginRequest(@RequestBody LoginRequest request){
-        AuthResponse authResponse = authService.login(request);
+    public ResponseEntity<LoginResponse> loginRequest(@Valid @RequestBody LoginRequest request){
+        LoginResult result = authenticationService.login(request);
+
+        ResponseCookie cookie = cookieService.createRefreshTokenCookie(result.refreshToken());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(authResponse);
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(result.loginResponse());
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AccessTokenResponse> refreshTokenRequest(@CookieValue(REFRESH_TOKEN_COOKIE) String refreshToken){
+        RefreshResult result = authenticationService.refresh(refreshToken);
+
+        ResponseCookie cookie = cookieService.createRefreshTokenCookie(result.refreshToken());
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(result.accessToken());
+
     }
 }
