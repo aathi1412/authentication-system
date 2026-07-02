@@ -9,6 +9,7 @@ import com.aathi.authenticationsystem.dto.request.LoginRequest;
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.RegisterResponse;
 import com.aathi.authenticationsystem.security.CookieService;
+import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import static com.aathi.authenticationsystem.constants.SecurityConstants.REFRESH_TOKEN_COOKIE;
+import static com.aathi.authenticationsystem.constants.CookieConstants.REFRESH_TOKEN_COOKIE;
 
 //import static com.aathi.authenticationsystem.security.CookieService.REFRESH_TOKEN_COOKIE;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final JwtProperties jwtProperties;
@@ -65,5 +67,17 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(result.accessToken());
 
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logoutRequest(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                              @CookieValue(REFRESH_TOKEN_COOKIE) String refreshToken){
+        Long userId = userDetails.getId();
+        authenticationService.logout(userId, refreshToken);
+
+        ResponseCookie cookie = cookieService.clearRefreshTokenCookie();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .build();
     }
 }
