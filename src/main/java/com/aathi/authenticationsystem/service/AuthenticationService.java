@@ -27,6 +27,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.aathi.authenticationsystem.constants.SecurityConstants.TOKEN_TYPE;
+
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +55,7 @@ public class AuthenticationService {
                 .build();
 
         User savedUser = userRepository.save(user);
+
         UserResponse response = UserResponse.builder()
                 .id(savedUser.getId())
                 .name(savedUser.getName())
@@ -90,7 +93,7 @@ public class AuthenticationService {
                 LoginResponse.builder()
                         .accessTokenResponse(AccessTokenResponse.builder()
                                 .message("Login Successful")
-                                .tokenType("Bearer")
+                                .tokenType(TOKEN_TYPE)
                                 .accessToken(accessToken)
                                 .expiresIn(jwtProperties.accessTokenExpiration().toSeconds())
                                 .build()
@@ -119,7 +122,7 @@ public class AuthenticationService {
         return new RefreshResult(
                 AccessTokenResponse.builder()
                         .message("new access token generated")
-                        .tokenType("Bearer")
+                        .tokenType(TOKEN_TYPE)
                         .accessToken(accessToken)
                         .expiresIn(jwtProperties.accessTokenExpiration().toSeconds())
                         .build(),
@@ -127,5 +130,10 @@ public class AuthenticationService {
         );
 
 
+    }
+
+    public void logout(Long userId, String refreshToken){
+
+        refreshTokenService.revokeRefreshToken(userId,refreshToken);
     }
 }
