@@ -5,7 +5,7 @@ import com.aathi.authenticationsystem.entity.User;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -16,21 +16,24 @@ import java.util.Base64;
 import java.util.Date;
 
 @Service
+//@RequiredArgsConstructor
 public class JwtService {
 
+//    private final JwtProperties jwtProperties;
     private final SecretKey secretKey;
+    private final Duration expiration;
 
     public JwtService(JwtProperties jwtProperties) {
-        this.secretKey = Keys.hmacShaKeyFor(jwtProperties.secretKey().getBytes());
+        secretKey = Keys.hmacShaKeyFor(jwtProperties.secretKey().getBytes());
+        expiration = jwtProperties.accessTokenExpiration();
     }
 
-    private static final Duration EXPIRATION = Duration.ofMinutes(15);
 
     public String generateAccessToken(User user){
         return Jwts.builder()
                 .subject(user.getEmail())
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plus(EXPIRATION)))
+                .expiration(Date.from(Instant.now().plus(expiration)))
                 .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
     }
