@@ -16,6 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.aathi.authenticationsystem.constants.SecurityConstants.AUTHORIZATION;
+import static com.aathi.authenticationsystem.constants.SecurityConstants.TOKEN_TYPE;
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -26,8 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String header = request.getHeader("Authorization");
-        if(header == null || !header.startsWith("Bearer ")){
+        String header = request.getHeader(AUTHORIZATION);
+        if(header == null || !header.startsWith(TOKEN_TYPE)){
             filterChain.doFilter(request, response);
             return;
         }
