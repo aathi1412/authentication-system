@@ -59,4 +59,19 @@ public class GlobalExceptionHandler extends RuntimeException{
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(ResourceAccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleResourceAccessDeniedException(ResourceAccessDeniedException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ErrorResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.FORBIDDEN.value())
+                        .error(HttpStatus.FORBIDDEN.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+
+    }
+
+
 }
