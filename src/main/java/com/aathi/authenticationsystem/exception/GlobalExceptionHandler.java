@@ -25,6 +25,7 @@ public class GlobalExceptionHandler extends RuntimeException{
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException ex){
+
         ErrorResponse error = ErrorResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.UNAUTHORIZED.value())
@@ -32,7 +33,9 @@ public class GlobalExceptionHandler extends RuntimeException{
                 .message(ex.getMessage())
                 .build();
 
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(error);
     }
 
     @ExceptionHandler(AccountNotVerifiedException.class)
@@ -72,6 +75,60 @@ public class GlobalExceptionHandler extends RuntimeException{
                         .build());
 
     }
+
+    @ExceptionHandler(VerificationTokenExpiredException.class)
+    public ResponseEntity<ErrorResponse> handleVerificationTokenExpiredException(VerificationTokenExpiredException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+
+    }
+
+    @ExceptionHandler(InvalidVerificationTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidVerificationTokenException(InvalidVerificationTokenException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.UNAUTHORIZED.value())
+                        .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(InvalidPasswordResetTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPasswordResetTokenException(InvalidPasswordResetTokenException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ErrorResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.FORBIDDEN.value())
+                        .error(HttpStatus.FORBIDDEN.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .error(HttpStatus.NOT_FOUND.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+    }
+
 
 
 }
