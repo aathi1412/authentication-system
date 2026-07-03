@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.security;
+package com.aathi.authenticationsystem.security.cookies;
 
 import com.aathi.authenticationsystem.configuration.CookiesProperties;
 import lombok.RequiredArgsConstructor;
