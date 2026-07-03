@@ -24,6 +24,10 @@ public class VerificationToken {
     @Column(nullable = false)
     private Instant expiryDate;
 
+    public boolean isExpired(){
+        return expiryDate.isBefore(Instant.now());
+    }
+
     @Column(nullable = false)
     private Instant createdAt;
 
