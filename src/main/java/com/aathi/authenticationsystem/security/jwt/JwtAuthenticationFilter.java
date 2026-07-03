@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.security.jwt;
 
+import com.aathi.authenticationsystem.exception.JwtAuthenticationException;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetailsService;
 import io.jsonwebtoken.JwtException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtService jwtService;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -55,7 +58,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (JwtException ex){
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            authenticationEntryPoint.commence(
+                    request,
+                    response,
+                    new JwtAuthenticationException("Authentication Failed")
+            );
             return;
         }
 
