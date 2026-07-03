@@ -1,13 +1,13 @@
 package com.aathi.authenticationsystem.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-@Data
+@Builder
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -20,7 +20,14 @@ public class PasswordResetToken {
     private String token;
 
     @Column(nullable = false)
-    private LocalDateTime expiryDate;
+    private Instant expiryDate;
+
+    public boolean isExpired(){
+        return expiryDate.isBefore(Instant.now());
+    }
+
+    @Column(nullable = false)
+    private Instant createdAt;
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToOne(fetch = FetchType.LAZY)
