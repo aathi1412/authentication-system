@@ -1,14 +1,10 @@
 package com.aathi.authenticationsystem.controller;
 
-import com.aathi.authenticationsystem.configuration.JwtProperties;
 import com.aathi.authenticationsystem.dto.internal.LoginResult;
 import com.aathi.authenticationsystem.dto.internal.RefreshResult;
-import com.aathi.authenticationsystem.dto.response.AccessTokenResponse;
-import com.aathi.authenticationsystem.dto.response.LoginResponse;
-import com.aathi.authenticationsystem.dto.request.LoginRequest;
-import com.aathi.authenticationsystem.dto.request.RegisterRequest;
-import com.aathi.authenticationsystem.dto.response.RegisterResponse;
-import com.aathi.authenticationsystem.security.CookieService;
+import com.aathi.authenticationsystem.dto.request.*;
+import com.aathi.authenticationsystem.dto.response.*;
+import com.aathi.authenticationsystem.security.cookies.CookieService;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.AuthenticationService;
 import jakarta.validation.Valid;
@@ -22,16 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.aathi.authenticationsystem.constants.CookieConstants.REFRESH_TOKEN_COOKIE;
 
-//import static com.aathi.authenticationsystem.security.CookieService.REFRESH_TOKEN_COOKIE;
-
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-    private final JwtProperties jwtProperties;
-
     private final CookieService cookieService;
 
 
@@ -79,5 +71,41 @@ public class AuthenticationController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .build();
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<ErrorResponse> verifyEmail(@Valid @RequestParam String token){
+        ErrorResponse response = authenticationService.verifyEmail(token);
+
+        return ResponseEntity
+                .ok()
+                .body(response);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ErrorResponse> forgetPassword(@Valid @RequestBody ForgotPasswordRequest request){
+        ErrorResponse Response = authenticationService.forgotPassword(request.email());
+
+        return ResponseEntity
+                .ok()
+                .body(Response);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ErrorResponse> resetPassword(@Valid @RequestBody PasswordResetRequest request){
+        ErrorResponse Response = authenticationService.resetPassword(request.token(), request.newPassword());
+
+        return ResponseEntity
+                .ok()
+                .body(Response);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<ErrorResponse> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails userDetails){
+        ErrorResponse response = authenticationService.changePassword(request.oldPassword(), request.newPassword(), userDetails);
+
+        return ResponseEntity
+                .ok()
+                .body(response);
     }
 }
