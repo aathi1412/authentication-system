@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class RefreshTokenService {
     private final JwtService jwtService;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    @Transactional
     public String createRefreshToken(User user){
 
         String token = jwtService.generateRefreshToken();
@@ -53,7 +53,8 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
-    public String rotateToken(User user, RefreshToken refreshToken){
+    @Transactional
+    public String rotateRefreshToken(User user, RefreshToken refreshToken){
         refreshToken.setRevoked(true);
         return createRefreshToken(user);
     }
