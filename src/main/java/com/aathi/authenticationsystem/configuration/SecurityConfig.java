@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -37,10 +38,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/register",
                                          "/api/auth/login",
-                                         "/api/auth/refresh").permitAll()
+                                         "/api/auth/refresh",
+                                         "/api/auth/verify",
+                                         "/api/auth/forgot-password",
+                                         "/api/auth/reset-password").permitAll()
 //                        .requestMatchers("/success").authenticated()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(exception
+                        -> exception.authenticationEntryPoint(customAuthenticationEntryPoint))
+
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .build();
