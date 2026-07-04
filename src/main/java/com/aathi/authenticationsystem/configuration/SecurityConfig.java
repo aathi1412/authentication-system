@@ -42,7 +42,6 @@ public class SecurityConfig {
                                          "/api/auth/verify",
                                          "/api/auth/forgot-password",
                                          "/api/auth/reset-password").permitAll()
-//                        .requestMatchers("/success").authenticated()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception
