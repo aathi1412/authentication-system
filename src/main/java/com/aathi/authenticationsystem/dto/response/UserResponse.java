@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.dto.response;
 
-import com.aathi.authenticationsystem.entity.Role;
+import com.aathi.authenticationsystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
