@@ -11,7 +11,7 @@ import com.aathi.authenticationsystem.dto.request.LoginRequest;
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.*;
 import com.aathi.authenticationsystem.entity.RefreshToken;
-import com.aathi.authenticationsystem.entity.Role;
+import com.aathi.authenticationsystem.enums.Role;
 import com.aathi.authenticationsystem.entity.User;
 import com.aathi.authenticationsystem.exception.AccountNotVerifiedException;
 import com.aathi.authenticationsystem.exception.EmailAlreadyExistsException;
