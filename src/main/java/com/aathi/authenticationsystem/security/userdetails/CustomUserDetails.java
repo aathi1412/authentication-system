@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.security.userdetails;
 
-import com.aathi.authenticationsystem.entity.Role;
+import com.aathi.authenticationsystem.enums.Role;
 import com.aathi.authenticationsystem.entity.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @RequiredArgsConstructor
@@ -22,7 +23,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().name()));
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + getRole().name()));
+        Set<>
+        return
     }
 
     @Override
