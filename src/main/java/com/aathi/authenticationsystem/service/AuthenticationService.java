@@ -102,8 +102,8 @@ public class AuthenticationService {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) Objects.requireNonNull(authentication.getPrincipal());
 
-        String accessToken = jwtService.generateAccessToken(customUserDetails.getUser());
-        String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.getUser());
+        String accessToken = jwtService.generateAccessToken(customUserDetails.user());
+        String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.user());
 
         return new LoginResult(
                 LoginResponse.builder()
