@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.entity;
 
+import com.aathi.authenticationsystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
