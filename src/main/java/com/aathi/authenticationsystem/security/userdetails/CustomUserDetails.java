@@ -3,8 +3,6 @@ package com.aathi.authenticationsystem.security.userdetails;
 import com.aathi.authenticationsystem.enums.Role;
 import com.aathi.authenticationsystem.entity.User;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,21 +11,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
-@RequiredArgsConstructor
-@Getter
-public class CustomUserDetails implements UserDetails {
-
-    private final User user;
+public record CustomUserDetails(User user) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_" + getRole().name()));
-        Set<>
-        return
+        Set<SimpleGrantedAuthority> permissionsAuthorities = getRole().getPermissions().stream()
+                .map(permissions -> new SimpleGrantedAuthority(permissions.name()))
+                .collect(Collectors.toSet());
+
+        authorities.addAll(permissionsAuthorities);
+
+        return authorities;
     }
 
     @Override
@@ -51,15 +51,15 @@ public class CustomUserDetails implements UserDetails {
         return user.isEnabled();
     }
 
-    public long getId(){
+    public long getId() {
         return user.getId();
     }
 
-    public Role getRole(){
+    public Role getRole() {
         return user.getRole();
     }
 
-    public String getName(){
+    public String getName() {
         return user.getName();
     }
 }
