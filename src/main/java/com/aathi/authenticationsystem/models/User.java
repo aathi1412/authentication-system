@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.entity;
+package com.aathi.authenticationsystem.models;
 
 import com.aathi.authenticationsystem.enums.Role;
 import jakarta.persistence.*;

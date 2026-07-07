@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.entity;
+package com.aathi.authenticationsystem.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
