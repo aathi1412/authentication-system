@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.entity.PasswordResetToken;
+import com.aathi.authenticationsystem.models.PasswordResetToken;
 import com.aathi.authenticationsystem.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,9 @@ import com.aathi.authenticationsystem.dto.internal.RefreshResult;
 import com.aathi.authenticationsystem.dto.request.LoginRequest;
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.*;
-import com.aathi.authenticationsystem.entity.RefreshToken;
+import com.aathi.authenticationsystem.models.RefreshToken;
 import com.aathi.authenticationsystem.enums.Role;
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.exception.AccountNotVerifiedException;
 import com.aathi.authenticationsystem.exception.EmailAlreadyExistsException;
 import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
@@ -54,7 +54,16 @@ public class AuthenticationService {
     private final PasswordResetTokenService passwordResetTokenService;
 
     @Transactional
-    public RegisterResponse register(RegisterRequest request){
+    public RegisterResponse registerUser(RegisterRequest request){
+        return register(request, Role.USER);
+    }
+
+    @Transactional
+    public RegisterResponse registerAdmin(RegisterRequest request){
+        return register(request, Role.ADMIN);
+    }
+
+    public RegisterResponse register(RegisterRequest request, Role role){
 
         if(userRepository.existsByEmail(request.getEmail())){
             log.warn("Registration Failed: email {} already exists", request.getEmail());
@@ -65,7 +74,7 @@ public class AuthenticationService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(role)
                 .build();
 
         User savedUser = userRepository.save(user);
