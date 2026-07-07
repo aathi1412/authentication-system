@@ -2,7 +2,6 @@ package com.aathi.authenticationsystem.controller;
 
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.RegisterResponse;
-import com.aathi.authenticationsystem.service.AdminService;
 import com.aathi.authenticationsystem.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AuthenticationService authenticationService;
-    private final AdminService adminService;
 
     @GetMapping("/home")
     @PreAuthorize("hasRole('ADMIN')")
