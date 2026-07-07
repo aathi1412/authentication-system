@@ -81,8 +81,12 @@ public class AuthenticationService {
         log.info("User {} Saved Successfully", savedUser.getEmail());
 
         String verificationToken = verificationTokenService.generateVerificationToken(user);
+        log.info("verification token generated");
 
         emailService.sendVerificationEmail(user, verificationToken);
+        log.info("verification Email sent to {}", user.getEmail());
+
+        log.info("Registration Successful for user {}", request.getEmail());
 
         UserResponse response = UserResponse.builder()
                 .id(savedUser.getId())
@@ -104,15 +108,22 @@ public class AuthenticationService {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
         } catch (DisabledException ex){
+            log.error("Account Not Verified for user {}", request.getEmail());
             throw new AccountNotVerifiedException("Account Not Verified, Please Verify with Email.");
         } catch (BadCredentialsException ex){
+            log.error("invalid Email or Password, error: {}", ex.getMessage());
             throw new InvalidCredentialsException("Invalid Email or Password");
         }
 
         CustomUserDetails customUserDetails = (CustomUserDetails) Objects.requireNonNull(authentication.getPrincipal());
 
         String accessToken = jwtService.generateAccessToken(customUserDetails.user());
+        log.info("access token generated");
+
         String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.user());
+        log.info("refresh token generated");
+
+        log.info("Login Successful for user {}", request.getEmail());
 
         return new LoginResult(
                 LoginResponse.builder()
@@ -144,6 +155,9 @@ public class AuthenticationService {
 
         String newRefreshToken = refreshTokenService.rotateRefreshToken(user, refreshToken);
 
+        log.info("new access token generated for user {}", user.getEmail());
+        log.info("new refresh token generated for user {}", user.getEmail());
+
         return new RefreshResult(
                 AccessTokenResponse.builder()
                         .message("new access token generated")
@@ -158,15 +172,18 @@ public class AuthenticationService {
     public void logout(Long userId, String refreshToken){
 
         refreshTokenService.revokeRefreshToken(userId,refreshToken);
+        log.info("userId {} logout successfully", userId);
     }
 
     @Transactional
-    public ErrorResponse verifyEmail(String token){
+    public ApiResponse verifyEmail(String token){
         User user = verificationTokenService.verifyToken(token);
 
         user.setEnabled(true);
 
-        return ErrorResponse.builder()
+        log.info("Email verified Successfully for user {}", user.getEmail());
+
+        return ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.OK.value())
                 .error(HttpStatus.OK.getReasonPhrase())
@@ -174,7 +191,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public ErrorResponse forgotPassword(String email){
+    public ApiResponse forgotPassword(String email){
         userRepository.findByEmail(email).ifPresent( user -> {
             try {
                 PasswordResetToken resetToken = passwordResetTokenService.createOrReplacePasswordResetToken(user);
@@ -184,7 +201,8 @@ public class AuthenticationService {
             }
         });
 
-        return ErrorResponse.builder()
+        log.info("password reset link has been sent to {}", email);
+        return ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.OK.value())
                 .error(HttpStatus.OK.getReasonPhrase())
@@ -193,16 +211,19 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public ErrorResponse resetPassword(String token, String newPassword){
+    public ApiResponse resetPassword(String token, String newPassword){
         PasswordResetToken resetToken = passwordResetTokenService.verifyPasswordResetToken(token);
 
         User user = resetToken.getUser();
 
         user.setPassword(passwordEncoder.encode(newPassword));
+        log.info("new password encoded for {}", user.getEmail());
 
         passwordResetTokenService.deletePasswordResetToken(resetToken);
 
-        return ErrorResponse.builder()
+        log.info("Password Reset Successfully for user {}", user.getEmail());
+
+        return ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.OK.value())
                 .error(HttpStatus.OK.getReasonPhrase())
@@ -211,18 +232,22 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public ErrorResponse changePassword(String oldPassword, String newPassword, CustomUserDetails userDetails) {
+    public ApiResponse changePassword(String oldPassword, String newPassword, CustomUserDetails userDetails) {
 
         User user = userRepository.findById(userDetails.getId())
                             .orElseThrow(() -> new UserNotFoundException("User Not Found!"));
 
         if(!passwordEncoder.matches(oldPassword, user.getPassword())){
+            log.info("Invalid Password for {}", user.getEmail());
             throw new InvalidCredentialsException("Invalid Password!");
         }
 
         user.setPassword(passwordEncoder.encode(newPassword));
+        log.info("new password encoded and saved for {}", user.getEmail());
 
-        return ErrorResponse.builder()
+        log.info("Password Changed Successfully for {}", user.getEmail());
+
+        return ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.OK.value())
                 .error(HttpStatus.OK.getReasonPhrase())
