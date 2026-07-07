@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.security.userdetails;
 
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
 import com.aathi.authenticationsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

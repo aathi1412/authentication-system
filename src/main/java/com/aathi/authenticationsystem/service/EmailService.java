@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

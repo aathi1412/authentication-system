@@ -1,7 +1,7 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.entity.User;
-import com.aathi.authenticationsystem.entity.VerificationToken;
+import com.aathi.authenticationsystem.models.User;
+import com.aathi.authenticationsystem.models.VerificationToken;
 import com.aathi.authenticationsystem.exception.InvalidVerificationTokenException;
 import com.aathi.authenticationsystem.exception.VerificationTokenExpiredException;
 import com.aathi.authenticationsystem.repository.VerificationTokenRepository;

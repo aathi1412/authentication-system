@@ -1,7 +1,7 @@
 package com.aathi.authenticationsystem.security.userdetails;
 
 import com.aathi.authenticationsystem.enums.Role;
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.User;
 import lombok.Builder;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;

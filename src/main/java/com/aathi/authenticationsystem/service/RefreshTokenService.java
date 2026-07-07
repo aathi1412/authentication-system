@@ -1,7 +1,7 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.entity.RefreshToken;
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.RefreshToken;
+import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.exception.InvalidRefreshTokenException;
 import com.aathi.authenticationsystem.exception.ResourceAccessDeniedException;
 import com.aathi.authenticationsystem.repository.RefreshTokenRepository;

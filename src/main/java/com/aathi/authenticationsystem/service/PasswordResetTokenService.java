@@ -1,7 +1,7 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.entity.PasswordResetToken;
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.PasswordResetToken;
+import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.exception.InvalidPasswordResetTokenException;
 import com.aathi.authenticationsystem.repository.PasswordResetTokenRepository;
 import lombok.RequiredArgsConstructor;

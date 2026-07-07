@@ -1,7 +1,7 @@
 package com.aathi.authenticationsystem.security.jwt;
 
 import com.aathi.authenticationsystem.configuration.JwtProperties;
-import com.aathi.authenticationsystem.entity.User;
+import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
