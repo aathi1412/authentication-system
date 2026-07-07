@@ -5,5 +5,6 @@ public enum Permissions {
 
     READ_TODO,
     WRITE_TODO,
-    DELETE_TODO
+    DELETE_TODO,
+    ADD_ADMIN
 }
