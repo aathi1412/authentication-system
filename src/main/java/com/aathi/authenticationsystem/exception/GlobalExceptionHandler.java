@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.exception;
 
-import com.aathi.authenticationsystem.dto.response.ErrorResponse;
+import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,8 +12,8 @@ import java.time.Instant;
 public class GlobalExceptionHandler extends RuntimeException{
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex){
-        ErrorResponse error = ErrorResponse.builder()
+    public ResponseEntity<ApiResponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException ex){
+        ApiResponse error = ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.CONFLICT.value())
                 .error(HttpStatus.CONFLICT.getReasonPhrase())
@@ -24,9 +24,9 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException ex){
+    public ResponseEntity<ApiResponse> handleInvalidCredentialsException(InvalidCredentialsException ex){
 
-        ErrorResponse error = ErrorResponse.builder()
+        ApiResponse error = ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
@@ -39,8 +39,8 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(AccountNotVerifiedException.class)
-    public ResponseEntity<ErrorResponse> handleAccountNotVerifiedException(AccountNotVerifiedException ex){
-        ErrorResponse error = ErrorResponse.builder()
+    public ResponseEntity<ApiResponse> handleAccountNotVerifiedException(AccountNotVerifiedException ex){
+        ApiResponse error = ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.FORBIDDEN.value())
                 .error(HttpStatus.FORBIDDEN.getReasonPhrase())
@@ -51,8 +51,8 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(InvalidRefreshTokenException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidRefreshTokenException(InvalidRefreshTokenException ex){
-        ErrorResponse error = ErrorResponse.builder()
+    public ResponseEntity<ApiResponse> handleInvalidRefreshTokenException(InvalidRefreshTokenException ex){
+        ApiResponse error = ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
@@ -63,11 +63,11 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(ResourceAccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleResourceAccessDeniedException(ResourceAccessDeniedException ex){
+    public ResponseEntity<ApiResponse> handleResourceAccessDeniedException(ResourceAccessDeniedException ex){
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(ErrorResponse.builder()
+                .body(ApiResponse.builder()
                         .timeStamp(Instant.now())
                         .status(HttpStatus.FORBIDDEN.value())
                         .error(HttpStatus.FORBIDDEN.getReasonPhrase())
@@ -77,11 +77,11 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(VerificationTokenExpiredException.class)
-    public ResponseEntity<ErrorResponse> handleVerificationTokenExpiredException(VerificationTokenExpiredException ex){
+    public ResponseEntity<ApiResponse> handleVerificationTokenExpiredException(VerificationTokenExpiredException ex){
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponse.builder()
+                .body(ApiResponse.builder()
                         .timeStamp(Instant.now())
                         .status(HttpStatus.BAD_REQUEST.value())
                         .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
@@ -91,11 +91,11 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(InvalidVerificationTokenException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidVerificationTokenException(InvalidVerificationTokenException ex){
+    public ResponseEntity<ApiResponse> handleInvalidVerificationTokenException(InvalidVerificationTokenException ex){
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(ErrorResponse.builder()
+                .body(ApiResponse.builder()
                         .timeStamp(Instant.now())
                         .status(HttpStatus.UNAUTHORIZED.value())
                         .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
@@ -104,11 +104,11 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(InvalidPasswordResetTokenException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidPasswordResetTokenException(InvalidPasswordResetTokenException ex){
+    public ResponseEntity<ApiResponse> handleInvalidPasswordResetTokenException(InvalidPasswordResetTokenException ex){
 
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(ErrorResponse.builder()
+                .body(ApiResponse.builder()
                         .timeStamp(Instant.now())
                         .status(HttpStatus.FORBIDDEN.value())
                         .error(HttpStatus.FORBIDDEN.getReasonPhrase())
@@ -117,11 +117,11 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex){
+    public ResponseEntity<ApiResponse> handleUserNotFoundException(UserNotFoundException ex){
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(ErrorResponse.builder()
+                .body(ApiResponse.builder()
                         .timeStamp(Instant.now())
                         .status(HttpStatus.NOT_FOUND.value())
                         .error(HttpStatus.NOT_FOUND.getReasonPhrase())

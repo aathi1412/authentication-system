@@ -74,8 +74,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<ErrorResponse> verifyEmail(@Valid @RequestParam String token){
-        ErrorResponse response = authenticationService.verifyEmail(token);
+    public ResponseEntity<ApiResponse> verifyEmail(@Valid @RequestParam String token){
+        ApiResponse response = authenticationService.verifyEmail(token);
 
         return ResponseEntity
                 .ok()
@@ -83,8 +83,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<ErrorResponse> forgetPassword(@Valid @RequestBody ForgotPasswordRequest request){
-        ErrorResponse Response = authenticationService.forgotPassword(request.email());
+    public ResponseEntity<ApiResponse> forgetPassword(@Valid @RequestBody ForgotPasswordRequest request){
+        ApiResponse Response = authenticationService.forgotPassword(request.email());
 
         return ResponseEntity
                 .ok()
@@ -92,8 +92,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<ErrorResponse> resetPassword(@Valid @RequestBody PasswordResetRequest request){
-        ErrorResponse Response = authenticationService.resetPassword(request.token(), request.newPassword());
+    public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody PasswordResetRequest request){
+        ApiResponse Response = authenticationService.resetPassword(request.token(), request.newPassword());
 
         return ResponseEntity
                 .ok()
@@ -101,8 +101,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<ErrorResponse> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails userDetails){
-        ErrorResponse response = authenticationService.changePassword(request.oldPassword(), request.newPassword(), userDetails);
+    public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails userDetails){
+        ApiResponse response = authenticationService.changePassword(request.oldPassword(), request.newPassword(), userDetails);
 
         return ResponseEntity
                 .ok()

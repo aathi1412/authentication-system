@@ -1,6 +1,6 @@
 package com.aathi.authenticationsystem.configuration;
 
-import com.aathi.authenticationsystem.dto.response.ErrorResponse;
+import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
 
-        ErrorResponse errorResponse = ErrorResponse.builder()
+        ApiResponse apiResponse = ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
@@ -32,6 +32,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
 
-        mapper.writeValue(response.getOutputStream(), errorResponse);
+        mapper.writeValue(response.getOutputStream(), apiResponse);
     }
 }
