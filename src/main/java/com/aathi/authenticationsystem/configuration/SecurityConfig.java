@@ -42,7 +42,7 @@ public class SecurityConfig {
                                          "/api/auth/verify",
                                          "/api/auth/forgot-password",
                                          "/api/auth/reset-password").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception
