@@ -29,7 +29,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> registerRequest(@Valid @RequestBody RegisterRequest request){
-        RegisterResponse response = authenticationService.register(request);
+        RegisterResponse response = authenticationService.registerUser(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
