@@ -1,10 +1,10 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-
-
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
-import './App.css'
 import {Home} from "./components/Home.jsx";
+
+
+import './App.css'
 function App() {
 
 
