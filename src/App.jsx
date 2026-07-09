@@ -5,6 +5,7 @@ import {Home} from "./components/Home.jsx";
 
 
 import './App.css'
+import TermsAndConditions from "./utils/TermsAndConditions.jsx";
 function App() {
 
 
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path="/TermsAndConditions" element={<TermsAndConditions/>} />
       </Routes>
     </BrowserRouter>
   )
