@@ -1,11 +1,13 @@
-import Password from "./Password.jsx";
-import TacPopup from "../../utils/TacPopup.jsx";
-import Email from "./Email.jsx";
-import Name from "./Name.jsx";
-import Button from "./Button.jsx";
-import AuthSwitch from "./AuthSwitch.jsx";
+import TacPopup from "../../utils/TacPopup";
+import AuthSwitch from "./AuthSwitch";
+import Button from "./Button";
+import Email from "./Email";
+import Name from "./Name";
+import Password from "./Password";
 
 export function Register(){
+
+
     return(
         <>
             <div className="min-h-screen flex flex-col items-center justify-center ">
