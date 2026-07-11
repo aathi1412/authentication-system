@@ -1,37 +1,70 @@
 import {useState} from "react";
 import TermsAndConditions from "./TermsAndConditions.jsx";
 
-export function TacPopup(){
+export function TacPopup({ register, errors }){
     const [open, setOpen] = useState(false);
     return(
-        <>
-            <label className="flex items-center gap-2 mb-5 text-sm">
-                <input type="checkbox" required />
-                I agree to
-                <button
-                    type="button"
-                    onClick={() => setOpen(!open)}
-                    className="text-blue-600 hover:underline"
-                >
-                    Read our Terms and Conditions
-                </button>
-            </label>
-
-            {open && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-                <div className="bg-white w-125 rounded-lg p-6">
-                    <TermsAndConditions/>
-
+        <div>
+            <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                    type="checkbox"
+                    {...register("acceptedTerms")}
+                    className="
+                         mt-1 h-4 w-4 rounded
+                        border-gray-300
+                        text-blue-600
+                        focus:ring-2
+                        focus:ring-blue-500
+                    "
+                />
+                <span>
+                    I agree to{" "}
                     <button
                         type="button"
                         onClick={() => setOpen(!open)}
-                        className="ml-5 mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg"
-                    >close
+                        className="
+                            font-medium
+                            text-blue-600
+                            hover:text-blue-700
+                            hover:underline
+                        "
+                    >
+                        Read our Terms and Conditions
                     </button>
+                </span>
+            </label>
+
+            {errors.acceptedTerms && (
+                <p className="mt-2 text-sm text-red-600 mb-5">
+                    {errors.acceptedTerms.message}
+                </p>
+            )}
+            {open && (
+            <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+                <div className="max-h-[70vh] bg-white overflow-y-auto px-6 py-5">
+                    <TermsAndConditions/>
+
+                    <div className="flex justify-end gap-3 px-6 py-4">
+                        <button
+                            type="button"
+                            onClick={() => setOpen(false)}
+                            className="
+                                rounded-lg
+                                bg-blue-600
+                                px-5
+                                py-2
+                                font-medium
+                                text-white
+                                hover:bg-blue-700
+                            "
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
             )}
-        </>
+        </div>
     )
 }
 
