@@ -1,9 +1,18 @@
-export function Button({text}){
+export function Button({text, loading}){
     return(
         <div className="flex items-center justify-center my-2">
             <button
-                // type="button"
-                className="text-white font-bold border bg-[#2f6fed] w-full py-3 rounded-lg hover:bg-blue-700 "
+                type="submit"
+                disabled={loading}
+                className="
+                     font-bold
+                     border rounded-lg
+                     w-full py-3
+                     text-white bg-[#2f6fed]
+                     hover:bg-blue-700
+                     disabled:opacity-60
+                     disabled:cursor-not-allowed
+                "
             >
                 {text}
             </button>
