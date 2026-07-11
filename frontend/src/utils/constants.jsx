@@ -1,0 +1,1 @@
+export const BASE_PATH_AUTH = "http://localhost:8080/api/auth"
