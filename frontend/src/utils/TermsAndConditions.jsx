@@ -1,7 +1,7 @@
 function TermsAndConditions() {
     return (
-        <div className="space-y-3 text-sm">
-            <h2 className="text-xl font-bold">
+        <div className="space-y-3 text-sm border-b px-6 py-4">
+            <h2 className="text-xl semibold">
                 Totally Serious (Not Really) Terms & Conditions
             </h2>
 
