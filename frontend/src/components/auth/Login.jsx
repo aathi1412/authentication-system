@@ -1,24 +1,43 @@
-import Password from "./Password.jsx";
+import {useState} from "react";
+import {useForm} from "react-hook-form";
 import {Link} from "react-router-dom";
+import AuthSwitch from "./AuthSwitch.jsx";
 import Button from "./Button.jsx";
 import Email from "./Email.jsx";
-import AuthSwitch from "./AuthSwitch.jsx";
+import Password from "./Password.jsx";
 
 export function Login(){
+    const [loading, setLoading] = useState(false)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
+
+    const onSubmit = (data)=>{
+        setLoading(true)
+        console.log(data)
+    }
     return(
         <>
             <div className="min-h-screen flex flex-col items-center justify-center ">
 
-                <form className="px-15 py-10 shadow-2xl rounded-3xl">
+                <form noValidate onSubmit={handleSubmit(onSubmit)}
+                    className="px-15 py-10 shadow-2xl rounded-3xl">
                     <div>
                         <h2 className="font-bold text-2xl mt-3 ">Welcome back</h2>
                         <p className="text-sm text-gray-500 mt-1">Log in and let's pick up where you left off.</p>
                     </div>
                     <div className="mt-7">
-                        <Email/>
+                        <Email
+                            register={register}
+                            errors={errors}
+                        />
                         <Password
                             label="Password"
                             placeholder="create a Password"
+                            register={register}
+                            errors={errors}
                         />
                     </div>
 
@@ -42,12 +61,13 @@ export function Login(){
                     </div>
 
                     <Button
-                        text="Log in"
+                        text="Sign in"
+                        loading={loading}
                     />
 
                     <AuthSwitch
                         text="Don't have an account? "
-                        doAction="Create one"
+                        doAction="Sign up"
                         path="/register"
                     />
                 </form>
