@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
 import {BASE_PATH_AUTH} from "../../utils/constants";
 import TacPopup from "../../utils/TacPopup";
-import {RegisterSchema} from "../validations/RegisterSchema";
+import {RegisterSchema} from "../validations/authSchema";
 
 import AuthSwitch from "./AuthSwitch";
 import Button from "./Button";
@@ -35,11 +35,12 @@ export function Register(){
                 {
                         loading: "Creating account...",
                         success: "Registration successful! Sign in to continue.",
-                        error: (err) => err.response?.data?.message || "Something went wrong"
+                        error: (err) => err.response?.data?.message || "Something went wrong."
                     }
             );
             console.log(response.data);
-            navigate("/login");
+            localStorage.setItem("pendingVerificationEmail", data.email);
+            navigate("/register/verify-email");
         }finally {
             setLoading(false)
         }
@@ -80,15 +81,17 @@ export function Register(){
                     />
 
                     <Button
-                        text="Sign up"
                         loading={loading}
-                    />
+                    >
+                        Sign up
+                    </Button>
 
                     <AuthSwitch
-                        text="Already have an account? "
                         doAction="Sign in"
                         path="/login"
-                    />
+                    >
+                        Already have an account?
+                    </AuthSwitch>
 
                 </form>
             </div>
