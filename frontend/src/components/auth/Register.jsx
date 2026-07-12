@@ -40,7 +40,7 @@ export function Register(){
             );
             console.log(response.data);
             localStorage.setItem("pendingVerificationEmail", data.email);
-            navigate("/register/verify-email");
+            navigate("/email-verification");
         }finally {
             setLoading(false)
         }
