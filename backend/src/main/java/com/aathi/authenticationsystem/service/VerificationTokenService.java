@@ -1,9 +1,9 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.models.User;
-import com.aathi.authenticationsystem.models.VerificationToken;
 import com.aathi.authenticationsystem.exception.InvalidVerificationTokenException;
 import com.aathi.authenticationsystem.exception.VerificationTokenExpiredException;
+import com.aathi.authenticationsystem.models.User;
+import com.aathi.authenticationsystem.models.VerificationToken;
 import com.aathi.authenticationsystem.repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,10 @@ import java.util.UUID;
 public class VerificationTokenService {
 
     private final VerificationTokenRepository verificationTokenRepository;
+    private final EmailService emailService;
 
-    public String generateVerificationToken(User user){
+    public void generateAndSendVerificationEmail(User user){
+
         String verificationToken = UUID.randomUUID().toString();
 
         VerificationToken token = VerificationToken.builder()
@@ -30,7 +32,8 @@ public class VerificationTokenService {
 
         verificationTokenRepository.save(token);
 
-        return verificationToken;
+        emailService.sendVerificationEmail(user, verificationToken);
+
     }
 
     public User verifyToken(String token){
@@ -41,5 +44,14 @@ public class VerificationTokenService {
             throw new VerificationTokenExpiredException("Verification Token has Expired, please send a new Verification Email.");
         }
         return verificationToken.getUser();
+    }
+
+    public void resendVerificationEmail(User user){
+
+        verificationTokenRepository.findByUser(user)
+                .ifPresent(existingToken -> verificationTokenRepository.deleteByUser(user));
+
+        generateAndSendVerificationEmail(user);
+
     }
 }
