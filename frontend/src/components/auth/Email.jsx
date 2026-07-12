@@ -7,9 +7,9 @@ export function Email({ register, errors}){
                 <label className="block mb-1">Email</label>
                 <input
                     type="email"
-                    placeholder="name@gmail.com"
+                    placeholder="Enter your email"
                     {...register("email")}
-                    className="bg-white placeholder:text-sm placeholder:pl-3 w-full
+                    className="bg-white placeholder:text-[14px] placeholder:pl-3 w-full
                             border border-gray-300 outline-none rounded-md py-2 px-2 mb-1
                             transition-all duration-200 hover:shadow-md hover:bg-gray-100 hover:border-blue-600
                              focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:shadow-lg"
