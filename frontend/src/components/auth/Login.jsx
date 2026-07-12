@@ -1,23 +1,51 @@
+import {zodResolver} from "@hookform/resolvers/zod";
+import axios from "axios";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import {Link} from "react-router-dom";
+import toast from "react-hot-toast";
+import {Link, useNavigate} from "react-router-dom";
+import {BASE_PATH_AUTH} from "../../utils/constants";
+import {LoginSchema} from "../validations/authSchema";
 import AuthSwitch from "./AuthSwitch.jsx";
 import Button from "./Button.jsx";
 import Email from "./Email.jsx";
 import Password from "./Password.jsx";
 
 export function Login(){
-    const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm()
+    } = useForm({
+        resolver: zodResolver(LoginSchema)
+    })
 
-    const onSubmit = (data)=>{
-        setLoading(true)
+    const onSubmit = async (data)=>{
         console.log(data)
+
+        try {
+            setLoading(true)
+            const response = await toast.promise(
+                axios.post(BASE_PATH_AUTH + "/login", data),
+                {
+                    loading: "signing you in",
+                    success: "Welcome back!",
+                    error: (err) => err.response?.data?.message || "Something went wrong."
+                }
+            );
+
+            console.log(response.data);
+            navigate("/")
+        }
+        finally {
+            setLoading(false)
+        }
     }
+
     return(
         <>
             <div className="min-h-screen flex flex-col items-center justify-center ">
