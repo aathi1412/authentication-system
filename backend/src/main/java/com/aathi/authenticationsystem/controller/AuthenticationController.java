@@ -3,7 +3,10 @@ package com.aathi.authenticationsystem.controller;
 import com.aathi.authenticationsystem.dto.internal.LoginResult;
 import com.aathi.authenticationsystem.dto.internal.RefreshResult;
 import com.aathi.authenticationsystem.dto.request.*;
-import com.aathi.authenticationsystem.dto.response.*;
+import com.aathi.authenticationsystem.dto.response.AccessTokenResponse;
+import com.aathi.authenticationsystem.dto.response.ApiResponse;
+import com.aathi.authenticationsystem.dto.response.LoginResponse;
+import com.aathi.authenticationsystem.dto.response.RegisterResponse;
 import com.aathi.authenticationsystem.security.cookies.CookieService;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.AuthenticationService;
@@ -76,6 +79,15 @@ public class AuthenticationController {
     @GetMapping("/verify")
     public ResponseEntity<ApiResponse> verifyEmail(@Valid @RequestParam String token){
         ApiResponse response = authenticationService.verifyEmail(token);
+
+        return ResponseEntity
+                .ok()
+                .body(response);
+    }
+
+    @PostMapping("/resend-verification-email")
+    public ResponseEntity<ApiResponse> resendVerifyEmail(@Valid @RequestBody String email){
+        ApiResponse response = authenticationService.resendVerificationEmail(email);
 
         return ResponseEntity
                 .ok()
