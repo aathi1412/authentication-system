@@ -7,6 +7,7 @@ import com.aathi.authenticationsystem.dto.response.AccessTokenResponse;
 import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import com.aathi.authenticationsystem.dto.response.LoginResponse;
 import com.aathi.authenticationsystem.dto.response.RegisterResponse;
+import com.aathi.authenticationsystem.enums.VerificationStatus;
 import com.aathi.authenticationsystem.security.cookies.CookieService;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.AuthenticationService;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import static com.aathi.authenticationsystem.constants.CookieConstants.REFRESH_TOKEN_COOKIE;
 
@@ -76,18 +78,19 @@ public class AuthenticationController {
                 .build();
     }
 
-    @GetMapping("/verify")
-    public ResponseEntity<ApiResponse> verifyEmail(@Valid @RequestParam String token){
-        ApiResponse response = authenticationService.verifyEmail(token);
+    @GetMapping("/verify-email")
+    public RedirectView verifyEmail(@Valid @RequestParam String token){
+        VerificationStatus status = authenticationService.verifyEmail(token);
 
-        return ResponseEntity
-                .ok()
-                .body(response);
+        return new RedirectView("http://localhost:5173/email-verification?status=" +
+                status.name().toLowerCase());
+
+
     }
 
     @PostMapping("/resend-verification-email")
-    public ResponseEntity<ApiResponse> resendVerifyEmail(@Valid @RequestBody String email){
-        ApiResponse response = authenticationService.resendVerificationEmail(email);
+    public ResponseEntity<ApiResponse> resendVerifyEmail(@Valid @RequestBody EmailVerificationRequest request){
+        ApiResponse response = authenticationService.resendVerificationEmail(request.email().toLowerCase());
 
         return ResponseEntity
                 .ok()
