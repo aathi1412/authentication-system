@@ -1,25 +1,22 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.models.PasswordResetToken;
-import com.aathi.authenticationsystem.exception.UserNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.aathi.authenticationsystem.configuration.JwtProperties;
 import com.aathi.authenticationsystem.dto.internal.LoginResult;
 import com.aathi.authenticationsystem.dto.internal.RefreshResult;
 import com.aathi.authenticationsystem.dto.request.LoginRequest;
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.*;
-import com.aathi.authenticationsystem.models.RefreshToken;
 import com.aathi.authenticationsystem.enums.Role;
+import com.aathi.authenticationsystem.exception.*;
+import com.aathi.authenticationsystem.models.PasswordResetToken;
+import com.aathi.authenticationsystem.models.RefreshToken;
 import com.aathi.authenticationsystem.models.User;
-import com.aathi.authenticationsystem.exception.AccountNotVerifiedException;
-import com.aathi.authenticationsystem.exception.EmailAlreadyExistsException;
-import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
 import com.aathi.authenticationsystem.repository.UserRepository;
 import com.aathi.authenticationsystem.security.jwt.JwtService;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +48,7 @@ public class AuthenticationService {
     private final JwtProperties jwtProperties;
     private final VerificationTokenService verificationTokenService;
     private final EmailService emailService;
+    private final EmailValidationService emailValidationService;
     private final PasswordResetTokenService passwordResetTokenService;
 
     @Transactional
@@ -70,6 +68,16 @@ public class AuthenticationService {
             throw new EmailAlreadyExistsException("Email already Exists, try different email");
         }
 
+        int domainStarts = request.getEmail().indexOf("@") + 1;
+        String domain = request.getEmail().substring(domainStarts);
+
+        log.info("Register Request: email {}, domain {}", request.getEmail(), domain);
+
+        if(!emailValidationService.hasValidEmailDomain(domain)){
+            log.warn("Registration Failed: invalid email domain {}", domain);
+            throw new InvalidEmailDomainException("Please enter a valid email address.");
+        }
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -80,12 +88,9 @@ public class AuthenticationService {
         User savedUser = userRepository.save(user);
         log.info("User {} Saved Successfully", savedUser.getEmail());
 
-        String verificationToken = verificationTokenService.generateVerificationToken(user);
-        log.info("verification token generated");
-
-        emailService.sendVerificationEmail(user, verificationToken);
+        verificationTokenService.generateAndSendVerificationEmail(user);
+        log.info("verification token generated ");
         log.info("verification Email sent to {}", user.getEmail());
-
         log.info("Registration Successful for user {}", request.getEmail());
 
         UserResponse response = UserResponse.builder()
@@ -189,6 +194,21 @@ public class AuthenticationService {
                 .error(HttpStatus.OK.getReasonPhrase())
                 .message("Email verified Successfully")
                 .build();
+    }
+
+    public ApiResponse resendVerificationEmail(String email){
+
+        userRepository.findByEmail(email)
+                .filter(user ->  !user.isEnabled())
+                .ifPresent(verificationTokenService::resendVerificationEmail);
+
+        return ApiResponse.builder()
+                .timeStamp(Instant.now())
+                .status(HttpStatus.OK.value())
+                .error(HttpStatus.OK.getReasonPhrase())
+                .message( "If an account exists and is not yet verified, a verification email has been sent.")
+                .build();
+
     }
 
     public ApiResponse forgotPassword(String email){
