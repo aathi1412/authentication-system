@@ -137,8 +137,21 @@ public class GlobalExceptionHandler extends RuntimeException{
                 .status(HttpStatus.CONFLICT)
                 .body(ApiResponse.builder()
                         .timeStamp(Instant.now())
-                        .status(HttpStatus.CONTINUE.value())
+                        .status(HttpStatus.CONFLICT.value())
                         .error(HttpStatus.CONFLICT.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiResponse> handleBadRequestException (BadRequestException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
                         .message(ex.getMessage())
                         .build());
     }
