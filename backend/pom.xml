@@ -130,6 +130,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>dnsjava</groupId>
+            <artifactId>dnsjava</artifactId>
+            <version>3.6.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
