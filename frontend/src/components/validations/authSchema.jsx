@@ -1,7 +1,7 @@
 import {z} from "zod";
 
-export const RegisterSchema = z.object({
-    name: z
+
+export const NameSchema = z
         .string()
         .trim()
         .nonempty( "Name is required")
@@ -10,14 +10,26 @@ export const RegisterSchema = z.object({
         .regex(
             /^[A-Za-z]+(?: [A-Za-z]+)*$/,
             "Name can only contain letters and single spaces"
-        ),
-    email: z.email("Invalid email address"),
-    password: z
+        );
+
+export const EmailSchema = z
+        .email("Invalid email address");
+
+export const PasswordSchema = z
         .string()
         .min(8, "Password must be at least 8 characters")
-        .max(64, "Password must not exceed 64 characters"),
+        .max(64, "Password must not exceed 64 characters");
+
+export const RegisterSchema = z.object({
+    name: NameSchema,
+    email: EmailSchema,
+    password: PasswordSchema,
     acceptedTerms: z.literal(true, {
         error: "You must accept the Terms & Conditions."
     })
+})
 
+export const LoginSchema = z.object({
+    email: EmailSchema,
+    password: PasswordSchema
 })
