@@ -1,20 +1,28 @@
-export function Button({text, loading}){
+export function Button({
+                       type = 'submit',
+                       loading = false,
+                       disabled = false,
+                       onClick,
+                       children
+}){
     return(
         <div className="flex items-center justify-center my-2">
             <button
-                type="submit"
-                disabled={loading}
+                type={type}
+                onClick={onClick}
+                disabled={ loading || disabled}
                 className="
                      font-bold
-                     border rounded-lg
+                      rounded-lg
                      w-full py-3
                      text-white bg-[#2f6fed]
                      hover:bg-blue-700
+                     transition-colors
                      disabled:opacity-60
                      disabled:cursor-not-allowed
                 "
             >
-                {text}
+                {children}
             </button>
         </div>
     )
