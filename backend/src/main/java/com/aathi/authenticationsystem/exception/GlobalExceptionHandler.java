@@ -130,5 +130,17 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 
 
+    @ExceptionHandler(InvalidEmailDomainException.class)
+    public ResponseEntity<ApiResponse> handleInvalidEmailDomainException(InvalidEmailDomainException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ApiResponse.builder()
+                        .timeStamp(Instant.now())
+                        .status(HttpStatus.CONTINUE.value())
+                        .error(HttpStatus.CONFLICT.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .build());
+    }
 
 }
