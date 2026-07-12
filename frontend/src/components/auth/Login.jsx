@@ -63,13 +63,13 @@ export function Login(){
                         />
                         <Password
                             label="Password"
-                            placeholder="create a Password"
+                            placeholder="Enter your Password"
                             register={register}
                             errors={errors}
                         />
                     </div>
 
-                    <div className="flex justify-between items-center mb-4">
+                    <div className="w-full flex justify-between items-center mt-4 mb-6">
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="checkbox"
@@ -91,13 +91,16 @@ export function Login(){
                     <Button
                         text="Sign in"
                         loading={loading}
-                    />
+                    >
+                        Sign In
+                    </Button>
 
                     <AuthSwitch
-                        text="Don't have an account? "
                         doAction="Sign up"
                         path="/register"
-                    />
+                    >
+                        Don't have an account?{" "}
+                    </AuthSwitch>
                 </form>
             </div>
         </>
