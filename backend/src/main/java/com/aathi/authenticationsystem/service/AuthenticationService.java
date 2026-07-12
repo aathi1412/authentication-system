@@ -7,10 +7,12 @@ import com.aathi.authenticationsystem.dto.request.LoginRequest;
 import com.aathi.authenticationsystem.dto.request.RegisterRequest;
 import com.aathi.authenticationsystem.dto.response.*;
 import com.aathi.authenticationsystem.enums.Role;
+import com.aathi.authenticationsystem.enums.VerificationStatus;
 import com.aathi.authenticationsystem.exception.*;
 import com.aathi.authenticationsystem.models.PasswordResetToken;
 import com.aathi.authenticationsystem.models.RefreshToken;
 import com.aathi.authenticationsystem.models.User;
+import com.aathi.authenticationsystem.models.VerificationToken;
 import com.aathi.authenticationsystem.repository.UserRepository;
 import com.aathi.authenticationsystem.security.jwt.JwtService;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
@@ -181,27 +183,42 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public ApiResponse verifyEmail(String token){
-        User user = verificationTokenService.verifyToken(token);
+    public VerificationStatus verifyEmail(String token){
 
-        user.setEnabled(true);
+        try{
+            VerificationToken verificationToken = verificationTokenService.verifyToken(token);
+            User  user = verificationToken.getUser();
 
-        log.info("Email verified Successfully for user {}", user.getEmail());
+            if(user.isEnabled()){
+                return VerificationStatus.ALREADY_VERIFIED;
+            }
 
-        return ApiResponse.builder()
-                .timeStamp(Instant.now())
-                .status(HttpStatus.OK.value())
-                .error(HttpStatus.OK.getReasonPhrase())
-                .message("Email verified Successfully")
-                .build();
+            user.setEnabled(true);
+            log.info("Email verified Successfully for user {}", user.getEmail());
+
+            verificationTokenService.deleteVerficationToken(verificationToken);
+
+            return VerificationStatus.SUCCESS;
+        }
+        catch (InvalidVerificationTokenException ex){
+            return VerificationStatus.INVALID;
+        }
+        catch (VerificationTokenExpiredException ex){
+            return  VerificationStatus.EXPIRED;
+        }
     }
 
     public ApiResponse resendVerificationEmail(String email){
 
-        userRepository.findByEmail(email)
-                .filter(user ->  !user.isEnabled())
-                .ifPresent(verificationTokenService::resendVerificationEmail);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new BadRequestException("User must be register before email verification"));
 
+        if(user.isEnabled()){
+            throw new BadRequestException("Email is already verified. Sign in to continue");
+        }
+
+        verificationTokenService.resendVerificationEmail(user);
+        log.info("Email resend successfully for user {}", email);
         return ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.OK.value())
