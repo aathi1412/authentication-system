@@ -76,22 +76,8 @@ public class GlobalExceptionHandler extends RuntimeException{
 
     }
 
-    @ExceptionHandler(VerificationTokenExpiredException.class)
-    public ResponseEntity<ApiResponse> handleVerificationTokenExpiredException(VerificationTokenExpiredException ex){
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.builder()
-                        .timeStamp(Instant.now())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                        .message(ex.getMessage())
-                        .build());
-
-    }
-
-    @ExceptionHandler(InvalidVerificationTokenException.class)
-    public ResponseEntity<ApiResponse> handleInvalidVerificationTokenException(InvalidVerificationTokenException ex){
+    @ExceptionHandler(InvalidOrExpiredVerificationTokenException.class)
+    public ResponseEntity<ApiResponse> handleInvalidVerificationTokenException(InvalidOrExpiredVerificationTokenException ex){
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
