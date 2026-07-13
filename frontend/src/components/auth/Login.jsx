@@ -19,6 +19,7 @@ export function Login(){
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(LoginSchema)
@@ -37,7 +38,7 @@ export function Login(){
                     error: (err) => err.response?.data?.message || "Something went wrong."
                 }
             );
-
+            reset()
             console.log(response.data);
             navigate("/")
         }
@@ -89,7 +90,6 @@ export function Login(){
                     </div>
 
                     <Button
-                        text="Sign in"
                         loading={loading}
                     >
                         Sign In
