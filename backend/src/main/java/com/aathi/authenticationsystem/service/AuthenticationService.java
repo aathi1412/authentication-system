@@ -184,27 +184,22 @@ public class AuthenticationService {
 
     @Transactional
     public VerificationStatus verifyEmail(String token){
+        log.info("Verifying email address for user {}", token);
 
         try{
             VerificationToken verificationToken = verificationTokenService.verifyToken(token);
             User  user = verificationToken.getUser();
 
-            if(user.isEnabled()){
-                return VerificationStatus.ALREADY_VERIFIED;
-            }
-
             user.setEnabled(true);
             log.info("Email verified Successfully for user {}", user.getEmail());
 
-            verificationTokenService.deleteVerficationToken(verificationToken);
+            verificationTokenService.deleteVerificationToken(verificationToken);
 
-            return VerificationStatus.SUCCESS;
+            return VerificationStatus.VERIFIED;
         }
-        catch (InvalidVerificationTokenException ex){
-            return VerificationStatus.INVALID;
-        }
-        catch (VerificationTokenExpiredException ex){
-            return  VerificationStatus.EXPIRED;
+        catch (InvalidOrExpiredVerificationTokenException ex){
+            log.error("{}", ex.getMessage());
+            return VerificationStatus.INVALID_OR_EXPIRED;
         }
     }
 
