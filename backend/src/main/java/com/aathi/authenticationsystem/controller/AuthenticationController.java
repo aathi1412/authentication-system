@@ -13,6 +13,7 @@ import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import static com.aathi.authenticationsystem.constants.CookieConstants.REFRESH_TOKEN_COOKIE;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -82,6 +84,7 @@ public class AuthenticationController {
     public RedirectView verifyEmail(@Valid @RequestParam String token){
         VerificationStatus status = authenticationService.verifyEmail(token);
 
+        log.info("redirected successfully");
         return new RedirectView("http://localhost:5173/email-verification?status=" +
                 status.name().toLowerCase());
 
