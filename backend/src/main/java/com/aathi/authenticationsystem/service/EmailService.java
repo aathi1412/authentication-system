@@ -19,7 +19,7 @@ public class EmailService {
         message.setTo(user.getEmail());
         message.setSubject("verify your Email");
         message.setText("if you click the below link, your account gonna hacked!");
-        message.setText(BASE_URL + "/api/auth/email-verification?token=" + verificationToken);
+        message.setText(BASE_URL + "/api/auth/verify-email?token=" + verificationToken);
 
         mailSender.send(message);
     }
