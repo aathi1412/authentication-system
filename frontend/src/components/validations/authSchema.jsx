@@ -13,7 +13,12 @@ export const NameSchema = z
         );
 
 export const EmailSchema = z
-        .email("Invalid email address");
+    .string()
+    .trim()
+    .nonempty("Email is required")
+    .pipe(
+        z.email("Invalid email address")
+    );
 
 export const PasswordSchema = z
         .string()
@@ -32,4 +37,8 @@ export const RegisterSchema = z.object({
 export const LoginSchema = z.object({
     email: EmailSchema,
     password: PasswordSchema
+})
+
+export const ForgotPasswordSchema = z.object({
+    email: EmailSchema
 })
