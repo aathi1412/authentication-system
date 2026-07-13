@@ -1,8 +1,6 @@
 package com.aathi.authenticationsystem.enums;
 
 public enum VerificationStatus {
-    SUCCESS,
-    EXPIRED,
-    ALREADY_VERIFIED,
-    INVALID
+    VERIFIED,
+    INVALID_OR_EXPIRED
 }
