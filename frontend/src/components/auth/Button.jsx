@@ -1,7 +1,6 @@
 export function Button({
                        type = 'submit',
                        loading = false,
-                       disabled = false,
                        onClick,
                        children
 }){
@@ -10,7 +9,7 @@ export function Button({
             <button
                 type={type}
                 onClick={onClick}
-                disabled={ loading || disabled}
+                disabled={loading}
                 className="
                      font-bold
                       rounded-lg
