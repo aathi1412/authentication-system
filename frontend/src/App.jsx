@@ -1,5 +1,6 @@
 import {Toaster} from "react-hot-toast";
 import {BrowserRouter, Route, Routes} from "react-router-dom"
+import EmailSent from "./components/auth/EmailSent";
 import EmailVerification from "./components/auth/EmailVerification";
 import ForgotPassword from "./components/auth/ForgotPassword.jsx";
 import Login from "./components/auth/Login.jsx";
@@ -28,6 +29,7 @@ function App() {
                   <Route path="/forgot-password" element={<ForgotPassword/>} />
                   <Route path="/reset-password" element={<ResetPassword/>} />
                   <Route path="/reset-password/success" element={<SuccessMessage/>}/>
+                  <Route path="/forgot-password/email-sent" element={<EmailSent/>} />
               </Routes>
           </BrowserRouter>
       </>
