@@ -1,9 +1,9 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
 import {FaCircleCheck} from "react-icons/fa6";
 import {useSearchParams} from "react-router-dom";
 import {BASE_PATH_AUTH} from "../../utils/constants";
+import useCountDown from "./../../customhooks/useCountDown"
 import AuthSwitch from "./AuthSwitch";
 import Button from "./Button.jsx";
 
@@ -25,8 +25,8 @@ export function EmailVerification() {
             showResend = true;
             break;
 
-        case "expired":
-            title = "Verification Link Expired";
+        case "invalid_or_expired":
+            title = "Verification Link  Expired";
             description = "Your verification link has expired. Request a new verification email below.";
             showResend = true;
             break;
@@ -36,29 +36,9 @@ export function EmailVerification() {
             description = "Your email is verified successfully. You can sign in now.";
             break;
 
-        case "already-verified":
-            title = "Email Already Verified";
-            description = "Your email is already verified. You can sign in now.";
-            break;
-
-        case "invalid":
-            title = "Invalid Verification Link";
-            description = "This verification link is invalid.";
-            break;
     }
 
-    const [timeLeft, setTimeLeft] = useState(60);
-    useEffect(() => {
-        if (timeLeft === 0) return;
-
-        const timer = setInterval(() => {
-            setTimeLeft((prev) => prev - 1);
-        }, 1000)
-
-        return () => {clearInterval(timer);}
-    }, [timeLeft]);
-
-
+    const {start, seconds, isRunning} = useCountDown();
     const handleResend = async () => {
 
         await toast.promise(
@@ -70,7 +50,7 @@ export function EmailVerification() {
             }
         );
 
-        setTimeLeft(60);
+        start()
     }
 
     return (
@@ -100,11 +80,11 @@ export function EmailVerification() {
                 {showResend && (
                     <Button
                         onClick={handleResend}
-                        disabled={timeLeft > 0}
+                        disabled={isRunning > 0}
                         type="button"
                     >
-                        {timeLeft > 0
-                            ? `Resend Verification Link (${timeLeft}s)`
+                        {isRunning > 0
+                            ? `Resend Verification Link (${seconds}s)`
                             : "Resend Verification Link"
                         }
                     </Button>
