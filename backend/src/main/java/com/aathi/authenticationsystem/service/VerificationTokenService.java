@@ -1,7 +1,6 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.exception.InvalidVerificationTokenException;
-import com.aathi.authenticationsystem.exception.VerificationTokenExpiredException;
+import com.aathi.authenticationsystem.exception.InvalidOrExpiredVerificationTokenException;
 import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.models.VerificationToken;
 import com.aathi.authenticationsystem.repository.VerificationTokenRepository;
@@ -44,17 +43,12 @@ public class VerificationTokenService {
 
     }
     public VerificationToken verifyToken(String token){
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new InvalidVerificationTokenException("invalid Verification token"));
 
-        if (verificationToken.isExpired()){
-            throw new VerificationTokenExpiredException("Verification Token has Expired, please send a new Verification Email.");
-        }
-
-        return verificationToken;
+        return verificationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new InvalidOrExpiredVerificationTokenException("invalid or Expired Verification token"));
     }
 
-    public void deleteVerficationToken(VerificationToken verificationToken){
+    public void deleteVerificationToken(VerificationToken verificationToken){
         verificationTokenRepository.delete(verificationToken);
     }
     @Transactional
