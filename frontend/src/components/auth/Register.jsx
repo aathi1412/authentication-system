@@ -34,7 +34,7 @@ export function Register(){
                 axios.post(BASE_PATH_AUTH + "/register", data),
                 {
                         loading: "Creating account...",
-                        success: "Registration successful! Sign in to continue.",
+                        success: "Registration successful! Verify your account.",
                         error: (err) => err.response?.data?.message || "Something went wrong."
                     }
             );
