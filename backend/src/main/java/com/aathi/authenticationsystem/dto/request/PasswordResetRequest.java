@@ -9,5 +9,5 @@ public record PasswordResetRequest(
 
         @NotBlank
         @Size(min = 8)
-        String newPassword
+        String password
 ) {}
