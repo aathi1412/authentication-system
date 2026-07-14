@@ -42,3 +42,16 @@ export const LoginSchema = z.object({
 export const ForgotPasswordSchema = z.object({
     email: EmailSchema
 })
+
+export const PasswordResetSchema = z
+    .object({
+        password: PasswordSchema,
+        confirmPassword: PasswordSchema
+    })
+    .refine(
+        (data ) => data.password === data.confirmPassword,
+            {
+                path: ["confirmPassword"],
+                message: "Passwords do not match"
+            }
+    );
