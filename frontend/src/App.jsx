@@ -4,9 +4,9 @@ import EmailSent from "./components/auth/EmailSent";
 import EmailVerification from "./components/auth/EmailVerification";
 import ForgotPassword from "./components/auth/ForgotPassword.jsx";
 import Login from "./components/auth/Login.jsx";
+import PasswordResetSuccess from "./components/auth/PasswordResetSuccess.jsx";
 import Register from "./components/auth/Register.jsx";
 import {ResetPassword} from "./components/auth/ResetPassword.jsx";
-import SuccessMessage from "./components/auth/SuccessMessage.jsx";
 import {Home} from "./components/Home.jsx";
 
 
@@ -29,7 +29,7 @@ function App() {
                   <Route path="/forgot-password" element={<ForgotPassword/>} />
                   <Route path="/forgot-password/email-sent" element={<EmailSent/>} />
                   <Route path="/reset-password" element={<ResetPassword/>} />
-                  <Route path="/reset-password/success" element={<SuccessMessage/>}/>
+                  <Route path="/reset-password/success" element={<PasswordResetSuccess/>}/>
               </Routes>
           </BrowserRouter>
       </>
