@@ -102,7 +102,7 @@ public class AuthenticationController {
 
     @PostMapping("/forgot-password")
     public ResponseEntity<ApiResponse> forgetPassword(@Valid @RequestBody ForgotPasswordRequest request){
-        ApiResponse Response = authenticationService.forgotPassword(request.email());
+        ApiResponse Response = authenticationService.forgotPassword(request.email().toLowerCase());
 
         return ResponseEntity
                 .ok()
@@ -111,7 +111,7 @@ public class AuthenticationController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody PasswordResetRequest request){
-        ApiResponse Response = authenticationService.resetPassword(request.token(), request.newPassword());
+        ApiResponse Response = authenticationService.resetPassword(request.token(), request.password());
 
         return ResponseEntity
                 .ok()
