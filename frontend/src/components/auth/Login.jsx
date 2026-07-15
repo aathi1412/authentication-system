@@ -26,18 +26,26 @@ export function Login(){
     })
 
     const onSubmit = async (data)=>{
-        console.log(data)
-
         try {
             setLoading(true)
             const response = await toast.promise(
                 axios.post(BASE_PATH_AUTH + "/login", data),
                 {
                     loading: "signing you in",
-                    success: "Welcome back!",
+                    success: "",
                     error: (err) => err.response?.data?.message || "Something went wrong."
                 }
             );
+
+            const {
+                userResponse: { name, email },
+                accessTokenResponse: { accessToken }
+            } = response.data;
+
+            localStorage.setItem("accessToken", accessToken);
+
+            toast.success("Welcome back " + name);
+
             reset()
             console.log(response.data);
             navigate("/")
