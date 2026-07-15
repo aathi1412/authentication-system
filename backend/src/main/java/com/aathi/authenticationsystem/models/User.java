@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Builder
@@ -51,6 +52,9 @@ public class User {
     @Builder.Default
     @Column(nullable = false)
     private int failedAttempts = 0;
+
+    @Column(nullable = false)
+    private Instant lockTime;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
