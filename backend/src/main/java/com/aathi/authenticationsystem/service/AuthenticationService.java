@@ -42,6 +42,7 @@ public class AuthenticationService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
+    private final UserService userService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -109,6 +110,9 @@ public class AuthenticationService {
     }
 
     public LoginResult login(LoginRequest request){
+
+        userService.lockOrUnlockAccount(request.getEmail());
+
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -119,6 +123,11 @@ public class AuthenticationService {
             throw new AccountNotVerifiedException("Account Not Verified, Please Verify with Email.");
         } catch (BadCredentialsException ex){
             log.error("invalid Email or Password, error: {}", ex.getMessage());
+
+            userService.increaseFailedLoginAttempt(request.getEmail());
+
+            log.info("login attempt failed for user : {}", ex.getMessage());
+
             throw new InvalidCredentialsException("Invalid Email or Password");
         }
 
@@ -131,6 +140,8 @@ public class AuthenticationService {
         log.info("refresh token generated");
 
         log.info("Login Successful for user {}", request.getEmail());
+
+        userService.resetFailedLoginAttempt(request.getEmail());
 
         return new LoginResult(
                 LoginResponse.builder()
