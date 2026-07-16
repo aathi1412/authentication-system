@@ -2,10 +2,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import {FaCircleCheck} from "react-icons/fa6";
 import {useSearchParams} from "react-router-dom";
+import useCountDown from "../../customhooks/useCountDown"
 import {BASE_PATH_AUTH} from "../../utils/constants";
-import useCountDown from "./../../customhooks/useCountDown"
-import AuthSwitch from "./AuthSwitch";
-import Button from "./Button.jsx";
+import AuthSwitch from "./components/AuthSwitch";
+import Button from "./components/Button.jsx";
 
 export function EmailVerification() {
 
@@ -57,7 +57,7 @@ export function EmailVerification() {
         <div className="min-h-screen flex items-center justify-center bg-slate-100">
             <div className="w-full max-w-xl bg-white px-10 py-8 rounded-3xl shadow-2xl text-center">
 
-                <FaCircleCheck className="text-green-500 text-6xl mx-auto mb-6" />
+                <FaCircleCheck className="text-green-500 text-6xl mx-auto mb-6"/>
                 <h2 className="text-2xl font-bold mb-3">
                     {title}
                 </h2>

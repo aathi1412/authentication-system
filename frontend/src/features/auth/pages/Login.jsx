@@ -4,14 +4,14 @@ import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {Link, useNavigate} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../utils/constants";
+import {BASE_PATH_AUTH} from "../../../utils/constants";
 import {LoginSchema} from "../validations/authSchema";
-import AuthSwitch from "./AuthSwitch.jsx";
-import Button from "./Button.jsx";
-import Email from "./Email.jsx";
-import Password from "./Password.jsx";
+import AuthSwitch from "../components/AuthSwitch.jsx";
+import Button from "../components/Button.jsx";
+import Email from "../components/Email.jsx";
+import Password from "../components/Password.jsx";
 
-export function Login(){
+export function Login() {
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -20,12 +20,12 @@ export function Login(){
         register,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: {errors},
     } = useForm({
         resolver: zodResolver(LoginSchema)
     })
 
-    const onSubmit = async (data)=>{
+    const onSubmit = async (data) => {
         try {
             setLoading(true)
             const response = await toast.promise(
@@ -38,8 +38,8 @@ export function Login(){
             );
 
             const {
-                userResponse: { name, email },
-                accessTokenResponse: { accessToken }
+                userResponse: {name},
+                accessTokenResponse: {accessToken}
             } = response.data;
 
             localStorage.setItem("accessToken", accessToken);
@@ -49,18 +49,17 @@ export function Login(){
             reset()
             console.log(response.data);
             navigate("/")
-        }
-        finally {
+        } finally {
             setLoading(false)
         }
     }
 
-    return(
+    return (
         <>
-            <div className="min-h-screen flex flex-col items-center justify-center ">
+            <div className="min-h-screen flex flex items-center justify-center ">
 
                 <form noValidate onSubmit={handleSubmit(onSubmit)}
-                    className="px-15 py-10 shadow-2xl rounded-3xl">
+                      className="px-15 py-10 shadow-2xl rounded-3xl">
                     <div>
                         <h2 className="font-bold text-2xl mt-3 ">Welcome back</h2>
                         <p className="text-sm text-gray-500 mt-1">Log in and let's pick up where you left off.</p>

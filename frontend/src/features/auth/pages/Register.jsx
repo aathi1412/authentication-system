@@ -4,17 +4,16 @@ import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../utils/constants";
-import TacPopup from "../../utils/TacPopup";
+import {BASE_PATH_AUTH} from "../../../utils/constants";
 import {RegisterSchema} from "../validations/authSchema";
+import AuthSwitch from "../components/AuthSwitch";
+import Button from "../components/Button";
+import Email from "../components/Email";
+import Name from "../components/Name";
+import Password from "../components/Password";
+import TermsAndConditions from "../TermsAndConditions";
 
-import AuthSwitch from "./AuthSwitch";
-import Button from "./Button";
-import Email from "./Email";
-import Name from "./Name";
-import Password from "./Password";
-
-export function Register(){
+export function Register() {
 
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -22,7 +21,7 @@ export function Register(){
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: {errors},
     } = useForm({
         resolver: zodResolver(RegisterSchema)
     })
@@ -33,26 +32,26 @@ export function Register(){
             const response = await toast.promise(
                 axios.post(BASE_PATH_AUTH + "/register", data),
                 {
-                        loading: "Creating account...",
-                        success: "Registration successful! Verify your account.",
-                        error: (err) => err.response?.data?.message || "Something went wrong."
-                    }
+                    loading: "Creating account...",
+                    success: "Registration successful! Verify your account.",
+                    error: (err) => err.response?.data?.message || "Something went wrong."
+                }
             );
             console.log(response.data);
             localStorage.setItem("pendingVerificationEmail", data.email);
             navigate("/email-verification");
-        }finally {
+        } finally {
             setLoading(false)
         }
 
     }
 
-    return(
+    return (
         <>
             <div className="min-h-screen flex flex-col items-center justify-center ">
 
                 <form noValidate onSubmit={handleSubmit(onSubmit)}
-                    className="px-15 py-10 shadow-2xl rounded-3xl">
+                      className="px-15 py-10 shadow-2xl rounded-3xl">
 
                     <div>
                         <h2 className="font-bold text-2xl m-3 p-2">
@@ -75,7 +74,7 @@ export function Register(){
                         errors={errors}
                     />
 
-                    <TacPopup
+                    <TermsAndConditions
                         register={register}
                         errors={errors}
                     />

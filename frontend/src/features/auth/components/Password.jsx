@@ -7,7 +7,8 @@ export function Password({
                              label,
                              placeholder,
                              register,
-                             errors }){
+                             errors
+                         }) {
     const [showPassword, setShowPassword] = useState(false)
 
     return (
@@ -15,7 +16,7 @@ export function Password({
             <div>
                 <label className="block mb-1">{label}</label>
                 <div className="relative mb-3">
-                    <LuLock className="absolute left-3 top-3.5 text-[#a1a1a1] pointer-events-none" />
+                    <LuLock className="absolute left-3 top-3.5 text-[#a1a1a1] pointer-events-none"/>
                     <input
                         type={showPassword ? "text" : "password"}
                         placeholder={placeholder}

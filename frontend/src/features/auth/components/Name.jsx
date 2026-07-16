@@ -1,7 +1,7 @@
 import {CiUser} from "react-icons/ci";
 
-export function Name({register, errors}){
-    return(
+export function Name({register, errors}) {
+    return (
         <div className="mb-3">
             <label htmlFor="username" className="block mb-1">Full Name</label>
             <div className="relative">

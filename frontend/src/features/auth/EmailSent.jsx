@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import {MdOutlineMarkEmailRead} from "react-icons/md";
 import useCountDown from "../../customhooks/useCountDown";
 import {BASE_PATH_AUTH} from "../../utils/constants";
-import AuthSwitch from "./AuthSwitch";
-import Button from "./Button";
+import AuthSwitch from "./components/AuthSwitch";
+import Button from "./components/Button";
 
 export function EmailSent() {
 
@@ -57,7 +57,7 @@ export function EmailSent() {
                             >
                                 {isRunning ?
                                     `Resend reset link (${seconds})`
-                                    :"Resend reset link"}
+                                    : "Resend reset link"}
                             </Button>
 
                             <AuthSwitch
@@ -67,8 +67,8 @@ export function EmailSent() {
                             >
                                 Wrong email address? {" "}
                             </AuthSwitch>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>

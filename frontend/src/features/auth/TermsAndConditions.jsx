@@ -1,9 +1,9 @@
 import {useState} from "react";
-import TermsAndConditions from "./TermsAndConditions.jsx";
+import TacPopup from "./components/TacPopup.jsx";
 
-export function TacPopup({ register, errors }){
+export function TermsAndConditions({register, errors}) {
     const [open, setOpen] = useState(false);
-    return(
+    return (
         <div>
             <label className="flex items-start gap-3 cursor-pointer">
                 <input
@@ -40,15 +40,15 @@ export function TacPopup({ register, errors }){
                 </p>
             )}
             {open && (
-            <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-                <div className="max-h-[70vh] bg-white overflow-y-auto px-6 py-5">
-                    <TermsAndConditions/>
+                <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+                    <div className="max-h-[70vh] bg-white overflow-y-auto px-6 py-5">
+                        <TacPopup/>
 
-                    <div className="flex justify-end gap-3 px-6 py-4">
-                        <button
-                            type="button"
-                            onClick={() => setOpen(false)}
-                            className="
+                        <div className="flex justify-end gap-3 px-6 py-4">
+                            <button
+                                type="button"
+                                onClick={() => setOpen(false)}
+                                className="
                                 rounded-lg
                                 bg-blue-600
                                 px-5
@@ -57,15 +57,15 @@ export function TacPopup({ register, errors }){
                                 text-white
                                 hover:bg-blue-700
                             "
-                        >
-                            Close
-                        </button>
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
             )}
         </div>
     )
 }
 
-export default TacPopup
+export default TermsAndConditions

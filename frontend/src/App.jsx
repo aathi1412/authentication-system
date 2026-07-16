@@ -1,40 +1,36 @@
 import {Toaster} from "react-hot-toast";
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import EmailSent from "./components/auth/EmailSent";
-import EmailVerification from "./components/auth/EmailVerification";
-import ForgotPassword from "./components/auth/ForgotPassword.jsx";
-import Login from "./components/auth/Login.jsx";
-import PasswordResetSuccess from "./components/auth/PasswordResetSuccess.jsx";
-import Register from "./components/auth/Register.jsx";
-import {ResetPassword} from "./components/auth/ResetPassword.jsx";
-import {Home} from "./components/Home.jsx";
-
-
+import EmailSent from "./features/auth/EmailSent";
+import EmailVerification from "./features/auth/EmailVerification";
+import ForgotPassword from "./features/auth/pages/ForgotPassword";
+import Login from "./features/auth/pages/Login";
+import PasswordResetSuccess from "./features/auth/PasswordResetSuccess";
+import Register from "./features/auth/pages/Register";
+import ResetPassword from "./features/auth/pages/ResetPassword";
+import Home from "./pages/home/Home";
 import './App.css'
-import TermsAndConditions from "./utils/TermsAndConditions.jsx";
 
 function App() {
 
 
-  return (
-      <>
-          <Toaster />
-          <BrowserRouter>
-              <Routes>
-                  <Route path="/" element={<Home/>}/>
-                  <Route path="/register" element={<Register/>}/>
-                  <Route path="/email-verification" element={<EmailVerification/>}/>
-                  <Route path="/login" element={<Login/>}/>
-                  <Route path="/TermsAndConditions" element={<TermsAndConditions/>} />
-                  <Route path="/forgot-password" element={<ForgotPassword/>} />
-                  <Route path="/forgot-password/email-sent" element={<EmailSent/>} />
-                  <Route path="/reset-password" element={<ResetPassword/>} />
-                  <Route path="/reset-password/success" element={<PasswordResetSuccess/>}/>
-              </Routes>
-          </BrowserRouter>
-      </>
+    return (
+        <>
+            <Toaster/>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/auth/register" element={<Register/>}/>
+                    <Route path="/auth/email-verification" element={<EmailVerification/>}/>
+                    <Route path="/auth/login" element={<Login/>}/>
+                    <Route path="/auth/forgot-password" element={<ForgotPassword/>}/>
+                    <Route path="/auth/forgot-password/email-sent" element={<EmailSent/>}/>
+                    <Route path="/auth/reset-password" element={<ResetPassword/>}/>
+                    <Route path="/auth/reset-password/success" element={<PasswordResetSuccess/>}/>
+                </Routes>
+            </BrowserRouter>
+        </>
 
-  )
+    )
 }
 
 export default App

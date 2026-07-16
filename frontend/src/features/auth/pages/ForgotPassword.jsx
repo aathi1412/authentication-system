@@ -3,13 +3,13 @@ import axios from "axios";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../utils/constants";
+import {BASE_PATH_AUTH} from "../../../utils/constants";
 import {ForgotPasswordSchema} from "../validations/authSchema";
-import AuthSwitch from "./AuthSwitch.jsx";
-import Button from "./Button.jsx";
-import Email from "./Email.jsx";
+import AuthSwitch from "../components/AuthSwitch.jsx";
+import Button from "../components/Button.jsx";
+import Email from "../components/Email.jsx";
 
-export function ForgotPassword(){
+export function ForgotPassword() {
 
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export function ForgotPassword(){
         register,
         handleSubmit,
         reset,
-        formState: { errors }
+        formState: {errors}
     } = useForm({
         resolver: zodResolver(ForgotPasswordSchema)
     })
@@ -37,15 +37,16 @@ export function ForgotPassword(){
         console.log("sent")
     }
 
-    return(
+    return (
         <>
             <div className="min-h-screen flex flex-col items-center justify-center ">
 
                 <form noValidate onSubmit={handleSubmit(onSubmit)}
-                    className="w-full max-w-lg px-15 py-10 shadow-2xl rounded-3xl">
+                      className="w-full max-w-lg px-15 py-10 shadow-2xl rounded-3xl">
 
                     <h2 className="text-2xl font-bold mb-2">Forgot your password?</h2>
-                    <p className="text-gray-500 mb-6">Enter your email and we’ll send you a link to reset your password.</p>
+                    <p className="text-gray-500 mb-6">Enter your email and we’ll send you a link to reset your
+                        password.</p>
 
                     <Email
                         register={register}

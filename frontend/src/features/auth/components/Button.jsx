@@ -1,10 +1,10 @@
 export function Button({
-                       type = 'submit',
-                       loading = false,
-                       onClick,
-                       children
-}){
-    return(
+                           type = 'submit',
+                           loading = false,
+                           onClick,
+                           children
+                       }) {
+    return (
         <div className="flex items-center justify-center my-2">
             <button
                 type={type}

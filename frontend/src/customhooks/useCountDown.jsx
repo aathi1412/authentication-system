@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-export default function useCountDown(initialSeconds = 60){
+export default function useCountDown(initialSeconds = 60) {
 
     const [seconds, setSeconds] = useState(initialSeconds);
 
@@ -11,10 +11,14 @@ export default function useCountDown(initialSeconds = 60){
             setSeconds((prev) => prev - 1);
         }, 1000)
 
-        return () => {clearInterval(timer);}
+        return () => {
+            clearInterval(timer);
+        }
     }, [seconds]);
 
-    const start = () => { setSeconds(initialSeconds); };
+    const start = () => {
+        setSeconds(initialSeconds);
+    };
 
     return {
         start,

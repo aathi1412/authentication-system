@@ -1,15 +1,15 @@
 import {HiOutlineMail} from "react-icons/hi";
 
-export function Email({ register, errors}){
-    return(
+export function Email({register, errors}) {
+    return (
         <>
             <div className="mb-3">
                 <label className="block mb-1">Email</label>
                 <div className="relative">
-                    <HiOutlineMail className="absolute left-3 top-3.5 text-[#a1a1a1] pointer-events-none" />
+                    <HiOutlineMail className="absolute left-3 top-3.5 text-[#a1a1a1] pointer-events-none"/>
                     <input
                         type="email"
-                        placeholder = "Enter Your Email"
+                        placeholder="Enter Your Email"
                         {...register("email")}
                         className="bg-white placeholder:text-[14px] pl-10 w-full
                             border border-gray-300 outline-none rounded-md py-2 px-2 mb-1
