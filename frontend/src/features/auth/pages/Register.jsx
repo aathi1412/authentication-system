@@ -1,17 +1,15 @@
 import {zodResolver} from "@hookform/resolvers/zod";
-import axios from "axios";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../../utils/constants";
-import {RegisterSchema} from "../validations/authSchema";
 import AuthSwitch from "../components/AuthSwitch";
 import Button from "../components/Button";
 import Email from "../components/Email";
 import Name from "../components/Name";
 import Password from "../components/Password";
 import TermsAndConditions from "../TermsAndConditions";
+import {RegisterSchema} from "../validations/authSchema";
 
 export function Register() {
 
@@ -30,7 +28,7 @@ export function Register() {
         try {
             setLoading(true)
             const response = await toast.promise(
-                axios.post(BASE_PATH_AUTH + "/register", data),
+                register(data),
                 {
                     loading: "Creating account...",
                     success: "Registration successful! Verify your account.",
