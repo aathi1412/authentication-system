@@ -1,15 +1,14 @@
 import {zodResolver} from "@hookform/resolvers/zod";
-import axios from "axios";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {Link, useNavigate} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../../utils/constants";
-import {LoginSchema} from "../validations/authSchema";
+import {loginUser} from "../../../api/authApi"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Email from "../components/Email.jsx";
 import Password from "../components/Password.jsx";
+import {LoginSchema} from "../validations/authSchema";
 
 export function Login() {
 
@@ -29,7 +28,7 @@ export function Login() {
         try {
             setLoading(true)
             const response = await toast.promise(
-                axios.post(BASE_PATH_AUTH + "/login", data),
+                loginUser(data),
                 {
                     loading: "signing you in",
                     success: "",

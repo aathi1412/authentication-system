@@ -3,6 +3,7 @@ import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
+import {registerUser} from "../../../api/authApi";
 import AuthSwitch from "../components/AuthSwitch";
 import Button from "../components/Button";
 import Email from "../components/Email";
@@ -28,7 +29,7 @@ export function Register() {
         try {
             setLoading(true)
             const response = await toast.promise(
-                register(data),
+                registerUser(data),
                 {
                     loading: "Creating account...",
                     success: "Registration successful! Verify your account.",
