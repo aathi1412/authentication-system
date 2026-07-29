@@ -1,12 +1,12 @@
 const Auth = "/auth";
 const USER = "/user";
 
-export const Paths = {
-    Auth: {
+const PATHS = {
+    AUTH: {
         LOGIN: `/${Auth}/login`,
         REGISTER: `/${Auth}/register`,
         FORGOT_PASSWORD: `/${Auth}/forgot-password`,
-        REGISTER_PASSWORD: `/${Auth}/register-password`,
+        RESET_PASSWORD: `/${Auth}/register-password`,
         EMAIL_VERIFICATION: `/${Auth}/email-verification`,
         EMAIL_SENT: `/${Auth}/forgot-password/email-sent`,
         RESET_SUCCESS: `/${Auth}/reset-password/success`,
@@ -15,6 +15,6 @@ export const Paths = {
     USER: {
         HOME: `/${USER}/me`,
     }
-
-
 }
+
+export default PATHS
