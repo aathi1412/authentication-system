@@ -1,13 +1,12 @@
 import {zodResolver} from "@hookform/resolvers/zod";
-import axios from "axios";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../../utils/constants";
-import {ForgotPasswordSchema} from "../validations/authSchema";
+import {forgotPassword} from "../../../api/authApi"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Email from "../components/Email.jsx";
+import {ForgotPasswordSchema} from "../validations/authSchema";
 
 export function ForgotPassword() {
 
@@ -25,7 +24,7 @@ export function ForgotPassword() {
     const onSubmit = async (data) => {
         localStorage.setItem("email", data.email);
         await toast.promise(
-            axios.post(BASE_PATH_AUTH + "/forgot-password", data),
+            forgotPassword(data),
             {
                 loading: "Sending reset link...",
                 success: "Reset link sent to your email.",
