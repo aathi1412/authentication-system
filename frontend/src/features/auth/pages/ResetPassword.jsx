@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {resetPassword} from "../../../api/authApi"
+import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Password from "../components/Password.jsx";
@@ -33,7 +34,7 @@ export function ResetPassword() {
             }
         )
         reset()
-        navigate("/login")
+        navigate(PATHS.AUTH.LOGIN)
     }
 
     return (

@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
 import {registerUser} from "../../../api/authApi";
+import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch";
 import Button from "../components/Button";
 import Email from "../components/Email";
@@ -38,7 +39,7 @@ export function Register() {
             );
             console.log(response.data);
             localStorage.setItem("pendingVerificationEmail", data.email);
-            navigate("/email-verification");
+            navigate(PATHS.AUTH.EMAIL_VERIFICATION);
         } finally {
             setLoading(false)
         }

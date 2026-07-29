@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
 import {forgotPassword} from "../../../api/authApi"
+import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Email from "../components/Email.jsx";
@@ -32,7 +33,7 @@ export function ForgotPassword() {
             }
         );
         reset()
-        navigate("/forgot-password/email-sent")
+        navigate(PATHS.AUTH.EMAIL_SENT)
         console.log("sent")
     }
 

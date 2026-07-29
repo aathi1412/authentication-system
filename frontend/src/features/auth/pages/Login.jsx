@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {Link, useNavigate} from "react-router-dom";
 import {loginUser} from "../../../api/authApi"
+import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Email from "../components/Email.jsx";
@@ -47,7 +48,7 @@ export function Login() {
 
             reset()
             console.log(response.data);
-            navigate("/")
+            navigate(PATHS.USER.HOME)
         } finally {
             setLoading(false)
         }
