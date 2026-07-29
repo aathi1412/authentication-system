@@ -59,7 +59,7 @@ export function ForgotPassword() {
 
                     <AuthSwitch
                         doAction="Sign in"
-                        path="/login"
+                        path={PATHS.AUTH.LOGIN}
                     >
                         Remember your password? {" "}
                     </AuthSwitch>

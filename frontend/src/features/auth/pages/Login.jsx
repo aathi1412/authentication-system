@@ -104,7 +104,7 @@ export function Login() {
 
                     <AuthSwitch
                         doAction="Sign up"
-                        path="/register"
+                        path={PATHS.AUTH.REGISTER}
                     >
                         Don't have an account?{" "}
                     </AuthSwitch>
