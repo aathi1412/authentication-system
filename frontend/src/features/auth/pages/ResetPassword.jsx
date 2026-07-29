@@ -1,13 +1,12 @@
 import {zodResolver} from "@hookform/resolvers/zod";
-import axios from "axios";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {BASE_PATH_AUTH} from "../../../utils/constants";
-import {PasswordResetSchema} from "../validations/authSchema";
+import {resetPassword} from "../../../api/authApi"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Password from "../components/Password.jsx";
+import {PasswordResetSchema} from "../validations/authSchema";
 
 export function ResetPassword() {
     const navigate = useNavigate()
@@ -26,7 +25,7 @@ export function ResetPassword() {
     const onSubmit = async (data) => {
 
         await toast.promise(
-            axios.post(BASE_PATH_AUTH + "/reset-password", {token, password: data.password}),
+            resetPassword(token,data.password),
             {
                 loading: "Resetting Password...",
                 success: "Your password has been changed successfully.",
