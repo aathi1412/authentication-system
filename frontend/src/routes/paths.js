@@ -6,8 +6,15 @@ export const Paths = {
         LOGIN: `/${Auth}/login`,
         REGISTER: `/${Auth}/register`,
         FORGOT_PASSWORD: `/${Auth}/forgot-password`,
-        REGISTER_PASSWORD: `/${Auth}/register-password`
-        EMAIL_SENT,
+        REGISTER_PASSWORD: `/${Auth}/register-password`,
         EMAIL_VERIFICATION: `/${Auth}/email-verification`,
+        EMAIL_SENT: `/${Auth}/forgot-password/email-sent`,
+        RESET_SUCCESS: `/${Auth}/reset-password/success`,
+    },
+
+    USER: {
+        HOME: `/${USER}/me`,
     }
+
+
 }
