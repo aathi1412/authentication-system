@@ -1,5 +1,5 @@
-const Auth = "/auth";
-const USER = "/user";
+const Auth = "auth";
+const USER = "user";
 
 const PATHS = {
     AUTH: {
