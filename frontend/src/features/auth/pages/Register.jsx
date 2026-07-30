@@ -87,7 +87,7 @@ export function Register() {
 
                     <AuthSwitch
                         doAction="Sign in"
-                        path={PATHS.AUTH.LOGIN}
+                        path={"/auth/login"}
                     >
                         Already have an account?
                     </AuthSwitch>
