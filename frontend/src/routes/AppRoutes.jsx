@@ -6,7 +6,7 @@ import Login from "../features/auth/pages/Login";
 import Register from "../features/auth/pages/Register";
 import ResetPassword from "../features/auth/pages/ResetPassword";
 import PasswordResetSuccess from "../features/auth/PasswordResetSuccess";
-import Home from "../features/Home";
+import Home from "../features/user/pages/Home";
 import PATHS from "./paths"
 
 export default function AppRoutes(){
