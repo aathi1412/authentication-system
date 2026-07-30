@@ -89,7 +89,7 @@ export function Login() {
                         </label>
 
                         <Link
-                            to="/forgot-password"
+                            to={PATHS.AUTH.FORGOT_PASSWORD}
                             className="text-[13px] font-semibold text-[#3172ed] hover:underline active:text-blue-300"
                         >
                             Forgot Password?
