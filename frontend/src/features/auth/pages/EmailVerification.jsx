@@ -2,10 +2,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import {FaCircleCheck} from "react-icons/fa6";
 import {useSearchParams} from "react-router-dom";
-import useCountDown from "../../customhooks/useCountDown"
-import {BASE_PATH_AUTH} from "../../utils/constants";
-import AuthSwitch from "./components/AuthSwitch";
-import Button from "./components/Button.jsx";
+import useCountDown from "../../../customhooks/useCountDown"
+import {BASE_PATH_AUTH} from "../../../utils/constants";
+import AuthSwitch from "../components/AuthSwitch";
+import Button from "../components/Button.jsx";
 
 export function EmailVerification() {
 
