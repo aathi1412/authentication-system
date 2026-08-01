@@ -85,7 +85,7 @@ public class AuthenticationController {
         VerificationStatus status = authenticationService.verifyEmail(token);
 
         log.info("redirected successfully");
-        return new RedirectView("http://localhost:5173/email-verification?status=" +
+        return new RedirectView("http://localhost:5173/auth/email-verification?status=" +
                 status.name().toLowerCase());
 
 
