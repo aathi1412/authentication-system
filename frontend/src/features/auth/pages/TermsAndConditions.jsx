@@ -1,5 +1,5 @@
 import {useState} from "react";
-import TacPopup from "./components/TacPopup.jsx";
+import TacPopup from "../components/TacPopup.jsx";
 
 export function TermsAndConditions({register, errors}) {
     const [open, setOpen] = useState(false);
