@@ -1,6 +1,6 @@
 import {FaCircleCheck} from "react-icons/fa6";
 import {useNavigate} from "react-router-dom";
-import Button from "./components/Button";
+import Button from "../components/Button";
 
 export function PasswordResetSuccess() {
     const navigate = useNavigate()
