@@ -55,7 +55,7 @@ public class User {
     @Column(nullable = false)
     private int failedAttempts = 0;
 
-    @Column(nullable = false)
+    @Column(name = "lock_time")
     private Instant lockTime;
 
     @Column(nullable = false, updatable = false)
