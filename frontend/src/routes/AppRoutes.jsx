@@ -1,11 +1,11 @@
 import {Route, Routes} from "react-router-dom"
-import EmailSent from "../features/auth/EmailSent";
-import EmailVerification from "../features/auth/EmailVerification";
+import EmailSent from "../features/auth/pages/EmailSent";
+import EmailVerification from "../features/auth/pages/EmailVerification";
 import ForgotPassword from "../features/auth/pages/ForgotPassword";
 import Login from "../features/auth/pages/Login";
+import PasswordResetSuccess from "../features/auth/pages/PasswordResetSuccess";
 import Register from "../features/auth/pages/Register";
 import ResetPassword from "../features/auth/pages/ResetPassword";
-import PasswordResetSuccess from "../features/auth/PasswordResetSuccess";
 import Home from "../features/user/pages/Home";
 import PATHS from "./paths"
 
