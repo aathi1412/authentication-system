@@ -10,8 +10,8 @@ import Button from "../components/Button";
 import Email from "../components/Email";
 import Name from "../components/Name";
 import Password from "../components/Password";
-import TermsAndConditions from "../TermsAndConditions";
 import {RegisterSchema} from "../validations/authSchema";
+import TermsAndConditions from "./TermsAndConditions";
 
 export function Register() {
 
