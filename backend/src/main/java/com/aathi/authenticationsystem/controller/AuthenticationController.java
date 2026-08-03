@@ -80,7 +80,7 @@ public class AuthenticationController {
                 .build();
     }
 
-    @GetMapping("/verify-email")
+    @GetMapping("/activate-account")
     public RedirectView verifyEmail(@Valid @RequestParam String token){
         VerificationStatus status = authenticationService.verifyEmail(token);
 
