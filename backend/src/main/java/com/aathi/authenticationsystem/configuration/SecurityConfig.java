@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/register",
                                          "/api/auth/login",
                                          "/api/auth/refresh",
-                                         "/api/auth/verify-email",
+                                         "/api/auth/activate-account",
                                          "/api/auth/resend-verification-email",
                                          "/api/auth/forgot-password",
                                          "/api/auth/reset-password"
