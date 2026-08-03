@@ -38,7 +38,6 @@ public class VerificationToken {
     @Column(nullable = false)
     private Instant createdAt;
 
-
     @OneToOne
     @JoinColumn(
             name = "user_id",
