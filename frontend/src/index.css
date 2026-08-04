@@ -1,7 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist+Pixel&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Yuyu+Short&display=swap');
-@import "tailwindcss";
 
 body {
-    background: rgb(247, 248, 250);
+    /*background: rgb(247, 248, 250);*/
     font-family: 'Poppins', sans-serif;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 12%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 12%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 12%;
+
+        --primary: 240 6% 10%;
+        --primary-foreground: 0 0% 98%;
+
+        --secondary: 240 5% 96%;
+        --secondary-foreground: 240 6% 10%;
+
+        --muted: 240 5% 96%;
+        --muted-foreground: 240 4% 46%;
+
+        --accent: 240 5% 96%;
+        --accent-foreground: 240 6% 10%;
+
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 98%;
+
+        --success: 142 71% 29%;
+        --success-foreground: 0 0% 98%;
+
+        --warning: 38 92% 40%;
+        --warning-foreground: 0 0% 98%;
+
+        --border: 240 6% 90%;
+        --input: 240 6% 90%;
+        --ring: 240 6% 10%;
+
+        --radius: 0.625rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground antialiased;
+        font-feature-settings: "cv11", "ss01";
+    }
+}
+
+/* Slim, unobtrusive scrollbars to match the enterprise-dashboard feel */
+@layer utilities {
+    .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: hsl(var(--border)) transparent;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: hsl(var(--border));
+        border-radius: 9999px;
+    }
+}
+
