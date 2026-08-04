@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     private final JavaMailSender mailSender;
-    private static final String BASE_URL_BACKEND = "http://localhost:8080";
-    private static final String BASE_URL_FRONTEND =  "http://localhost:5173";
+    private static final String BASE_URL_BACKEND = "http://localhost:8080/api/auth";
+    private static final String BASE_URL_FRONTEND =  "http://localhost:5173/auth";
 
     public void sendVerificationEmail(User user, String verificationToken){
         SimpleMailMessage message = new SimpleMailMessage();
@@ -20,7 +20,7 @@ public class EmailService {
         message.setTo(user.getEmail());
         message.setSubject("verify your Email");
         message.setText("if you click the below link, your account gonna hacked!");
-        message.setText(BASE_URL_BACKEND + "/api/auth/verify-email?token=" + verificationToken);
+        message.setText(BASE_URL_BACKEND + "/activate-account?token=" + verificationToken);
 
         mailSender.send(message);
     }
