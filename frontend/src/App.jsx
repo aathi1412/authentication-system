@@ -1,5 +1,8 @@
+import {Toaster as customToaster} from "@/components/ui/toaster";
+
+import {router} from "@/routes/router";
 import {Toaster} from "react-hot-toast";
-import {BrowserRouter} from "react-router-dom"
+import {BrowserRouter, RouterProvider} from "react-router-dom"
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
@@ -11,6 +14,8 @@ function App() {
             <BrowserRouter>
                 <AppRoutes/>
             </BrowserRouter>
+            <RouterProvider router={router} />
+            <customToaster />
         </>
 
     )
