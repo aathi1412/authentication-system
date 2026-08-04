@@ -38,11 +38,12 @@ export function Login() {
             );
 
             const {
-                userResponse: {name},
+                userResponse,
                 accessTokenResponse: {accessToken}
             } = response.data;
 
             localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userResponse", JSON.stringify(userResponse));
 
             toast.success("Welcome back " + name);
 
