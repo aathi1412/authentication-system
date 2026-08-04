@@ -6,7 +6,7 @@ const PATHS = {
         LOGIN: `/${Auth}/login`,
         REGISTER: `/${Auth}/register`,
         FORGOT_PASSWORD: `/${Auth}/forgot-password`,
-        RESET_PASSWORD: `/${Auth}/register-password`,
+        RESET_PASSWORD: `/${Auth}/reset-password`,
         EMAIL_VERIFICATION: `/${Auth}/email-verification`,
         EMAIL_SENT: `/${Auth}/forgot-password/email-sent`,
         RESET_SUCCESS: `/${Auth}/reset-password/success`,
