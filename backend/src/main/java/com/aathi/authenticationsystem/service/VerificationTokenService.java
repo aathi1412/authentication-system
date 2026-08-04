@@ -54,11 +54,17 @@ public class VerificationTokenService {
     @Transactional
     public void resendVerificationEmail(User user){
 
-        verificationTokenRepository.findByUser(user)
-                .ifPresent(verificationTokenRepository::delete);
+        VerificationToken token = verificationTokenRepository
+                .findByUser(user)
+                .orElse(new VerificationToken());
 
-        log.info("calling generateAndSendVerificationEmail for user {}", user.getEmail());
-        generateAndSendVerificationEmail(user);
+        token.setToken(UUID.randomUUID().toString());
+        token.setExpiryDate(Instant.now().plus(1, ChronoUnit.HOURS));
+        token.setCreatedAt(Instant.now());
+        token.setUser(user);
+
+        emailService.sendVerificationEmail(user, token.getToken());
+        log.info("Email resend for user {}", user.getEmail());
 
     }
 }
