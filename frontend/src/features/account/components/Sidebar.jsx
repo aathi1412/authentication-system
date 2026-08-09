@@ -1,32 +1,19 @@
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  LayoutGrid,
-  UserRound,
-  ShieldCheck,
-  ScrollText,
-  LogOut,
-  Menu,
-  KeyRound,
-} from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet";
+import {toast} from "@/components/ui/use-toast";
+import {tokenStorage} from "@/lib/axiosClient";
 
-import { cn } from "@/lib/utils";
-import { tokenStorage } from "@/lib/axiosClient";
-import { toast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import {cn} from "@/lib/utils";
+import {KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserRound,} from "lucide-react";
+import {useState} from "react";
+import {NavLink, useNavigate} from "react-router-dom";
+import PATHS from '../../../routes/paths'
 
 const NAV_ITEMS = [
-  { to: "/account", label: "Overview", icon: LayoutGrid, end: true },
-  { to: "/account/profile", label: "Profile", icon: UserRound },
-  { to: "/account/security", label: "Security", icon: ShieldCheck },
-  { to: "/account/activity", label: "Activity Logs", icon: ScrollText },
+  { to: PATHS.USER.HOME, label: "Overview", icon: LayoutGrid, end: true },
+  { to: PATHS.USER.PROFILE, label: "Profile", icon: UserRound },
+  { to: PATHS.USER.SECURITY, label: "Security", icon: ShieldCheck },
+  { to: PATHS.USER.ACTIVITY, label: "Activity Logs", icon: ScrollText },
 ];
 
 function BrandMark() {
@@ -73,7 +60,7 @@ function LogoutButton({ onNavigate }) {
     tokenStorage.clear();
     toast({ title: "Signed out", description: "You've been logged out safely." });
     onNavigate?.();
-    navigate("/login");
+    navigate(PATHS.AUTH.LOGIN);
   };
 
   return (
