@@ -16,9 +16,7 @@ export const EmailSchema = z
     .string()
     .trim()
     .nonempty("Email is required")
-    .pipe(
-        z.email("Invalid email address")
-    );
+    .email("Invalid email address");
 
 export const PasswordSchema = z
     .string()
