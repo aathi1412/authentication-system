@@ -51,7 +51,7 @@ export function Register() {
             <div className="min-h-screen flex flex-col items-center justify-center ">
 
                 <form noValidate onSubmit={handleSubmit(onSubmit)}
-                      className="px-15 py-10 shadow-2xl rounded-3xl">
+                      className="py-16 px-12 shadow-2xl rounded-3xl">
 
                     <div>
                         <h2 className="font-bold text-2xl m-3 p-2">

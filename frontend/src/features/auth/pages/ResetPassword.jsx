@@ -42,7 +42,7 @@ export function ResetPassword() {
             <div className="min-h-screen flex items-center justify-center ">
 
                 <form noValidate onSubmit={handleSubmit(onSubmit)}
-                      className="w-full max-w-lg px-15 py-10 shadow-2xl rounded-3xl">
+                      className="w-full max-w-lg px-12 py-16 shadow-2xl rounded-3xl">
 
                     <h2 className="text-2xl font-bold mb-2">
                         Reset your password?

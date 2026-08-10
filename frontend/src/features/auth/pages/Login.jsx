@@ -57,10 +57,10 @@ export function Login() {
 
     return (
         <>
-            <div className="min-h-screen flex flex items-center justify-center ">
+            <div className="min-h-screen flex items-center justify-center ">
 
                 <form noValidate onSubmit={handleSubmit(onSubmit)}
-                      className="px-15 py-10 shadow-2xl rounded-3xl">
+                      className="px-12 py-16 shadow-2xl rounded-3xl">
                     <div>
                         <h2 className="font-bold text-2xl mt-3 ">Welcome back</h2>
                         <p className="text-sm text-gray-500 mt-1">Log in and let's pick up where you left off.</p>
