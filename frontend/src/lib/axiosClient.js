@@ -1,8 +1,8 @@
+import {toast} from "@/components/ui/use-toast";
 import axios from "axios";
-import { toast } from "@/components/ui/use-toast";
+import PATHS from "../routes/paths"
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
-
 /** Simple wrapper around localStorage so token storage has one seam to swap out later. */
 export const tokenStorage = {
   getAccessToken: () => localStorage.getItem("sa_access_token"),
@@ -95,7 +95,7 @@ apiClient.interceptors.response.use(
           title: "Session expired",
           description: "Please sign in again to continue.",
         });
-        window.location.assign("/login");
+        window.location.assign(PATHS.AUTH.LOGIN);
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
