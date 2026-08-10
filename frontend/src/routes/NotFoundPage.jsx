@@ -1,6 +1,6 @@
+import {Button} from "@/components/ui/button";
 import {Link} from "react-router-dom";
-
-import {Button} from "../components/ui/button";
+import PATHS from "./paths"
 
 export default function NotFoundPage() {
   return (
@@ -8,7 +8,7 @@ export default function NotFoundPage() {
       <p className="text-5xl font-semibold tracking-tight text-foreground">404</p>
       <p className="text-sm text-muted-foreground">This page doesn't exist.</p>
       <Button asChild>
-        <Link to="/account">Back to your account</Link>
+        <Link to={PATHS.USER.HOME}>Back to your account</Link>
       </Button>
     </div>
   );
