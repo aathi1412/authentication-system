@@ -1,5 +1,5 @@
 const Auth = "auth";
-const USER = "user";
+const ACCOUNT = "user";
 
 const PATHS = {
     AUTH: {
@@ -13,7 +13,10 @@ const PATHS = {
     },
 
     USER: {
-        HOME: `/${USER}/me`,
+        HOME: `/${ACCOUNT}/account`,
+        PROFILE: `/${ACCOUNT}/profile`,
+        SECURITY: `/${ACCOUNT}/security`,
+        ACTIVITY: `/${ACCOUNT}/activity`,
     }
 }
 
