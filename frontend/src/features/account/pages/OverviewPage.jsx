@@ -1,19 +1,13 @@
-import { Link } from "react-router-dom";
-import {
-  UserRound,
-  ShieldCheck,
-  ScrollText,
-  ArrowRight,
-  BadgeCheck,
-  ShieldAlert,
-} from "lucide-react";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Badge} from "@/components/ui/badge";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Skeleton} from "@/components/ui/skeleton";
 
-import { useProfile } from "@/features/account/hooks/useProfile";
-import { useSecurityInfo } from "@/features/account/hooks/useSecurityInfo";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import {useProfile} from "@/features/account/hooks/useProfile";
+import {useSecurityInfo} from "@/features/account/hooks/useSecurityInfo";
+import {ArrowRight, BadgeCheck, ScrollText, ShieldAlert, ShieldCheck, UserRound,} from "lucide-react";
+import {Link} from "react-router-dom";
+import PATHS from "./paths"
 
 function getInitials(name = "") {
   return name
@@ -26,19 +20,19 @@ function getInitials(name = "") {
 
 const SHORTCUTS = [
   {
-    to: "/account/profile",
+    to: PATHS.USER.PROFILE,
     icon: UserRound,
     title: "Profile",
     description: "Update your name, phone number, and bio",
   },
   {
-    to: "/account/security",
+    to: PATHS.USER.SECURITY,
     icon: ShieldCheck,
     title: "Security",
     description: "Change your password and review account status",
   },
   {
-    to: "/account/activity",
+    to: PATHS.USER.ACTIVITY,
     icon: ScrollText,
     title: "Activity logs",
     description: "See recent logins and account changes",
