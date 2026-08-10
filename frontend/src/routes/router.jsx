@@ -67,7 +67,7 @@ function withSuspense(element) {
 export const router = createBrowserRouter([
         {
             path: "/",
-            element: <Navigate to="/account" replace />,
+            element: <Navigate to={PATHS.USER.HOME} replace />,
         },
 
         // Auth
@@ -102,7 +102,7 @@ export const router = createBrowserRouter([
 
         // Account
         {
-            path: "/account",
+            path: PATHS.USER.HOME,
             element: withSuspense(<AccountLayout />),
             children: [
                 {
@@ -110,15 +110,15 @@ export const router = createBrowserRouter([
                     element: withSuspense(<OverviewPage />),
                 },
                 {
-                    path: "profile",
+                    path: PATHS.USER.PROFILE,
                     element: withSuspense(<ProfilePage />),
                 },
                 {
-                    path: "security",
+                    path: PATHS.USER.SECURITY,
                     element: withSuspense(<SecurityPage />),
                 },
                 {
-                    path: "activity",
+                    path: PATHS.USER.ACTIVITY,
                     element: withSuspense(<ActivityPage />),
                 },
             ],
