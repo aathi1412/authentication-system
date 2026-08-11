@@ -7,7 +7,7 @@ import {useProfile} from "@/features/account/hooks/useProfile";
 import {useSecurityInfo} from "@/features/account/hooks/useSecurityInfo";
 import {ArrowRight, BadgeCheck, ScrollText, ShieldAlert, ShieldCheck, UserRound,} from "lucide-react";
 import {Link} from "react-router-dom";
-import PATHS from "./paths"
+import PATHS from "../../../routes/paths"
 
 function getInitials(name = "") {
   return name
