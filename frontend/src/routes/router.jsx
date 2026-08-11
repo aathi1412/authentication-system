@@ -110,15 +110,15 @@ export const router = createBrowserRouter([
                     element: withSuspense(<OverviewPage />),
                 },
                 {
-                    path: PATHS.USER.PROFILE,
+                    path: "profile",
                     element: withSuspense(<ProfilePage />),
                 },
                 {
-                    path: PATHS.USER.SECURITY,
+                    path: "security",
                     element: withSuspense(<SecurityPage />),
                 },
                 {
-                    path: PATHS.USER.ACTIVITY,
+                    path: "activity",
                     element: withSuspense(<ActivityPage />),
                 },
             ],
