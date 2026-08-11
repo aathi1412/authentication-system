@@ -2,7 +2,7 @@ import {toast} from "@/components/ui/use-toast";
 import axios from "axios";
 import PATHS from "../routes/paths"
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
+const BASE_URL = "http://localhost:8080/api/auth";
 /** Simple wrapper around localStorage so token storage has one seam to swap out later. */
 export const tokenStorage = {
   getAccessToken: () => localStorage.getItem("sa_access_token"),
@@ -20,9 +20,7 @@ export const tokenStorage = {
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 15000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  withCredentials: true,
 });
 
 // ---- Request interceptor: attach the JWT to every outgoing request ----
