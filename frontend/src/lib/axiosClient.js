@@ -7,13 +7,16 @@ const BASE_URL = "http://localhost:8080/api/auth";
 export const tokenStorage = {
   getAccessToken: () => localStorage.getItem("sa_access_token"),
   getRefreshToken: () => localStorage.getItem("sa_refresh_token"),
-  setTokens: ({ accessToken, refreshToken }) => {
+  getUserResponse: () => localStorage.getItem("userResponse"),
+
+  setTokens: ({ accessToken, userResponse }) => {
     if (accessToken) localStorage.setItem("sa_access_token", accessToken);
-    if (refreshToken) localStorage.setItem("sa_refresh_token", refreshToken);
+    if (userResponse) localStorage.setItem("userResponse", userResponse);
   },
+
   clear: () => {
     localStorage.removeItem("sa_access_token");
-    localStorage.removeItem("sa_refresh_token");
+    localStorage.removeItem("userResponse");
   },
 };
 
@@ -26,6 +29,7 @@ export const apiClient = axios.create({
 // ---- Request interceptor: attach the JWT to every outgoing request ----
 apiClient.interceptors.request.use(
   (config) => {
+      console.log(config);
     const token = tokenStorage.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
