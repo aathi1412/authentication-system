@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {Link, useNavigate} from "react-router-dom";
 import {loginUser} from "../../../lib/authApi"
+import {tokenStorage} from "../../../lib/axiosClient"
 import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
@@ -42,8 +43,9 @@ export function Login() {
                 accessTokenResponse: {accessToken}
             } = response.data;
 
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("userResponse", JSON.stringify(userResponse));
+            tokenStorage.setTokens(accessToken, JSON.stringify(userResponse))
+            // localStorage.setItem("accessToken", accessToken);
+            // localStorage.setItem("userResponse", JSON.stringify(userResponse));
 
             toast.success("Welcome back " + name);
 
