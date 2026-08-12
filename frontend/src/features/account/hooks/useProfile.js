@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import {toast} from "@/components/ui/use-toast";
 
-import { accountApi } from "@/features/account/services/accountApi";
-import { toast } from "@/components/ui/use-toast";
+import {accountApi} from "@/features/account/services/accountApi";
+import {useCallback, useEffect, useState} from "react";
 
 /**
  * Loads the current user's profile and exposes a save() action used by
@@ -18,7 +18,7 @@ export function useProfile() {
     setIsLoading(true);
     setError(null);
     try {
-      const { data } = await accountApi.getProfile();
+      const data = JSON.parse(localStorage.getItem("userResponse"));
       setProfile(data);
     } catch (err) {
       setError(err);
