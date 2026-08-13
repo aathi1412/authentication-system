@@ -1,23 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera } from "lucide-react";
+import {Spinner} from "@/components/Spinner";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Button} from "@/components/ui/button";
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {Textarea} from "@/components/ui/textarea";
 
-import { profileSchema } from "@/features/account/schemas/profileSchema";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Spinner } from "@/components/Spinner";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
+import {profileSchema} from "@/features/account/schemas/profileSchema";
+import {apiClient} from "@/lib/axiosClient"
+import {zodResolver} from "@hookform/resolvers/zod";
+import {Camera} from "lucide-react";
+import {useEffect, useRef, useState} from "react";
+import {useForm} from "react-hook-form";
 
 function getInitials(name = "") {
   return name
@@ -100,15 +93,25 @@ export function ProfileForm({ profile, isSaving, onSave, onCancel }) {
     onCancel?.();
   };
 
+  const handleProfileImage = async (file) => {
+      try{
+          const formData = new FormData();
+          formData.append("image", file);
+
+          await apiClient.post("/users/profile/image", formData);
+      }
+      catch (error) {
+          console.error("Image upload failed:", error);
+      }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave)} className="space-y-6">
         <ProfilePictureField
           name={profile?.name}
           imageUrl={profile?.profileImage}
-          onFileSelect={() => {
-            /* TODO: wire to an image upload endpoint, then PATCH profileImage */
-          }}
+          onFileSelect={handleProfileImage}
         />
 
         <FormField
