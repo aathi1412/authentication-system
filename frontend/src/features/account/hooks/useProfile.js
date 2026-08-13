@@ -20,6 +20,7 @@ export function useProfile() {
     try {
       const data = JSON.parse(localStorage.getItem("userResponse"));
       setProfile(data);
+      console.log("data", data);
     } catch (err) {
       setError(err);
     } finally {
@@ -33,6 +34,8 @@ export function useProfile() {
 
   const saveProfile = useCallback(async (values) => {
     setIsSaving(true);
+      console.log("values");
+    console.log(values, "use");
     try {
       const { data } = await accountApi.updateProfile(values);
       setProfile(data);
