@@ -1,4 +1,4 @@
-package com.aathi.authenticationsystem.dto.response;
+package com.aathi.authenticationsystem.dto.user;
 
 import com.aathi.authenticationsystem.enums.Role;
 import lombok.AllArgsConstructor;
@@ -16,4 +16,7 @@ public class UserResponse {
     private String name;
     private String email;
     private Role role;
+    private String phone;
+    private String bio;
+    private String profileImage;
 }
