@@ -2,7 +2,7 @@ import {toast} from "@/components/ui/use-toast";
 import axios from "axios";
 import PATHS from "../routes/paths"
 
-const BASE_URL = "http://localhost:8080/api/auth";
+const BASE_URL = "http://localhost:8080/api";
 /** Simple wrapper around localStorage so token storage has one seam to swap out later. */
 export const tokenStorage = {
   getAccessToken: () => localStorage.getItem("sa_access_token"),
