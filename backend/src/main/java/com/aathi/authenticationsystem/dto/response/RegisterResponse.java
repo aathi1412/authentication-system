@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.dto.response;
 
+import com.aathi.authenticationsystem.dto.user.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
