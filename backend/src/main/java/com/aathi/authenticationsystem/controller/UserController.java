@@ -1,17 +1,37 @@
 
 package com.aathi.authenticationsystem.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
+import com.aathi.authenticationsystem.dto.user.UserResponse;
+import com.aathi.authenticationsystem.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
-    @GetMapping("/home")
-    public String getHomePage(){
+    private final UserService userService;
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getUser(@Valid UpdateUserRequest request){
+        userService.updateUser(request);
+        return ResponseEntity.ok(new UserResponse());
+    }
+
+    @PutMapping("/me")
+    public String updateUser(){
         return "Welcome Login Successfull!";
+    }
+
+    @PostMapping("/profile/image")
+    public ResponseEntity<?> updateProfileImage(@RequestParam("image")MultipartFile image){
+        userService.updateProfileImage(image);
+        return ResponseEntity.ok(new UserResponse());
     }
 
     @GetMapping("/dashboard")
