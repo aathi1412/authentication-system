@@ -35,12 +35,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     private String phone;
 
     private String bio;
 
-    @Column(nullable = false)
-    private String password;
+    private String profileImage;
 
     @Builder.Default
     @Column(nullable = false)
