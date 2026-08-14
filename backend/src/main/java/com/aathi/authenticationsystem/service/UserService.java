@@ -5,6 +5,7 @@ import com.aathi.authenticationsystem.dto.user.UserResponse;
 import com.aathi.authenticationsystem.exception.UserNotFoundException;
 import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.repository.UserRepository;
+import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,16 +26,35 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    public UserResponse getUserResponse(UpdateUserRequest request){
-        User user = getUserByEmail(request.);
+    public UserResponse getUserResponse(CustomUserDetails userDetails){
+        User user = getUserByEmail(userDetails.getUsername());
+        return mapToUserResponse(user);
     }
 
-    public UserResponse updateUser(@Valid UpdateUserRequest request) {
+    @Transactional
+    public UserResponse updateUser(CustomUserDetails userDetails, @Valid UpdateUserRequest request) {
 
-        User savedUser = userRepository.
+        User savedUser = getUserByEmail(userDetails.getUsername());
+        savedUser.setName(request.getName());
+        savedUser.setPhone(request.getPhone());
+        savedUser.setBio(request.getBio());
+
+        return mapToUserResponse(savedUser);
+    }
+
+    private UserResponse mapToUserResponse(User user) {
+        return UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .role(user.getRole())
+                .phone(user.getPhone())
+                .bio(user.getBio())
+                .build();
     }
 
     public void updateProfileImage(MultipartFile image) {
+
     }
     @Transactional
     public void lockOrUnlockAccount(String email){
