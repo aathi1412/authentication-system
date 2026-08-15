@@ -1,7 +1,6 @@
 import {toast} from "@/components/ui/use-toast";
-
-import {accountApi} from "@/features/account/services/accountApi";
 import {useCallback, useEffect, useState} from "react";
+import apiClient from "../../../lib/axiosClient"
 
 /**
  * Loads the current user's profile and exposes a save() action used by
@@ -18,7 +17,7 @@ export function useProfile() {
     setIsLoading(true);
     setError(null);
     try {
-      const data = JSON.parse(localStorage.getItem("userResponse"));
+      const data = await apiClient.get("/users/me");
       setProfile(data);
       console.log("data", data);
     } catch (err) {
@@ -34,10 +33,8 @@ export function useProfile() {
 
   const saveProfile = useCallback(async (values) => {
     setIsSaving(true);
-      console.log("values");
-    console.log(values, "use");
     try {
-      const { data } = await accountApi.updateProfile(values);
+      const { data } = await apiClient.put("/users/me", values);
       setProfile(data);
       toast({
         variant: "success",
