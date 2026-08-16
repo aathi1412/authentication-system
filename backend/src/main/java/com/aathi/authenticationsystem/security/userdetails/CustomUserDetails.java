@@ -62,4 +62,11 @@ public record CustomUserDetails(User user) implements UserDetails {
     public String getName() {
         return user.getName();
     }
+
+    public String getPhone() {
+        return user.getPhone();
+    }
+    public String getBio() {
+        return user.getBio();
+    }
 }
