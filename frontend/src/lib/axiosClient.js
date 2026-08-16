@@ -6,7 +6,6 @@ const BASE_URL = "http://localhost:8080/api";
 /** Simple wrapper around localStorage so token storage has one seam to swap out later. */
 export const tokenStorage = {
   getAccessToken: () => localStorage.getItem("sa_access_token"),
-  getRefreshToken: () => localStorage.getItem("sa_refresh_token"),
   getUserResponse: () => localStorage.getItem("userResponse"),
 
   setTokens: ({ accessToken, userResponse }) => {
@@ -74,16 +73,11 @@ apiClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = tokenStorage.getRefreshToken();
-        if (!refreshToken) throw new Error("No refresh token available");
 
-        const { data } = await axios.post(`${BASE_URL}/auth/refresh`, {
-          refreshToken,
-        });
+        const { data } = await apiClient.post(`/auth/refresh`);
 
         tokenStorage.setTokens({
           accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
         });
         flushQueue(null, data.accessToken);
 
