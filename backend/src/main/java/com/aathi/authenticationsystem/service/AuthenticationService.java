@@ -168,6 +168,7 @@ public class AuthenticationService {
         );
     }
 
+    @Transactional
     public RefreshResult refresh(String token){
         RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(token);
 
