@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
-import {registerUser} from "../../../api/authApi";
+import {registerUser} from "../../../lib/authApi";
 import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch";
 import Button from "../components/Button";
