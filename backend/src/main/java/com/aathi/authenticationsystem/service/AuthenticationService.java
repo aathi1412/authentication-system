@@ -278,29 +278,4 @@ public class AuthenticationService {
                 .message("Password Reset Successfully")
                 .build();
     }
-
-    @Transactional
-    public ApiResponse changePassword(String oldPassword, String newPassword, CustomUserDetails userDetails) {
-
-        User user = userRepository.findById(userDetails.getId())
-                            .orElseThrow(() -> new UserNotFoundException("User Not Found!"));
-
-        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
-            log.info("Invalid Password for {}", user.getEmail());
-            throw new InvalidCredentialsException("Invalid Password!");
-        }
-
-        user.setPassword(passwordEncoder.encode(newPassword));
-        log.info("new password encoded and saved for {}", user.getEmail());
-
-        log.info("Password Changed Successfully for {}", user.getEmail());
-
-        return ApiResponse.builder()
-                .timeStamp(Instant.now())
-                .status(HttpStatus.OK.value())
-                .error(HttpStatus.OK.getReasonPhrase())
-                .message("Password Changed Successfully!")
-                .build();
-
-    }
 }
