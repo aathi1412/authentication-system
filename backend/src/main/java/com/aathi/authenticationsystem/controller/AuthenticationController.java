@@ -118,12 +118,4 @@ public class AuthenticationController {
                 .body(Response);
     }
 
-    @PostMapping("/change-password")
-    public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails userDetails){
-        ApiResponse response = authenticationService.changePassword(request.oldPassword(), request.newPassword(), userDetails);
-
-        return ResponseEntity
-                .ok()
-                .body(response);
-    }
 }
