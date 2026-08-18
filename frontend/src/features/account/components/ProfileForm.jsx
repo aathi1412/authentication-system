@@ -88,6 +88,8 @@ export function ProfileForm({ profile, isSaving, onSave, onCancel }) {
     });
   }, [profile]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    // console.log(profile?.name);
+    // console.log(profile?.data);
   const handleCancel = () => {
     form.reset();
     onCancel?.();
