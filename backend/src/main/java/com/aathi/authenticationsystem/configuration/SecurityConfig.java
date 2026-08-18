@@ -56,7 +56,7 @@ public class SecurityConfig {
                                          "/api/auth/forgot-password",
                                          "/api/auth/reset-password"
                         ).permitAll()
-                        .requestMatchers("/api/users/me").authenticated()
+                        .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers("/api/admin/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
                         .anyRequest().authenticated()
                 )
