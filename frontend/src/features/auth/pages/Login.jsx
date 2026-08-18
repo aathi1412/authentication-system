@@ -43,11 +43,12 @@ export function Login() {
                 accessTokenResponse: {accessToken}
             } = response.data;
 
-            tokenStorage.setTokens(accessToken, JSON.stringify(userResponse))
-            // localStorage.setItem("accessToken", accessToken);
-            // localStorage.setItem("userResponse", JSON.stringify(userResponse));
+            tokenStorage.setTokens({
+                accessToken,
+                userResponse: JSON.stringify(userResponse)}
+            );
 
-            toast.success("Welcome back " + name);
+            toast.success("Welcome back " + userResponse.name);
 
             reset()
             console.log(response.data);
