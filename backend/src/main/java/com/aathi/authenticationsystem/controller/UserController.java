@@ -1,6 +1,8 @@
 
 package com.aathi.authenticationsystem.controller;
 
+import com.aathi.authenticationsystem.dto.request.ChangePasswordRequest;
+import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
@@ -28,6 +30,15 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@AuthenticationPrincipal CustomUserDetails userDetails,
                                                    @Valid @RequestBody UpdateUserRequest request){
         return ResponseEntity.ok(userService.updateUser(userDetails, request));
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails userDetails){
+        ApiResponse response = userService.changePassword(request.oldPassword(), request.newPassword(), userDetails);
+
+        return ResponseEntity
+                .ok()
+                .body(response);
     }
 
     @PostMapping("/profile/image")
