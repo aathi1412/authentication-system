@@ -17,9 +17,8 @@ export function useProfile() {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await apiClient.get("/users/me");
+      const { data } = await apiClient.get("/users/me");
       setProfile(data);
-      console.log("data", data);
     } catch (err) {
       setError(err);
     } finally {
