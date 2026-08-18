@@ -28,7 +28,6 @@ export const apiClient = axios.create({
 // ---- Request interceptor: attach the JWT to every outgoing request ----
 apiClient.interceptors.request.use(
   (config) => {
-      console.log(config);
     const token = tokenStorage.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -57,7 +56,15 @@ apiClient.interceptors.response.use(
     const status = error.response?.status;
 
     // Attempt a single silent token refresh on 401s (skip the refresh endpoint itself).
-    if (status === 401 && !originalRequest?._retry && !originalRequest?.url?.includes("/auth/refresh")) {
+      const isAuthRequest = (url = "") =>
+          url.includes("/auth/login") ||
+          url.includes("/auth/register") ||
+          url.includes("/auth/refresh");
+
+    if (status === 401 &&
+        !originalRequest?._retry &&
+        !isAuthRequest(originalRequest?.url)) { //!originalRequest?.url?.includes("/auth/refresh")
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           pendingQueue.push({ resolve, reject });
