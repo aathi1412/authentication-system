@@ -1,5 +1,5 @@
-import { apiClient } from "@/lib/axiosClient";
-import { mockAccountApi } from "@/features/account/services/mockData";
+import {mockAccountApi} from "@/features/account/services/mockData";
+import {apiClient} from "@/lib/axiosClient";
 
 // Toggle with VITE_USE_MOCKS=false once the real IAM backend is available.
 // Defaults to true so the module is demoable immediately after install.
@@ -10,13 +10,6 @@ const USE_MOCKS = import.meta.env.VITE_USE_MOCKS !== "false";
  * components/hooks so the UI never talks to Axios directly.
  */
 export const accountApi = {
-  getProfile: () =>
-    USE_MOCKS ? mockAccountApi.getProfile() : apiClient.get("/users/me"),
-
-  updateProfile: (payload) =>
-    USE_MOCKS
-      ? mockAccountApi.updateProfile(payload)
-      : apiClient.put("/users/me", payload),
 
   changePassword: (payload) =>
     USE_MOCKS
