@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import {toast} from "@/components/ui/use-toast";
+import {useCallback, useState} from "react";
+import apiClient from "../../../lib/axiosClient"
 
-import { accountApi } from "@/features/account/services/accountApi";
-import { toast } from "@/components/ui/use-toast";
 
 /** Encapsulates the change-password request + its loading/error state. */
 export function useChangePassword() {
@@ -10,7 +10,7 @@ export function useChangePassword() {
   const changePassword = useCallback(async ({ currentPassword, newPassword }) => {
     setIsSubmitting(true);
     try {
-      await accountApi.changePassword({ currentPassword, newPassword });
+      await apiClient.put("/change-password", );
       toast({
         variant: "success",
         title: "Password updated",
