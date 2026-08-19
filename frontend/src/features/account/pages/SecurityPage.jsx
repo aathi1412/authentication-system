@@ -1,28 +1,13 @@
-import {
-  MailCheck,
-  MailWarning,
-  ShieldCheck,
-  Lock,
-  LockOpen,
-  ShieldAlert,
-  Clock,
-  CalendarDays,
-} from "lucide-react";
+import {Badge} from "@/components/ui/badge";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card";
+import {Skeleton} from "@/components/ui/skeleton";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {AccountCard} from "@/features/account/components/AccountCard";
+import {PasswordForm} from "@/features/account/components/PasswordForm";
 
-import { useChangePassword } from "@/features/account/hooks/useChangePassword";
-import { useSecurityInfo } from "@/features/account/hooks/useSecurityInfo";
-import { PasswordForm } from "@/features/account/components/PasswordForm";
-import { AccountCard } from "@/features/account/components/AccountCard";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {useChangePassword} from "@/features/account/hooks/useChangePassword";
+import {useSecurityInfo} from "@/features/account/hooks/useSecurityInfo";
+import {CalendarDays, Clock, Lock, LockOpen, MailCheck, MailWarning, ShieldAlert, ShieldCheck,} from "lucide-react";
 
 function formatDateTime(iso) {
   if (!iso) return "—";
@@ -96,6 +81,7 @@ export default function SecurityPage() {
   const { changePassword, isSubmitting } = useChangePassword();
   const { security, isLoading: securityLoading } = useSecurityInfo();
 
+    console.log(changePassword);
   return (
     <div className="space-y-6">
       <div>
