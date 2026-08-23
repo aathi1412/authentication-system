@@ -107,8 +107,6 @@ public class UserService {
                         user.setFailedAttempts(0);
                         user.setLockTime(null);
                     }
-
-
                 });
 
     }
