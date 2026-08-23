@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-
-import { accountApi } from "@/features/account/services/accountApi";
+import {accountApi} from "@/features/account/services/accountApi";
+import {useCallback, useEffect, useState} from "react";
 
 /** Loads the read-only security summary shown on the Security page. */
 export function useSecurityInfo() {
@@ -22,6 +21,7 @@ export function useSecurityInfo() {
   }, []);
 
   useEffect(() => {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchSecurity();
   }, [fetchSecurity]);
 
