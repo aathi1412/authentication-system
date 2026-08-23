@@ -1,11 +1,11 @@
+import {loginUser} from "@/lib/authApi"
+import {tokenStorage} from "@/lib/axiosClient"
+import PATHS from "@/routes/paths"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import {Link, useNavigate} from "react-router-dom";
-import {loginUser} from "../../../lib/authApi"
-import {tokenStorage} from "../../../lib/axiosClient"
-import PATHS from "../../../routes/paths"
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
 import Email from "../components/Email.jsx";
