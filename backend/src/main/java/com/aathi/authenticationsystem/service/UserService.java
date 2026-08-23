@@ -1,6 +1,7 @@
 package com.aathi.authenticationsystem.service;
 
 import com.aathi.authenticationsystem.dto.response.ApiResponse;
+import com.aathi.authenticationsystem.dto.user.SecurityResponse;
 import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
 import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
@@ -54,6 +55,11 @@ public class UserService {
         return mapToUserResponse(savedUser);
     }
 
+    public SecurityResponse getSecurityDetails(CustomUserDetails userDetails) {
+        User  user = getUserByEmail(userDetails.getUsername());
+        return mapToSecurityResponse(user);
+    }
+
     @Transactional
     public ApiResponse changePassword(String oldPassword, String newPassword, CustomUserDetails userDetails) {
 
@@ -88,6 +94,16 @@ public class UserService {
                 .build();
     }
 
+    public SecurityResponse mapToSecurityResponse(User user) {
+        return SecurityResponse.builder()
+                .emailVerified(user.isEnabled())
+                .role(user.getRole().name())
+                .accountLocked(user.isAccountLocked())
+                .failedAttempts(user.getFailedAttempts())
+                .lastLogin(user.getLastLogin())
+                .createdAt(user.getCreatedAt())
+                .build();
+    }
     public void updateProfileImage(MultipartFile image) {
 
     }
