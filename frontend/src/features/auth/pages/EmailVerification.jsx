@@ -1,10 +1,10 @@
+import useCountDown from "@/hooks/useCountDown"
+import PATHS from '@/routes/paths'
+import {BASE_PATH_AUTH} from "@/utils/constants";
 import axios from "axios";
 import toast from "react-hot-toast";
 import {FaCircleCheck} from "react-icons/fa6";
 import {useSearchParams} from "react-router-dom";
-import useCountDown from "../../../hooks/useCountDown"
-import PATHS from '../../../routes/paths'
-import {BASE_PATH_AUTH} from "../../../utils/constants";
 import AuthSwitch from "../components/AuthSwitch";
 import Button from "../components/Button.jsx";
 
