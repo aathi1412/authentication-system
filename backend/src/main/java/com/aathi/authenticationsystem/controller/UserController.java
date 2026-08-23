@@ -3,6 +3,7 @@ package com.aathi.authenticationsystem.controller;
 
 import com.aathi.authenticationsystem.dto.request.ChangePasswordRequest;
 import com.aathi.authenticationsystem.dto.response.ApiResponse;
+import com.aathi.authenticationsystem.dto.user.SecurityResponse;
 import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
@@ -30,6 +31,12 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@AuthenticationPrincipal CustomUserDetails userDetails,
                                                    @Valid @RequestBody UpdateUserRequest request){
         return ResponseEntity.ok(userService.updateUser(userDetails, request));
+    }
+
+    @GetMapping("/security")
+    public ResponseEntity<SecurityResponse> getSecurityDetails(@AuthenticationPrincipal CustomUserDetails userDetails){
+        return ResponseEntity
+                .ok(userService.getSecurityDetails(userDetails));
     }
 
     @PutMapping("/change-password")
