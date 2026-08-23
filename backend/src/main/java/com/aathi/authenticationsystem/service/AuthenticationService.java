@@ -146,6 +146,8 @@ public class AuthenticationService {
         log.info("Login Successful for user {}", request.getEmail());
 
         userService.resetFailedLoginAttempt(request.getEmail());
+        customUserDetails.user().setLastLogin(Instant.now());
+        userRepository.save(customUserDetails.user());
 
         return new LoginResult(
                 LoginResponse.builder()
