@@ -10,7 +10,7 @@ export function useChangePassword() {
   const changePassword = useCallback(async ({ currentPassword, newPassword }) => {
     setIsSubmitting(true);
     try {
-      await apiClient.put("/change-password", );
+      await apiClient.put("/users/change-password", {currentPassword, newPassword});
       toast({
         variant: "success",
         title: "Password updated",
