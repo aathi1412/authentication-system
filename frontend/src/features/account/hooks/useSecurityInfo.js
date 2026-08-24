@@ -1,4 +1,4 @@
-import {accountApi} from "@/features/account/services/accountApi";
+import apiClient from "@/lib/axiosClient";
 import {useCallback, useEffect, useState} from "react";
 
 /** Loads the read-only security summary shown on the Security page. */
@@ -11,7 +11,7 @@ export function useSecurityInfo() {
     setIsLoading(true);
     setError(null);
     try {
-      const { data } = await accountApi.getSecurityInfo();
+      const { data } = await apiClient.get("/users/security");
       setSecurity(data);
     } catch (err) {
       setError(err);
