@@ -76,16 +76,6 @@ function buildMockActivity(total = 47) {
 const MOCK_ACTIVITY = buildMockActivity();
 
 export const mockAccountApi = {
-  async getProfile() {
-    await wait(500);
-    return { data: mockUser };
-  },
-
-  async updateProfile(payload) {
-    await wait(700);
-    mockUser = { ...mockUser, ...payload };
-    return { data: mockUser };
-  },
 
   async changePassword() {
     await wait(800);
