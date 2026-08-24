@@ -31,6 +31,7 @@ apiClient.interceptors.request.use(
       const isAuth = config.url?.startsWith("/auth/");
       if (isAuth) { return config; }
 
+      console.log("done")
     const token = tokenStorage.getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
