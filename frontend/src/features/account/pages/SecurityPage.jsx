@@ -81,7 +81,6 @@ export default function SecurityPage() {
   const { changePassword, isSubmitting } = useChangePassword();
   const { security, isLoading: securityLoading } = useSecurityInfo();
 
-    console.log(changePassword);
   return (
     <div className="space-y-6">
       <div>
