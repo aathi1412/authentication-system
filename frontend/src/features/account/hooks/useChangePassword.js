@@ -1,6 +1,6 @@
 import {toast} from "@/components/ui/use-toast";
+import apiClient from "@/lib/axiosClient"
 import {useCallback, useState} from "react";
-import apiClient from "../../../lib/axiosClient"
 
 
 /** Encapsulates the change-password request + its loading/error state. */
