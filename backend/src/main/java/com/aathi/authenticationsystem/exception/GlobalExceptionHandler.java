@@ -38,6 +38,21 @@ public class GlobalExceptionHandler extends RuntimeException{
                 .body(error);
     }
 
+    @ExceptionHandler(AccountLockedException.class)
+    public ResponseEntity<ApiResponse> handleAccountLockedException(AccountLockedException ex){
+
+        ApiResponse error = ApiResponse.builder()
+                .timeStamp(Instant.now())
+                .status(HttpStatus.LOCKED.value())
+                .error(HttpStatus.LOCKED.getReasonPhrase())
+                .message(ex.getMessage())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.LOCKED)
+                .body(error);
+    }
+
     @ExceptionHandler(AccountNotVerifiedException.class)
     public ResponseEntity<ApiResponse> handleAccountNotVerifiedException(AccountNotVerifiedException ex){
         ApiResponse error = ApiResponse.builder()
