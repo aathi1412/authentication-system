@@ -25,10 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -125,7 +122,13 @@ public class AuthenticationService {
         } catch (DisabledException ex){
             log.error("Account Not Verified for user {}", request.getEmail());
             throw new AccountNotVerifiedException("Account Not Verified, Please Verify with Email.");
-        } catch (BadCredentialsException ex){
+        } catch (LockedException ex) {
+
+            log.error("Account is locked for user {}", request.getEmail());
+
+            throw new AccountLockedException("Your account is locked. Please try again later or contact support.");
+
+        }catch (BadCredentialsException ex){
             log.error("invalid Email or Password, error: {}", ex.getMessage());
 
             userService.increaseFailedLoginAttempt(request.getEmail());
@@ -145,7 +148,7 @@ public class AuthenticationService {
 
         log.info("Login Successful for user {}", request.getEmail());
 
-        userService.resetFailedLoginAttempt(request.getEmail());
+//        userService.resetFailedLoginAttempt(request.getEmail());
         customUserDetails.user().setLastLogin(Instant.now());
         userRepository.save(customUserDetails.user());
 
