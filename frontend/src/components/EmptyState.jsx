@@ -1,10 +1,11 @@
-import { cn } from "@/lib/utils";
+import {cn} from "@/lib/utils";
 
 /**
  * Generic empty-state block: icon, headline, short supporting copy, and an
  * optional action. Used whenever a list or search has nothing to show.
  */
 export function EmptyState({ icon: Icon, title, description, action, className }) {
+    console.log(description, title);
   return (
     <div
       className={cn(
