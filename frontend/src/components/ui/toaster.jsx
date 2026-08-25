@@ -1,17 +1,18 @@
 import {
-  Toast,
-  ToastClose,
-  ToastDescription,
-  ToastIcon,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
+    Toast,
+    ToastClose,
+    ToastDescription,
+    ToastIcon,
+    ToastProvider,
+    ToastTitle,
+    ToastViewport,
 } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
+import {useToast} from "@/components/ui/use-toast";
 
 export function Toaster() {
   const { toasts } = useToast();
 
+  console.log(toasts);
   return (
     <ToastProvider>
       {toasts.map(({ id, title, description, action, variant, ...props }) => (
