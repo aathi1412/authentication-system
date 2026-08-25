@@ -41,8 +41,7 @@ public class UserController {
 
     @PutMapping("/change-password")
     public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest request, @AuthenticationPrincipal CustomUserDetails userDetails){
-        ApiResponse response = userService.changePassword(request.oldPassword(), request.newPassword(), userDetails);
-        System.out.println("hes");
+        ApiResponse response = userService.changePassword(request.currentPassword(), request.newPassword(), userDetails);
         return ResponseEntity
                 .ok()
                 .body(response);
