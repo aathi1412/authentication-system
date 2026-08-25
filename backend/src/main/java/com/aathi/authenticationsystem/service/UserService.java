@@ -61,11 +61,14 @@ public class UserService {
     }
 
     @Transactional
-    public ApiResponse changePassword(String oldPassword, String newPassword, CustomUserDetails userDetails) {
+    public ApiResponse changePassword(String currentPassword, String newPassword, CustomUserDetails userDetails) {
 
         User user = getUserById(userDetails.getId());
 
-        if(!passwordEncoder.matches(oldPassword, user.getPassword())){
+        System.out.println("oldPassword" + currentPassword);
+        System.out.println("newPassword" + newPassword);
+
+        if(!passwordEncoder.matches(currentPassword, user.getPassword())){
             log.info("Invalid Password for {}", user.getEmail());
             throw new InvalidCredentialsException("Invalid Password!");
         }
