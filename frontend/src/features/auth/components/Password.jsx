@@ -23,8 +23,8 @@ export function Password({
                         {...register(name)}
                         className="bg-white placeholder:text-sm pl-10 w-full
                             border border-gray-300 outline-none rounded-md py-2 px-2 pr-10 mb-1
-                            transition-all duration-200 hover:shadow-md hover:bg-gray-100 hover:border-blue-600
-                             focus:border-blue-600 focus:ring-2 focus:ring-blue-200 focus:shadow-lg "
+                            transition-all duration-200 hover:shadow-md hover:bg-gray-100 hover:border-gray-600
+                             focus:border-gray-600 focus:ring-2 focus:ring-gray-200 focus:shadow-lg "
                     />
                     <button
                         type="button"
