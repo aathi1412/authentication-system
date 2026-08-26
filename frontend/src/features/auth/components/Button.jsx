@@ -15,8 +15,9 @@ export function Button({
                      font-bold
                       rounded-lg
                      w-full py-3
-                     text-white bg-[#2f6fed]
-                     hover:bg-blue-700
+                     text-white
+                      bg-black
+                     hover:bg-gray-500
                      transition-colors
                      disabled:opacity-60
                      disabled:cursor-not-allowed
