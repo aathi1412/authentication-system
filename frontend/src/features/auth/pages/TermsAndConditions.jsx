@@ -11,10 +11,9 @@ export function TermsAndConditions({register, errors}) {
                     {...register("acceptedTerms")}
                     className="
                          mt-1 h-4 w-4 rounded
+                         accent-gray-500
                         border-gray-300
-                        text-blue-600
-                        focus:ring-2
-                        focus:ring-blue-500
+                        text-gray-600
                     "
                 />
                 <span>
@@ -24,9 +23,10 @@ export function TermsAndConditions({register, errors}) {
                         onClick={() => setOpen(!open)}
                         className="
                             font-medium
-                            text-blue-600
-                            hover:text-blue-700
-                            hover:underline
+                            text-black-900
+                            underline
+                            hover:text-gray-700
+                            hover:underline-offset-4
                         "
                     >
                         Read our Terms and Conditions
