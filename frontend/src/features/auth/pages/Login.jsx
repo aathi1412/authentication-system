@@ -85,7 +85,7 @@ export function Login() {
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="checkbox"
-                                className="accent-blue-600 cursor-pointer hover:scale-110 transition"
+                                className="accent-gray-600 cursor-pointer hover:scale-110 transition"
                             />
                             <span className="text-[13px] text-gray-600">
                               Keep me signed in
@@ -94,7 +94,7 @@ export function Login() {
 
                         <Link
                             to={PATHS.AUTH.FORGOT_PASSWORD}
-                            className="text-[13px] font-semibold text-[#3172ed] hover:underline active:text-blue-300"
+                            className="text-[13px] font-semibold text-black underline hover:underline-offset-4 active:text-gray-500"
                         >
                             Forgot Password?
                         </Link>
