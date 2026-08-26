@@ -12,7 +12,7 @@ export function AuthSwitch({
                 {children}
                 <Link
                     to={path}
-                    className="text-[#3172ed] font-semibold hover:underline active:text-blue-300"
+                    className="text-black underline decoration-2 hover:underline-offset-4 font-semibold active:text-gray-500"
                 >
                     {doAction}
                 </Link>
