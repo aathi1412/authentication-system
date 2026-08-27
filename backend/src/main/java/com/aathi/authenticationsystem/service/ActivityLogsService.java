@@ -4,16 +4,20 @@ import com.aathi.authenticationsystem.models.ActivityLogs;
 import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.repository.ActivityLogsRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ActivityLogsService {
 
     private final ActivityLogsRepository activityLogsRepository;
+    private final UserService userService;
 
-    public void saveActivityLog(User user, String title, String description, String type, String category){
+    public void saveActivityLog(Long userId, String title, String description, String type, String category){
 
+        User user = userService.getUserById(userId);
         ActivityLogs activityLogs = ActivityLogs.builder()
                 .user(user)
                 .type(type)
@@ -23,5 +27,6 @@ public class ActivityLogsService {
                 .build();
 
         activityLogsRepository.save(activityLogs);
+        log.info("ActivityLogs saved successfully");
     }
 }
