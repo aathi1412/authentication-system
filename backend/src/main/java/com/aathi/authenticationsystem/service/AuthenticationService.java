@@ -54,6 +54,7 @@ public class AuthenticationService {
     private final EmailService emailService;
     private final EmailValidationService emailValidationService;
     private final PasswordResetTokenService passwordResetTokenService;
+    private final ActivityLogsService activityLogsService;
 
     @Transactional
     public RegisterResponse registerUser(RegisterRequest request){
@@ -147,6 +148,8 @@ public class AuthenticationService {
         log.info("refresh token generated");
 
         log.info("Login Successful for user {}", request.getEmail());
+
+        activityLogsService.saveActivityLog(customUserDetails.getId(), "Logged in", "login successful", "LOGIN_SUCCESS","Authentication");
 
 //        userService.resetFailedLoginAttempt(request.getEmail());
         customUserDetails.user().setLastLogin(Instant.now());
