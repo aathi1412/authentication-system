@@ -149,7 +149,7 @@ public class AuthenticationService {
 
         log.info("Login Successful for user {}", request.getEmail());
 
-        activityLogsService.saveActivityLog(customUserDetails.getId(), "Logged in", "login successful", "LOGIN_SUCCESS","Authentication");
+        activityLogsService.saveActivityLog(customUserDetails.getId(), "Logged in", "login successful","Authentication");
 
 //        userService.resetFailedLoginAttempt(request.getEmail());
         customUserDetails.user().setLastLogin(Instant.now());
