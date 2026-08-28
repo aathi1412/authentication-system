@@ -1,14 +1,18 @@
 package com.aathi.authenticationsystem.models;
 
+import com.aathi.authenticationsystem.enums.ActivityCategory;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ActivityLogs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +23,8 @@ public class ActivityLogs {
     private User user;
 
     @Column(nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ActivityCategory category;
 
     @Column(nullable = false)
     private String title;
@@ -27,6 +32,6 @@ public class ActivityLogs {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private String category;
+    @CreationTimestamp
+    private Instant activityTime;
 }
