@@ -1,22 +1,17 @@
-import {
-  LogIn,
-  KeyRound,
-  UserRoundPen,
-  MailCheck,
-  ShieldAlert,
-  RotateCcw,
-  Activity,
-} from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
+import {Badge} from "@/components/ui/badge";
+import {Activity, KeyRound, LogIn, MailCheck, RotateCcw, ShieldAlert, UserRoundPen} from "lucide-react";
 
 const TYPE_META = {
-  LOGIN: { icon: LogIn, tone: "secondary" },
-  PASSWORD_CHANGE: { icon: KeyRound, tone: "success" },
+  LOGIN_SUCCESS: { icon: LogIn, tone: "secondary" },
+  PASSWORD_CHANGED: { icon: KeyRound, tone: "success" },
   PROFILE_UPDATE: { icon: UserRoundPen, tone: "secondary" },
   EMAIL_VERIFIED: { icon: MailCheck, tone: "success" },
-  FAILED_LOGIN: { icon: ShieldAlert, tone: "destructive" },
+  LOGIN_FAILED: { icon: ShieldAlert, tone: "destructive" },
   PASSWORD_RESET: { icon: RotateCcw, tone: "warning" },
+  PASSWORD_RESET_REQUESTED: { icon: RotateCcw, tone: "warning" },
+  LOGOUT: { icon: LogIn, tone: "secondary" },
+  ACCOUNT_CREATED: { icon: LogIn, tone: "secondary" },
+  EMAIL_VERIFICATION_FAILED: { icon: MailCheck, tone: "destructive" }
 };
 
 const CATEGORY_BADGE_VARIANT = {
