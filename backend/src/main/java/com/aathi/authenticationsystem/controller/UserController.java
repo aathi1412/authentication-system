@@ -7,9 +7,11 @@ import com.aathi.authenticationsystem.dto.user.SecurityResponse;
 import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
+import com.aathi.authenticationsystem.service.ActivityLogsService;
 import com.aathi.authenticationsystem.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private final UserService userService;
+    private final ActivityLogsService activityLogsService;
 
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getUser(@AuthenticationPrincipal CustomUserDetails userDetails){
@@ -51,6 +54,21 @@ public class UserController {
     public ResponseEntity<?> updateProfileImage(@RequestParam("image")MultipartFile image){
         userService.updateProfileImage(image);
         return ResponseEntity.ok(new UserResponse());
+    }
+
+    @GetMapping("/activity")
+    public Page<?> getActivityLogs(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "0") int pageSize,
+                                   @RequestParam(required = false) String search,
+                                   @RequestParam(required = false) String category,
+                                   @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        activityLogsService.getActivities(
+                customUserDetails.getId(),
+                page,
+                pageSize,
+                search,
+                category);
     }
 
     @GetMapping("/dashboard")
