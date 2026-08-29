@@ -1,6 +1,7 @@
 package com.aathi.authenticationsystem.models;
 
 import com.aathi.authenticationsystem.enums.ActivityCategory;
+import com.aathi.authenticationsystem.enums.ActivityType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,10 @@ public class ActivityLogs {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ActivityCategory category;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ActivityType type;
 
     @Column(nullable = false)
     private String title;
