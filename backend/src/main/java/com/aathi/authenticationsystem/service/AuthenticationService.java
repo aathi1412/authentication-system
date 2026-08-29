@@ -10,6 +10,8 @@ import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import com.aathi.authenticationsystem.dto.response.LoginResponse;
 import com.aathi.authenticationsystem.dto.response.RegisterResponse;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
+import com.aathi.authenticationsystem.enums.ActivityCategory;
+import com.aathi.authenticationsystem.enums.ActivityType;
 import com.aathi.authenticationsystem.enums.Role;
 import com.aathi.authenticationsystem.enums.VerificationStatus;
 import com.aathi.authenticationsystem.exception.*;
@@ -98,6 +100,14 @@ public class AuthenticationService {
         log.info("verification Email sent to {}", user.getEmail());
         log.info("Registration Successful for user {}", request.getEmail());
 
+        activityLogsService.saveActivityLog(
+                savedUser.getId(),
+                "User Register",
+                ActivityType.ACCOUNT_CREATED,
+                "Register successful",
+                ActivityCategory.AUTHENTICATION
+        );
+
         UserResponse response = UserResponse.builder()
                 .id(savedUser.getId())
                 .name(savedUser.getName())
@@ -114,6 +124,7 @@ public class AuthenticationService {
     public LoginResult login(LoginRequest request){
 
         userService.lockOrUnlockAccount(request.getEmail());
+        User user = userService.getUserByEmail(request.getEmail());
 
         Authentication authentication;
         try {
@@ -122,11 +133,24 @@ public class AuthenticationService {
             );
         } catch (DisabledException ex){
             log.error("Account Not Verified for user {}", request.getEmail());
+            activityLogsService.saveActivityLog(
+                    user.getId(),
+                    "Email Not Verified",
+                    ActivityType.EMAIL_VERIFICATION_FAILED,
+                    "Account Not Verified",
+                    ActivityCategory.AUTHENTICATION
+            );
             throw new AccountNotVerifiedException("Account Not Verified, Please Verify with Email.");
         } catch (LockedException ex) {
 
             log.error("Account is locked for user {}", request.getEmail());
-
+            activityLogsService.saveActivityLog(
+                    user.getId(),
+                    "Account Locked",
+                    ActivityType.ACCOUNT_LOCKED,
+                    "Account Locked, too many failed login attempts",
+                    ActivityCategory.AUTHENTICATION
+            );
             throw new AccountLockedException("Your account is locked. Please try again later or contact support.");
 
         }catch (BadCredentialsException ex){
@@ -135,6 +159,14 @@ public class AuthenticationService {
             userService.increaseFailedLoginAttempt(request.getEmail());
 
             log.info("login attempt failed for user : {}", ex.getMessage());
+
+            activityLogsService.saveActivityLog(
+                    user.getId(),
+                    "Log in Failed",
+                    ActivityType.LOGIN_FAILED,
+                    "Incorrect password entered from an unrecognized device",
+                    ActivityCategory.AUTHENTICATION
+            );
 
             throw new InvalidCredentialsException("Invalid Email or Password");
         }
@@ -149,9 +181,14 @@ public class AuthenticationService {
 
         log.info("Login Successful for user {}", request.getEmail());
 
-        activityLogsService.saveActivityLog(customUserDetails.getId(), "Logged in", "login successful","Authentication");
+        activityLogsService.saveActivityLog(
+                customUserDetails.getId(),
+                "Logged in",
+                ActivityType.LOGIN_SUCCESS,
+                "login successful",
+                ActivityCategory.AUTHENTICATION
+        );
 
-//        userService.resetFailedLoginAttempt(request.getEmail());
         customUserDetails.user().setLastLogin(Instant.now());
         userRepository.save(customUserDetails.user());
 
