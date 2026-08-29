@@ -1,6 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-
-import { accountApi } from "@/features/account/services/accountApi";
+import {useCallback, useEffect, useRef, useState} from "react";
 
 const PAGE_SIZE = 10;
 
@@ -28,12 +26,10 @@ export function useActivityLogs({ search, category }) {
       setError(null);
 
       try {
-        const { data } = await accountApi.getActivityLogs({
-          page: pageToLoad,
-          size: PAGE_SIZE,
-          search,
-          category,
+        const { data } = await apiClient.get("/users/activity", {
+            params: { pageToLoad, PAGE_SIZE, search: search || undefined, category },
         });
+        console.log(data);
 
         if (currentRequestId !== requestId.current) return; // stale response
 
