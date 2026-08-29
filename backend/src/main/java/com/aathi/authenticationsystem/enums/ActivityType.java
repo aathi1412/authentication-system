@@ -1,0 +1,15 @@
+package com.aathi.authenticationsystem.enums;
+
+public enum ActivityType {
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    LOGOUT,
+    EMAIL_VERIFIED,
+    EMAIL_VERIFICATION_FAILED,
+    PASSWORD_RESET,
+    PASSWORD_RESET_REQUESTED,
+    PASSWORD_CHANGED,
+    PROFILE_UPDATED,
+    ACCOUNT_CREATED,
+    ACCOUNT_LOCKED
+}
