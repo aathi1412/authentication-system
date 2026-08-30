@@ -3,6 +3,7 @@ package com.aathi.authenticationsystem.controller;
 
 import com.aathi.authenticationsystem.dto.request.ChangePasswordRequest;
 import com.aathi.authenticationsystem.dto.response.ApiResponse;
+import com.aathi.authenticationsystem.dto.user.ActivityLogResponse;
 import com.aathi.authenticationsystem.dto.user.SecurityResponse;
 import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
@@ -57,32 +58,17 @@ public class UserController {
     }
 
     @GetMapping("/activity")
-    public Page<?> getActivityLogs(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "0") int pageSize,
-                                   @RequestParam(required = false) String search,
-                                   @RequestParam(required = false) String category,
-                                   @AuthenticationPrincipal CustomUserDetails customUserDetails
+    public Page<ActivityLogResponse> getActivityLogs(@RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "0") int pageSize,
+                                                     @RequestParam(required = false) String search,
+                                                     @RequestParam(required = false) String category,
+                                                     @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
-        activityLogsService.getActivities(
+        return activityLogsService.getActivities(
                 customUserDetails.getId(),
                 page,
                 pageSize,
                 search,
                 category);
-    }
-
-    @GetMapping("/dashboard")
-    public String getDashboard(){
-        return "Dashboard!";
-    }
-
-    @GetMapping("/about")
-    public String getAbout(){
-        return "About!";
-    }
-
-    @GetMapping("/contact")
-    public String getContact(){
-        return "Contact!";
     }
 }
