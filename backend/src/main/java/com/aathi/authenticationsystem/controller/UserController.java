@@ -58,8 +58,8 @@ public class UserController {
     }
 
     @GetMapping("/activity")
-    public Page<ActivityLogResponse> getActivityLogs(@RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "0") int pageSize,
+    public Page<ActivityLogResponse> getActivityLogs(@RequestParam(defaultValue = "1") int page,
+                                                     @RequestParam(defaultValue = "10") int pageSize,
                                                      @RequestParam(required = false) String search,
                                                      @RequestParam(required = false) String category,
                                                      @AuthenticationPrincipal CustomUserDetails customUserDetails
