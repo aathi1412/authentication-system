@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.service;
 
+import com.aathi.authenticationsystem.dto.user.ActivityLogResponse;
 import com.aathi.authenticationsystem.enums.ActivityCategory;
 import com.aathi.authenticationsystem.enums.ActivityType;
 import com.aathi.authenticationsystem.models.ActivityLogs;
@@ -38,7 +39,7 @@ public class ActivityLogsService {
         log.info("ActivityLogs saved successfully");
     }
 
-    public Page<ActivityLogs> getActivities(
+    public Page<ActivityLogResponse> getActivities(
             Long userId,
             int page,
             int pageSize,
@@ -59,6 +60,16 @@ public class ActivityLogsService {
                     pageable
         );
 
+        return activityLogs.map(this::mapToActivityLogResponse);
+    }
 
+    public ActivityLogResponse mapToActivityLogResponse(ActivityLogs activityLogs){
+        return ActivityLogResponse.builder()
+                .type(activityLogs.getType())
+                .title(activityLogs.getTitle())
+                .description(activityLogs.getDescription())
+                .category(activityLogs.getCategory())
+                .ActivityTime(activityLogs.getActivityTime())
+                .build();
     }
 }
