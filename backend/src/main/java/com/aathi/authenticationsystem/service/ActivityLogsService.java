@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.config.SortHandlerMethodArgumentResolverCustomizer;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -22,7 +21,6 @@ public class ActivityLogsService {
 
     private final ActivityLogsRepository activityLogsRepository;
     private final UserService userService;
-    private final SortHandlerMethodArgumentResolverCustomizer sortCustomizer;
 
     public void saveActivityLog(Long userId, String title, ActivityType type, String description, ActivityCategory category){
 
