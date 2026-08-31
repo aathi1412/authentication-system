@@ -263,6 +263,14 @@ public class AuthenticationService {
 
             verificationTokenService.deleteVerificationToken(verificationToken);
 
+            activityLogsService.saveActivityLog(
+                    user.getId(),
+                    "Email Verified",
+                    ActivityType.EMAIL_VERIFIED,
+                    "Account Verified Successfully",
+                    ActivityCategory.AUTHENTICATION
+            );
+
             return VerificationStatus.VERIFIED;
         }
         catch (InvalidOrExpiredVerificationTokenException ex){
@@ -282,6 +290,13 @@ public class AuthenticationService {
 
         verificationTokenService.resendVerificationEmail(user);
         log.info("Email resend successfully for user {}", email);
+        activityLogsService.saveActivityLog(
+                user.getId(),
+                "verification email Requested",
+                ActivityType.EMAIL_VERIFIED,
+                "verification email Requested",
+                ActivityCategory.AUTHENTICATION
+        );
         return ApiResponse.builder()
                 .timeStamp(Instant.now())
                 .status(HttpStatus.OK.value())
