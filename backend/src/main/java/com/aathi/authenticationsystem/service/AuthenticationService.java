@@ -241,6 +241,13 @@ public class AuthenticationService {
 
         refreshTokenService.revokeRefreshToken(userId,refreshToken);
         log.info("userId {} logout successfully", userId);
+        activityLogsService.saveActivityLog(
+                userId,
+                "User Logout",
+                ActivityType.LOGOUT,
+                "User Logout successfully",
+                ActivityCategory.AUTHENTICATION
+        );
     }
 
     @Transactional
