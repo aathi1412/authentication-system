@@ -59,6 +59,7 @@ public class ActivityLogsService {
                     category,
                     pageable
         );
+        activityLogs.forEach(System.out::println);
 
         return activityLogs.map(this::mapToActivityLogResponse);
     }
