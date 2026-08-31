@@ -311,6 +311,14 @@ public class AuthenticationService {
             try {
                 PasswordResetToken resetToken = passwordResetTokenService.createOrReplacePasswordResetToken(user);
                 emailService.sentResetToken(user, resetToken.getToken());
+
+                activityLogsService.saveActivityLog(
+                        user.getId(),
+                        "Forgot password Email Requested",
+                        ActivityType.PASSWORD_RESET_REQUESTED,
+                        "Forgot password Email Requested",
+                        ActivityCategory.AUTHENTICATION
+                );
             }catch (MailException ex) {
                 log.error("can't send a mail {} error occurs", ex.getMessage());
             }
@@ -337,6 +345,14 @@ public class AuthenticationService {
         passwordResetTokenService.deletePasswordResetToken(resetToken);
 
         log.info("Password Reset Successfully for user {}", user.getEmail());
+
+        activityLogsService.saveActivityLog(
+                user.getId(),
+                "Password Reset",
+                ActivityType.PASSWORD_CHANGED,
+                "Password Reset Successfully",
+                ActivityCategory.AUTHENTICATION
+        );
 
         return ApiResponse.builder()
                 .timeStamp(Instant.now())
