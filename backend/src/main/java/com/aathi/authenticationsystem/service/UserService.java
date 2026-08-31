@@ -4,6 +4,8 @@ import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import com.aathi.authenticationsystem.dto.user.SecurityResponse;
 import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
 import com.aathi.authenticationsystem.dto.user.UserResponse;
+import com.aathi.authenticationsystem.enums.ActivityCategory;
+import com.aathi.authenticationsystem.enums.ActivityType;
 import com.aathi.authenticationsystem.exception.InvalidCredentialsException;
 import com.aathi.authenticationsystem.exception.UserNotFoundException;
 import com.aathi.authenticationsystem.models.User;
@@ -28,6 +30,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ActivityLogsService activityLogsService;
 
     public User getUserByEmail(String email){
         return userRepository.findByEmail(email)
@@ -65,11 +68,15 @@ public class UserService {
 
         User user = getUserById(userDetails.getId());
 
-        System.out.println("oldPassword" + currentPassword);
-        System.out.println("newPassword" + newPassword);
-
         if(!passwordEncoder.matches(currentPassword, user.getPassword())){
             log.info("Invalid Password for {}", user.getEmail());
+            activityLogsService.saveActivityLog(
+                    user.getId(),
+                    "Password Changed",
+                    ActivityType.PASSWORD_CHANGED,
+                    "Password Changed Failed",
+                    ActivityCategory.AUTHENTICATION
+            );
             throw new InvalidCredentialsException("Invalid Password!");
         }
 
@@ -77,6 +84,14 @@ public class UserService {
         log.info("new password encoded and saved for {}", user.getEmail());
 
         log.info("Password Changed Successfully for {}", user.getEmail());
+
+        activityLogsService.saveActivityLog(
+                user.getId(),
+                "Password Changed",
+                ActivityType.EMAIL_VERIFICATION_FAILED,
+                "Password Changed Successfully",
+                ActivityCategory.AUTHENTICATION
+        );
 
         return ApiResponse.builder()
                 .timeStamp(Instant.now())
