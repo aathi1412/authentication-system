@@ -71,8 +71,7 @@ public class AuthenticationController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logoutRequest(@AuthenticationPrincipal CustomUserDetails userDetails,
                                               @CookieValue(REFRESH_TOKEN_COOKIE) String refreshToken){
-        Long userId = userDetails.getId();
-        authenticationService.logout(userId, refreshToken);
+        authenticationService.logout(userDetails.user(), refreshToken);
 
         ResponseCookie cookie = cookieService.clearRefreshTokenCookie();
         return ResponseEntity.ok()
