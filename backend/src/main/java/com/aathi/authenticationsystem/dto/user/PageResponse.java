@@ -1,8 +1,11 @@
 package com.aathi.authenticationsystem.dto.user;
 
+import lombok.Builder;
+
 import java.util.List;
 
-public record ActivityPageResponse<T>(
+@Builder
+public record PageResponse<T>(
         List<T> content,
         int page,
         int pageSize,
