@@ -1,6 +1,7 @@
 package com.aathi.authenticationsystem.service;
 
 import com.aathi.authenticationsystem.dto.user.ActivityLogResponse;
+import com.aathi.authenticationsystem.dto.user.PageResponse;
 import com.aathi.authenticationsystem.enums.ActivityCategory;
 import com.aathi.authenticationsystem.enums.ActivityType;
 import com.aathi.authenticationsystem.models.ActivityLogs;
@@ -20,11 +21,9 @@ import org.springframework.stereotype.Service;
 public class ActivityLogsService {
 
     private final ActivityLogsRepository activityLogsRepository;
-    private final UserService userService;
 
-    public void saveActivityLog(Long userId, String title, ActivityType type, String description, ActivityCategory category){
+    public void saveActivityLog(User user, String title, ActivityType type, String description, ActivityCategory category){
 
-        User user = userService.getUserById(userId);
         ActivityLogs activityLogs = ActivityLogs.builder()
                 .user(user)
                 .title(title)
@@ -37,7 +36,7 @@ public class ActivityLogsService {
         log.info("ActivityLogs saved successfully");
     }
 
-    public Page<ActivityLogResponse> getActivities(
+    public PageResponse<ActivityLogResponse> getActivities(
             Long userId,
             int page,
             int pageSize,
@@ -57,9 +56,17 @@ public class ActivityLogsService {
                     category,
                     pageable
         );
-        activityLogs.forEach(System.out::println);
 
-        return activityLogs.map(this::mapToActivityLogResponse);
+        Page<ActivityLogResponse> response = activityLogs.map(this::mapToActivityLogResponse);
+
+        return PageResponse
+                .<ActivityLogResponse>builder()
+                .content(response.getContent())
+                .page(response.getNumber())
+                .pageSize(response.getSize())
+                .totalElements(response.getTotalElements())
+                .totalPages(response.getTotalPages())
+                .build();
     }
 
     public ActivityLogResponse mapToActivityLogResponse(ActivityLogs activityLogs){
