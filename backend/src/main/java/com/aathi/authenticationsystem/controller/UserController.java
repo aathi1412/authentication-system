@@ -3,16 +3,12 @@ package com.aathi.authenticationsystem.controller;
 
 import com.aathi.authenticationsystem.dto.request.ChangePasswordRequest;
 import com.aathi.authenticationsystem.dto.response.ApiResponse;
-import com.aathi.authenticationsystem.dto.user.ActivityLogResponse;
-import com.aathi.authenticationsystem.dto.user.SecurityResponse;
-import com.aathi.authenticationsystem.dto.user.UpdateUserRequest;
-import com.aathi.authenticationsystem.dto.user.UserResponse;
+import com.aathi.authenticationsystem.dto.user.*;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.ActivityLogsService;
 import com.aathi.authenticationsystem.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -58,11 +54,11 @@ public class UserController {
     }
 
     @GetMapping("/activity")
-    public Page<ActivityLogResponse> getActivityLogs(@RequestParam(defaultValue = "1") int page,
-                                                     @RequestParam(defaultValue = "10") int pageSize,
-                                                     @RequestParam(required = false) String search,
-                                                     @RequestParam(required = false) String category,
-                                                     @AuthenticationPrincipal CustomUserDetails customUserDetails
+    public PageResponse<ActivityLogResponse> getActivityLogs(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "10") int pageSize,
+                                                             @RequestParam(required = false) String search,
+                                                             @RequestParam(required = false) String category,
+                                                             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         return activityLogsService.getActivities(
                 customUserDetails.getId(),
