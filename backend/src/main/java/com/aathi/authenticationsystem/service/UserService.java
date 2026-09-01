@@ -59,7 +59,7 @@ public class UserService {
     }
 
     public SecurityResponse getSecurityDetails(CustomUserDetails userDetails) {
-        User  user = getUserByEmail(userDetails.getUsername());
+        User user = getUserByEmail(userDetails.getUsername());
         return mapToSecurityResponse(user);
     }
 
@@ -71,9 +71,9 @@ public class UserService {
         if(!passwordEncoder.matches(currentPassword, user.getPassword())){
             log.info("Invalid Password for {}", user.getEmail());
             activityLogsService.saveActivityLog(
-                    user.getId(),
-                    "Password Changed",
-                    ActivityType.PASSWORD_CHANGED,
+                    user,
+                    "Password Change Fail",
+                    ActivityType.PASSWORD_CHANGED_FAILED,
                     "Password Changed Failed",
                     ActivityCategory.AUTHENTICATION
             );
@@ -86,9 +86,9 @@ public class UserService {
         log.info("Password Changed Successfully for {}", user.getEmail());
 
         activityLogsService.saveActivityLog(
-                user.getId(),
+                user,
                 "Password Changed",
-                ActivityType.EMAIL_VERIFICATION_FAILED,
+                ActivityType.PASSWORD_CHANGED,
                 "Password Changed Successfully",
                 ActivityCategory.AUTHENTICATION
         );
@@ -158,13 +158,5 @@ public class UserService {
 
                 });
     }
-
-    @Transactional
-    public void resetFailedLoginAttempt(String email){
-        userRepository.findByEmail(email)
-                .ifPresent(user -> user.setFailedAttempts(0));
-    }
-
-
 
 }
