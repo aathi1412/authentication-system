@@ -101,7 +101,7 @@ public class AuthenticationService {
         log.info("Registration Successful for user {}", request.getEmail());
 
         activityLogsService.saveActivityLog(
-                savedUser.getId(),
+                savedUser,
                 "User Register",
                 ActivityType.ACCOUNT_CREATED,
                 "Register successful",
@@ -134,7 +134,7 @@ public class AuthenticationService {
         } catch (DisabledException ex){
             log.error("Account Not Verified for user {}", request.getEmail());
             activityLogsService.saveActivityLog(
-                    user.getId(),
+                    user,
                     "Email Not Verified",
                     ActivityType.EMAIL_VERIFICATION_FAILED,
                     "Account Not Verified",
@@ -145,7 +145,7 @@ public class AuthenticationService {
 
             log.error("Account is locked for user {}", request.getEmail());
             activityLogsService.saveActivityLog(
-                    user.getId(),
+                    user,
                     "Account Locked",
                     ActivityType.ACCOUNT_LOCKED,
                     "Account Locked, too many failed login attempts",
@@ -161,7 +161,7 @@ public class AuthenticationService {
             log.info("login attempt failed for user : {}", ex.getMessage());
 
             activityLogsService.saveActivityLog(
-                    user.getId(),
+                    user,
                     "Log in Failed",
                     ActivityType.LOGIN_FAILED,
                     "Incorrect password entered from an unrecognized device",
@@ -182,7 +182,7 @@ public class AuthenticationService {
         log.info("Login Successful for user {}", request.getEmail());
 
         activityLogsService.saveActivityLog(
-                customUserDetails.getId(),
+                customUserDetails.user(),
                 "Logged in",
                 ActivityType.LOGIN_SUCCESS,
                 "login successful",
@@ -237,12 +237,12 @@ public class AuthenticationService {
         );
     }
 
-    public void logout(Long userId, String refreshToken){
+    public void logout(User user, String refreshToken){
 
-        refreshTokenService.revokeRefreshToken(userId,refreshToken);
-        log.info("userId {} logout successfully", userId);
+        refreshTokenService.revokeRefreshToken(user.getId(),refreshToken);
+        log.info("userId {} logout successfully", user.getId());
         activityLogsService.saveActivityLog(
-                userId,
+                user,
                 "User Logout",
                 ActivityType.LOGOUT,
                 "User Logout successfully",
@@ -264,7 +264,7 @@ public class AuthenticationService {
             verificationTokenService.deleteVerificationToken(verificationToken);
 
             activityLogsService.saveActivityLog(
-                    user.getId(),
+                    user,
                     "Email Verified",
                     ActivityType.EMAIL_VERIFIED,
                     "Account Verified Successfully",
@@ -291,7 +291,7 @@ public class AuthenticationService {
         verificationTokenService.resendVerificationEmail(user);
         log.info("Email resend successfully for user {}", email);
         activityLogsService.saveActivityLog(
-                user.getId(),
+                user,
                 "verification email Requested",
                 ActivityType.EMAIL_VERIFIED,
                 "verification email Requested",
@@ -313,7 +313,7 @@ public class AuthenticationService {
                 emailService.sentResetToken(user, resetToken.getToken());
 
                 activityLogsService.saveActivityLog(
-                        user.getId(),
+                        user,
                         "Forgot password Email Requested",
                         ActivityType.PASSWORD_RESET_REQUESTED,
                         "Forgot password Email Requested",
@@ -347,7 +347,7 @@ public class AuthenticationService {
         log.info("Password Reset Successfully for user {}", user.getEmail());
 
         activityLogsService.saveActivityLog(
-                user.getId(),
+                user,
                 "Password Reset",
                 ActivityType.PASSWORD_CHANGED,
                 "Password Reset Successfully",
