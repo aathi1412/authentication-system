@@ -1,3 +1,4 @@
+import {apiClient} from '@/lib/axiosClient'
 import {useCallback, useEffect, useRef, useState} from "react";
 
 const PAGE_SIZE = 10;
@@ -27,9 +28,8 @@ export function useActivityLogs({ search, category }) {
 
       try {
         const { data } = await apiClient.get("/users/activity", {
-            params: { pageToLoad, PAGE_SIZE, search: search || undefined, category },
+            params: { pageToLoad, PAGE_SIZE, search: search || undefined, category: category || undefined },
         });
-        console.log(data);
 
         if (currentRequestId !== requestId.current) return; // stale response
 
