@@ -71,6 +71,7 @@ public class ActivityLogsService {
 
     public ActivityLogResponse mapToActivityLogResponse(ActivityLogs activityLogs){
         return ActivityLogResponse.builder()
+                .id(activityLogs.getId())
                 .type(activityLogs.getType())
                 .title(activityLogs.getTitle())
                 .description(activityLogs.getDescription())
