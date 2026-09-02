@@ -1,25 +1,19 @@
-import { useState } from "react";
-import { Search, ScrollText } from "lucide-react";
+import {EmptyState} from "@/components/EmptyState";
+import {Spinner} from "@/components/Spinner";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Input} from "@/components/ui/input";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
+import {Skeleton} from "@/components/ui/skeleton";
+import {ActivityTimeline} from "@/features/account/components/ActivityTimeline";
 
-import { useActivityLogs } from "@/features/account/hooks/useActivityLogs";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { ActivityTimeline } from "@/features/account/components/ActivityTimeline";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Spinner } from "@/components/Spinner";
-import { EmptyState } from "@/components/EmptyState";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import {useActivityLogs} from "@/features/account/hooks/useActivityLogs";
+import {useDebounce} from "@/hooks/useDebounce";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll";
+import {ScrollText, Search} from "lucide-react";
+import {useState} from "react";
 
 const CATEGORY_OPTIONS = [
-  { value: "ALL", label: "All" },
+  // { value: "ALL", label: "All" },
   { value: "Security", label: "Security" },
   { value: "Profile", label: "Profile" },
   { value: "Authentication", label: "Authentication" },
@@ -43,7 +37,7 @@ function TimelineSkeleton() {
 
 export default function ActivityPage() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("ALL");
+  const [category, setCategory] = useState();
   const debouncedSearch = useDebounce(search, 350);
 
   const { items, isLoading, isFetchingMore, hasMore, loadMore } = useActivityLogs({
