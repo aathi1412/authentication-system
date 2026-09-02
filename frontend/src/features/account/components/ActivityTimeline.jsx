@@ -38,7 +38,7 @@ function formatDate(iso) {
 function ActivityItem({ item, isLast }) {
   const meta = TYPE_META[item.type] || { icon: Activity, tone: "secondary" };
   const Icon = meta.icon;
-  const { date, time } = formatDate(item.createdAt);
+  const { date, time } = formatDate(item.ActivityTime);
 
   const iconToneClass = {
     success: "bg-success/10 text-success",
