@@ -8,6 +8,8 @@ import java.time.Instant;
 
 @Builder
 public record ActivityLogResponse(
+
+        Long id,
         ActivityType type,
         String title,
         String description,
