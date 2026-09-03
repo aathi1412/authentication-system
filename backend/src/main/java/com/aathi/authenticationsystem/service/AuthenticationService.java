@@ -189,6 +189,7 @@ public class AuthenticationService {
                 ActivityCategory.AUTHENTICATION
         );
 
+        userService.resetFailedLoginAttempt(customUserDetails.getUsername());
         customUserDetails.user().setLastLogin(Instant.now());
         userRepository.save(customUserDetails.user());
 
