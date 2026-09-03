@@ -55,6 +55,14 @@ public class UserService {
         savedUser.setPhone(request.getPhone());
         savedUser.setBio(request.getBio());
 
+        activityLogsService.saveActivityLog(
+                savedUser,
+                "Profile updated",
+                ActivityType.PROFILE_UPDATED,
+                "Updated profile details",
+                ActivityCategory.PROFILE
+        );
+
         return mapToUserResponse(savedUser);
     }
 
@@ -154,6 +162,14 @@ public class UserService {
                     if(user.getFailedAttempts() >= 5){
                         user.setAccountLocked(true);
                         user.setLockTime(Instant.now());
+
+                        activityLogsService.saveActivityLog(
+                                user,
+                                "Account locked",
+                                ActivityType.ACCOUNT_LOCKED,
+                                "Too many failed attempts, account locked",
+                                ActivityCategory.AUTHENTICATION
+                        );
                     }
 
                 });
