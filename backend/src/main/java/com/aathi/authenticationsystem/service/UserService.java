@@ -175,4 +175,10 @@ public class UserService {
                 });
     }
 
+    @Transactional
+    public void resetFailedLoginAttempt(String email){
+        userRepository.findByEmail(email)
+                .ifPresent(user -> user.setFailedAttempts(0));
+    }
+
 }
