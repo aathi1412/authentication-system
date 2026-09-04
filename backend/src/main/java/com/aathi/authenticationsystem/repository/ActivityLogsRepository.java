@@ -1,5 +1,6 @@
 package com.aathi.authenticationsystem.repository;
 
+import com.aathi.authenticationsystem.enums.ActivityCategory;
 import com.aathi.authenticationsystem.models.ActivityLogs;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ public interface ActivityLogsRepository extends JpaRepository<ActivityLogs, Long
     Page<ActivityLogs> findUserActivities(
             @Param("userId") Long userId,
             @Param("search") String search,
-            @Param("category") String category,
+            @Param("category") ActivityCategory category,
             Pageable pageable
     );
 }
