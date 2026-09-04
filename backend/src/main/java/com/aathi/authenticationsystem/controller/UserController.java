@@ -4,6 +4,7 @@ package com.aathi.authenticationsystem.controller;
 import com.aathi.authenticationsystem.dto.request.ChangePasswordRequest;
 import com.aathi.authenticationsystem.dto.response.ApiResponse;
 import com.aathi.authenticationsystem.dto.user.*;
+import com.aathi.authenticationsystem.enums.ActivityCategory;
 import com.aathi.authenticationsystem.security.userdetails.CustomUserDetails;
 import com.aathi.authenticationsystem.service.ActivityLogsService;
 import com.aathi.authenticationsystem.service.UserService;
@@ -57,7 +58,7 @@ public class UserController {
     public PageResponse<ActivityLogResponse> getActivityLogs(@RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10") int pageSize,
                                                              @RequestParam(required = false) String search,
-                                                             @RequestParam(required = false) String category,
+                                                             @RequestParam(required = false) ActivityCategory category,
                                                              @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         return activityLogsService.getActivities(
