@@ -13,10 +13,10 @@ import {ScrollText, Search} from "lucide-react";
 import {useState} from "react";
 
 const CATEGORY_OPTIONS = [
-  // { value: "ALL", label: "All" },
-  { value: "Security", label: "Security" },
-  { value: "Profile", label: "Profile" },
-  { value: "Authentication", label: "Authentication" },
+  { value: "ALL", label: "All" },
+  { value: "SECURITY", label: "Security" },
+  { value: "PROFILE", label: "Profile" },
+  { value: "AUTHENTICATION", label: "Authentication" },
 ];
 
 function TimelineSkeleton() {
