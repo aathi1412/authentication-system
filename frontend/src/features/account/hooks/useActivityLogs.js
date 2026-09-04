@@ -28,7 +28,7 @@ export function useActivityLogs({ search, category }) {
 
       try {
         const { data } = await apiClient.get("/users/activity", {
-            params: { pageToLoad, PAGE_SIZE, search: search || undefined, category: category || undefined },
+            params: { pageToLoad, PAGE_SIZE, search: search || undefined, category: category !== "ALL" ? category : undefined }
         });
 
         if (currentRequestId !== requestId.current) return; // stale response
