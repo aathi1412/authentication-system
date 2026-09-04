@@ -41,8 +41,8 @@ public class ActivityLogsService {
             int page,
             int pageSize,
             String search,
-            String category) {
-
+            ActivityCategory category) {
+        System.out.println(category);
         Pageable pageable = PageRequest.of(
                 page,
                 pageSize,
