@@ -23,10 +23,14 @@ export function Login() {
         reset,
         formState: {errors},
     } = useForm({
-        resolver: zodResolver(LoginSchema)
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            rememberMe: false
+        }
     })
 
     const onSubmit = async (data) => {
+        console.log(data);
         try {
             setLoading(true)
             const response = await toast.promise(
@@ -86,6 +90,7 @@ export function Login() {
                             <input
                                 type="checkbox"
                                 className="accent-gray-600 cursor-pointer hover:scale-110 transition"
+                                {...register("rememberMe")}
                             />
                             <span className="text-[13px] text-gray-600">
                               Keep me signed in
