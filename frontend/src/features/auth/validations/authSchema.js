@@ -34,7 +34,8 @@ export const RegisterSchema = z.object({
 
 export const LoginSchema = z.object({
     email: EmailSchema,
-    password: PasswordSchema
+    password: PasswordSchema,
+    rememberMe: z.boolean().default(false)
 })
 
 export const ForgotPasswordSchema = z.object({
