@@ -164,7 +164,7 @@ public class AuthenticationService {
                     user,
                     "Log in Failed",
                     ActivityType.LOGIN_FAILED,
-                    "Incorrect password entered from an unrecognized device",
+                    "Incorrect Email or Password entered",
                     ActivityCategory.AUTHENTICATION
             );
 
