@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import static com.aathi.authenticationsystem.constants.SecurityConstants.TOKEN_TYPE;
@@ -176,7 +177,12 @@ public class AuthenticationService {
         String accessToken = jwtService.generateAccessToken(customUserDetails.user());
         log.info("access token generated");
 
-        String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.user());
+        Instant now = Instant.now();
+        Instant sessionExpiryDate = request.isRememberMe()
+                ? now.plus(30, ChronoUnit.DAYS)
+                : now.plus(1, ChronoUnit.DAYS);
+
+        String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.user(), request.isRememberMe(), sessionExpiryDate);
         log.info("refresh token generated");
 
         log.info("Login Successful for user {}", request.getEmail());
