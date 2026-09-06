@@ -1,9 +1,9 @@
 package com.aathi.authenticationsystem.service;
 
-import com.aathi.authenticationsystem.models.RefreshToken;
-import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.exception.InvalidRefreshTokenException;
 import com.aathi.authenticationsystem.exception.ResourceAccessDeniedException;
+import com.aathi.authenticationsystem.models.RefreshToken;
+import com.aathi.authenticationsystem.models.User;
 import com.aathi.authenticationsystem.repository.RefreshTokenRepository;
 import com.aathi.authenticationsystem.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +21,27 @@ public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public String createRefreshToken(User user){
+    public String createRefreshToken(User user, boolean rememberMe, Instant sessionExpiryDate){
+
+        Instant now = Instant.now();
+
+        Instant expiryDate = rememberMe
+                ? now.plus(7, ChronoUnit.DAYS)
+                : now.plus(1, ChronoUnit.DAYS);
+
+        if (expiryDate.isAfter(sessionExpiryDate)) {
+            expiryDate = sessionExpiryDate;
+        }
 
         String token = jwtService.generateRefreshToken();
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(token)
                 .user(user)
-                .expiryDate(Instant.now().plus(7, ChronoUnit.DAYS))
+                .expiryDate(expiryDate)
                 .createdAt(Instant.now())
+                .sessionExpiryDate(sessionExpiryDate)
+                .rememberMe(rememberMe)
                 .revoked(false)
                 .build();
 
@@ -42,12 +54,13 @@ public class RefreshTokenService {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new InvalidRefreshTokenException("Invalid Refresh Token"));
 
-        if(refreshToken.isRevoked()){
+        if(refreshToken.isRevoked() ||
+                refreshToken.isExpired()){
             throw new InvalidRefreshTokenException("Invalid Refresh Token");
         }
 
-        if(refreshToken.isExpired()){
-            throw new InvalidRefreshTokenException("Invalid Refresh Token");
+        if (refreshToken.isSessionExpired()) {
+            throw new InvalidRefreshTokenException("Session Expired");
         }
 
         return refreshToken;
@@ -56,7 +69,7 @@ public class RefreshTokenService {
     @Transactional
     public String rotateRefreshToken(User user, RefreshToken refreshToken){
         refreshToken.setRevoked(true);
-        return createRefreshToken(user);
+        return createRefreshToken(user, refreshToken.isRememberMe(), refreshToken.getSessionExpiryDate());
     }
 
     @Transactional
