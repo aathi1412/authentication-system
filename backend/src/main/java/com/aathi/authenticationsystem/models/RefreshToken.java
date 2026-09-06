@@ -29,7 +29,6 @@ public class RefreshToken {
 
     @Column(nullable = false)
     private Instant expiryDate;
-
     public boolean isExpired(){
         return expiryDate.isBefore(Instant.now());
     }
@@ -37,6 +36,15 @@ public class RefreshToken {
     private Instant createdAt;
 
     private boolean revoked;
+
+    @Column(nullable = false)
+    private Instant sessionExpiryDate;
+
+    public boolean isSessionExpired() {
+        return Instant.now().isAfter(sessionExpiryDate);
+    }
+
+    private boolean rememberMe;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
