@@ -47,7 +47,7 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponse> loginRequest(@Valid @RequestBody LoginRequest request){
         LoginResult result = authenticationService.login(request);
 
-        ResponseCookie cookie = cookieService.createRefreshTokenCookie(result.refreshToken());
+        ResponseCookie cookie = cookieService.createRefreshTokenCookie(result.refreshToken(), result.refreshTokenExpiry());
 
         return ResponseEntity
                 .ok()
@@ -59,7 +59,7 @@ public class AuthenticationController {
     public ResponseEntity<AccessTokenResponse> refreshTokenRequest(@CookieValue(REFRESH_TOKEN_COOKIE) String refreshToken){
         RefreshResult result = authenticationService.refresh(refreshToken);
 
-        ResponseCookie cookie = cookieService.createRefreshTokenCookie(result.refreshToken());
+        ResponseCookie cookie = cookieService.createRefreshTokenCookie(result.refreshToken(), result.refreshTokenExpiry());
 
         return ResponseEntity
                 .ok()
