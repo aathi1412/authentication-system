@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import static com.aathi.authenticationsystem.constants.CookieConstants.REFRESH_TOKEN_COOKIE;
 
 @Service
@@ -13,14 +16,15 @@ public class CookieService {
 
     private final CookiesProperties cookiesProperties;
 
-    public ResponseCookie createRefreshTokenCookie(String refreshToken){
+    public ResponseCookie createRefreshTokenCookie(String refreshToken, Instant refreshTokenExpiry){
 
+        Duration maxAge = Duration.between(Instant.now(), refreshTokenExpiry);
         return ResponseCookie.from(REFRESH_TOKEN_COOKIE, refreshToken)
                 .httpOnly(cookiesProperties.httpOnly())
                 .secure(cookiesProperties.secure())
                 .path(cookiesProperties.path())
                 .sameSite(cookiesProperties.sameSite())
-                .maxAge(cookiesProperties.maxAge())
+                .maxAge(maxAge)
                 .build();
     }
 
