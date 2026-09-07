@@ -67,7 +67,7 @@ function withSuspense(element) {
 export const router = createBrowserRouter([
         {
             path: "/",
-            element: <Navigate to={PATHS.AUTH.LOGIN} replace />,
+            element: <Navigate to={PATHS.USER.HOME} replace />,
         },
 
         // Auth
