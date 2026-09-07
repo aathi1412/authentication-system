@@ -182,7 +182,7 @@ public class AuthenticationService {
                 ? now.plus(30, ChronoUnit.DAYS)
                 : now.plus(1, ChronoUnit.DAYS);
 
-        String refreshToken = refreshTokenService.createRefreshToken(customUserDetails.user(), request.isRememberMe(), sessionExpiryDate);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(customUserDetails.user(), request.isRememberMe(), sessionExpiryDate);
         log.info("refresh token generated");
 
         log.info("Login Successful for user {}", request.getEmail());
@@ -216,7 +216,8 @@ public class AuthenticationService {
                                 .build()
                         )
                         .build(),
-                refreshToken  // refresh token
+                refreshToken.getToken(),
+                refreshToken.getExpiryDate()
         );
     }
 
@@ -228,7 +229,7 @@ public class AuthenticationService {
 
         String accessToken = jwtService.generateAccessToken(user);
 
-        String newRefreshToken = refreshTokenService.rotateRefreshToken(user, refreshToken);
+        RefreshToken newRefreshToken = refreshTokenService.rotateRefreshToken(user, refreshToken);
 
         log.info("new access token generated for user {}", user.getEmail());
         log.info("new refresh token generated for user {}", user.getEmail());
@@ -240,7 +241,8 @@ public class AuthenticationService {
                         .accessToken(accessToken)
                         .expiresIn(jwtProperties.accessTokenExpiration().toSeconds())
                         .build(),
-                newRefreshToken
+                newRefreshToken.getToken(),
+                newRefreshToken.getExpiryDate()
         );
     }
 
