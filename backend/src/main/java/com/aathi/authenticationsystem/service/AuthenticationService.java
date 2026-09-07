@@ -197,7 +197,7 @@ public class AuthenticationService {
 
         userService.resetFailedLoginAttempt(customUserDetails.getUsername());
         customUserDetails.user().setLastLogin(Instant.now());
-        userRepository.save(customUserDetails.user());
+        User savedUser = userRepository.save(customUserDetails.user());
 
         return new LoginResult(
                 LoginResponse.builder()
@@ -209,10 +209,12 @@ public class AuthenticationService {
                                 .build()
                         )
                         .userResponse(UserResponse.builder()
-                                .id(customUserDetails.getId())
-                                .name(customUserDetails.getName())
-                                .email(customUserDetails.getUsername())
-                                .role(customUserDetails.getRole())
+                                .id(savedUser.getId())
+                                .name(savedUser.getName())
+                                .email(savedUser.getEmail())
+                                .role(savedUser.getRole())
+                                .phone(savedUser.getPhone())
+                                .bio(savedUser.getBio())
                                 .build()
                         )
                         .build(),
