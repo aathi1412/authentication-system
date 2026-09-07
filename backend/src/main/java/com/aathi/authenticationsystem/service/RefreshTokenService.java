@@ -21,7 +21,7 @@ public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public String createRefreshToken(User user, boolean rememberMe, Instant sessionExpiryDate){
+    public RefreshToken createRefreshToken(User user, boolean rememberMe, Instant sessionExpiryDate){
 
         Instant now = Instant.now();
 
@@ -45,9 +45,9 @@ public class RefreshTokenService {
                 .revoked(false)
                 .build();
 
-        refreshTokenRepository.save(refreshToken);
+        RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
 
-        return token;
+        return savedRefreshToken;
     }
 
     public RefreshToken verifyRefreshToken(String token){
@@ -67,7 +67,7 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public String rotateRefreshToken(User user, RefreshToken refreshToken){
+    public RefreshToken rotateRefreshToken(User user, RefreshToken refreshToken){
         refreshToken.setRevoked(true);
         return createRefreshToken(user, refreshToken.isRememberMe(), refreshToken.getSessionExpiryDate());
     }
