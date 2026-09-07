@@ -7,7 +7,7 @@ import {PasswordForm} from "@/features/account/components/PasswordForm";
 
 import {useChangePassword} from "@/features/account/hooks/useChangePassword";
 import {useSecurityInfo} from "@/features/account/hooks/useSecurityInfo";
-import {CalendarDays, Clock, Lock, LockOpen, MailCheck, MailWarning, ShieldAlert, ShieldCheck,} from "lucide-react";
+import {CalendarDays, Clock, Lock, LockOpen, MailCheck, MailWarning} from "lucide-react";
 
 function formatDateTime(iso) {
   if (!iso) return "—";
@@ -57,11 +57,6 @@ function SecurityInfoGrid({ security, isLoading }) {
             {security.accountLocked ? "Locked" : "Active"}
           </Badge>
         }
-      />
-      <AccountCard
-        icon={ShieldAlert}
-        label="Failed login attempts"
-        value={security.failedAttempts}
       />
       <AccountCard
         icon={Clock}
