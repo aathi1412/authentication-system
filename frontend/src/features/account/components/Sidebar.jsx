@@ -4,10 +4,10 @@ import {toast} from "@/components/ui/use-toast";
 import {tokenStorage} from "@/lib/axiosClient";
 
 import {cn} from "@/lib/utils";
+import PATHS from '@/routes/paths'
 import {KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserRound,} from "lucide-react";
 import {useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
-import PATHS from '../../../routes/paths'
 
 const NAV_ITEMS = [
   { to: PATHS.USER.HOME, label: "Overview", icon: LayoutGrid, end: true },
@@ -22,7 +22,7 @@ function BrandMark() {
       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
         <KeyRound className="h-4 w-4" />
       </div>
-      <span className="text-sm font-semibold tracking-tight">SecureAuth</span>
+      <span className="text-sm font-semibold tracking-tight">AuthService</span>
     </div>
   );
 }
