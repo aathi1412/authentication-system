@@ -1,11 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import {Card, CardContent} from "@/components/ui/card";
+import {cn} from "@/lib/utils";
 
-/**
- * Compact "fact" card used across the Security page: an icon, a label, and
- * a value (or badge) on the right. Keeps the security info grid consistent
- * without repeating layout markup in every field.
- */
 export function AccountCard({ icon: Icon, label, value, className }) {
   return (
     <Card className={cn("transition-colors hover:border-foreground/15", className)}>
