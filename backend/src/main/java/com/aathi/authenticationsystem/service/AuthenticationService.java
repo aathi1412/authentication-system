@@ -76,15 +76,7 @@ public class AuthenticationService {
             throw new EmailAlreadyExistsException("Email already Exists, try different email");
         }
 
-        int domainStarts = request.getEmail().indexOf("@") + 1;
-        String domain = request.getEmail().substring(domainStarts);
-
-        log.info("Register Request: email {}, domain {}", request.getEmail(), domain);
-
-        if(!emailValidationService.hasValidEmailDomain(domain)){
-            log.warn("Registration Failed: invalid email domain {}", domain);
-            throw new InvalidEmailDomainException("Please enter a valid email address.");
-        }
+        validateEmail(request.getEmail());
 
         User user = User.builder()
                 .name(request.getName())
@@ -321,6 +313,9 @@ public class AuthenticationService {
         userRepository.findByEmail(email).ifPresent( user -> {
             try {
                 PasswordResetToken resetToken = passwordResetTokenService.createOrReplacePasswordResetToken(user);
+
+                validateEmail(user.getEmail());
+
                 emailService.sentResetToken(user, resetToken.getToken());
 
                 activityLogsService.saveActivityLog(
@@ -342,6 +337,18 @@ public class AuthenticationService {
                 .error(HttpStatus.OK.getReasonPhrase())
                 .message("If an account with that email exists, a password reset link has been sent.")
                 .build();
+    }
+
+    public void validateEmail(String email) {
+        int domainStarts = email.indexOf("@") + 1;
+        String domain = email.substring(domainStarts);
+
+        log.info("Register Request: email {}, domain {}", email, domain);
+
+        if(!emailValidationService.hasValidEmailDomain(domain)){
+            log.warn("Registration Failed: invalid email domain {}", domain);
+            throw new InvalidEmailDomainException("Please enter a valid email address.");
+        }
     }
 
     @Transactional
