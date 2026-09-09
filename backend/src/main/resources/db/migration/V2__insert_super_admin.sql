@@ -10,9 +10,9 @@ INSERT INTO users (
     updated_at
 )
 VALUES (
-           'SuperAdmin',
-           'super@admin.com',
-           '$2a$10$2DqHoWviJCBtgnrNQYcdoe0wYjw1R1DbC644lDM8fxbX1lj9/vpjq',
+           'Admin',
+           'aathi9211@gmail.com',
+           '$2a$10$tOjfoUpp0RwDuTiJW2dHJeXlYeaiMxhPIDrPg9TPn4/SVTmgEoil.',
            'SUPER_ADMIN',
            true,
            false,
