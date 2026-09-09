@@ -5,9 +5,13 @@ import PATHS from "./paths"
 import RoleBasedRoute from "./RoleBasedRoute";
 
 
-//
+// Admin
 const AdminDashboard = lazy(() =>
     import("@/features/admin/pages/AdminDashboard")
+);
+
+const AdminLayout = lazy(() =>
+    import("@/features/admin/pages/AdminLayout")
 );
 
 
@@ -135,13 +139,21 @@ export const router = createBrowserRouter([
                 },
             ],
         },
+
+        // Admin
         {
             path: "/admin",
             element: withSuspense(
                 <RoleBasedRoute allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
-                    <AdminDashboard />
+                    <AdminLayout />
                 </RoleBasedRoute>
             ),
+            children: [
+                {
+                    index: true,
+                    element: withSuspense(<AdminDashboard />),
+                },
+            ],
         },
 
         // 404
