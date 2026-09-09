@@ -2,6 +2,14 @@ import {Spinner} from "@/components/Spinner";
 import {lazy, Suspense} from "react";
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import PATHS from "./paths"
+import RoleBasedRoute from "./RoleBasedRoute";
+
+
+//
+const AdminDashboard = lazy(() =>
+    import("@/features/admin/pages/AdminDashboard")
+);
+
 
 // Account
 const AccountLayout = lazy(() =>
@@ -103,7 +111,11 @@ export const router = createBrowserRouter([
         // Account
         {
             path: PATHS.USER.HOME,
-            element: withSuspense(<AccountLayout />),
+            element: withSuspense(
+                <RoleBasedRoute allowedRoles={["USER"]}>
+                    <AccountLayout />
+                </RoleBasedRoute>
+            ),
             children: [
                 {
                     index: true,
@@ -122,6 +134,14 @@ export const router = createBrowserRouter([
                     element: withSuspense(<ActivityPage />),
                 },
             ],
+        },
+        {
+            path: "/admin",
+            element: withSuspense(
+                <RoleBasedRoute allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
+                    <AdminDashboard />
+                </RoleBasedRoute>
+            ),
         },
 
         // 404
