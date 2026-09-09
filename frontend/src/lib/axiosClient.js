@@ -19,6 +19,15 @@ export const tokenStorage = {
   },
 };
 
+const userResponse = JSON.parse(localStorage.getItem("userResponse"))
+const role = userResponse?.role;
+
+if (role === "ADMIN" || role === "SUPER_ADMIN") {
+    console.log("Show Admin UI");
+} else {
+    console.log("Show User UI");
+}
+
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 15000,
