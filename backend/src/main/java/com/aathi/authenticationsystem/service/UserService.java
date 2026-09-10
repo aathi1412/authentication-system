@@ -109,7 +109,7 @@ public class UserService {
                 .build();
     }
 
-    private UserResponse mapToUserResponse(User user) {
+    public UserResponse mapToUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
