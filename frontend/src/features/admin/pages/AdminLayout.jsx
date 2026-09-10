@@ -1,11 +1,25 @@
-import {Outlet} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 
 function AdminLayout() {
     return (
         <div>
-            <h1>Admin Layout</h1>
+            <aside>
+                <h2>Admin Panel</h2>
 
-            <Outlet />
+                <nav>
+                    <NavLink to="/admin">
+                        Dashboard
+                    </NavLink>
+
+                    <NavLink to="/admin/users">
+                        Users
+                    </NavLink>
+                </nav>
+            </aside>
+
+            <main>
+                <Outlet />
+            </main>
         </div>
     );
 }
