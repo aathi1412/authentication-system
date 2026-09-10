@@ -14,6 +14,9 @@ const AdminLayout = lazy(() =>
     import("@/features/admin/pages/AdminLayout")
 );
 
+const UsersPage = lazy(() =>
+    import("@/features/admin/pages/UsersPage"))
+
 
 // Account
 const AccountLayout = lazy(() =>
@@ -153,6 +156,10 @@ export const router = createBrowserRouter([
                     index: true,
                     element: withSuspense(<AdminDashboard />),
                 },
+                {
+                    path: "users",
+                    element: withSuspense(<UsersPage />)
+                }
             ],
         },
 
