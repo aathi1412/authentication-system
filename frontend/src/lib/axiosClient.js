@@ -21,7 +21,6 @@ export const tokenStorage = {
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 15000,
   withCredentials: true,
 });
 
