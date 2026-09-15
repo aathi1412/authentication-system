@@ -20,11 +20,10 @@ public class VerificationTokenService {
 
     private final VerificationTokenRepository verificationTokenRepository;
     private final EmailService emailService;
-
     private final Logger log = LoggerFactory.getLogger(VerificationTokenService.class);
+
     @Transactional
     public void generateAndSendVerificationEmail(User user){
-
         String verificationToken = UUID.randomUUID().toString();
         log.info("generated verification token for user {}", user.getEmail());
 
@@ -43,7 +42,6 @@ public class VerificationTokenService {
 
     }
     public VerificationToken verifyToken(String token){
-
         return verificationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new InvalidOrExpiredVerificationTokenException("invalid or Expired Verification token"));
     }
@@ -65,6 +63,5 @@ public class VerificationTokenService {
 
         emailService.sendVerificationEmail(user, token.getToken());
         log.info("Email resend for user {}", user.getEmail());
-
     }
 }
