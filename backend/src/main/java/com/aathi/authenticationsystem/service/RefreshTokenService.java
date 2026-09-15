@@ -45,9 +45,7 @@ public class RefreshTokenService {
                 .revoked(false)
                 .build();
 
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
-
-        return savedRefreshToken;
+        return refreshTokenRepository.save(refreshToken);
     }
 
     public RefreshToken verifyRefreshToken(String token){
