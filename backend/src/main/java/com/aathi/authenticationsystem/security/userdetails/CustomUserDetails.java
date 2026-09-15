@@ -3,6 +3,7 @@ package com.aathi.authenticationsystem.security.userdetails;
 import com.aathi.authenticationsystem.enums.Role;
 import com.aathi.authenticationsystem.models.User;
 import lombok.Builder;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public record CustomUserDetails(User user) implements UserDetails {
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
         authorities.add(new SimpleGrantedAuthority("ROLE_" + getRole().name()));
