@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 public class AdminUserService {
 
     private final UserRepository userRepository;
-    private final UserService userService;
-
     public AdminUserPageResponse getUsers(int page, int pageSize){
         Pageable pageable = PageRequest.of(page, pageSize);
 
