@@ -1,3 +1,4 @@
+import BrandMark from '@/components/Sidebar'
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet";
 import {toast} from "@/components/ui/use-toast";
@@ -5,7 +6,7 @@ import {tokenStorage} from "@/lib/axiosClient";
 
 import {cn} from "@/lib/utils";
 import PATHS from '@/routes/paths'
-import {KeyRound, LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserRound,} from "lucide-react";
+import {LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserRound,} from "lucide-react";
 import {useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 
@@ -15,17 +16,6 @@ const NAV_ITEMS = [
   { to: PATHS.USER.SECURITY, label: "Security", icon: ShieldCheck },
   { to: PATHS.USER.ACTIVITY, label: "Activity Logs", icon: ScrollText },
 ];
-
-function BrandMark() {
-  return (
-    <div className="flex items-center gap-2 px-2">
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-        <KeyRound className="h-4 w-4" />
-      </div>
-      <span className="text-sm font-semibold tracking-tight">AuthService</span>
-    </div>
-  );
-}
 
 function NavList({ onNavigate }) {
   return (
