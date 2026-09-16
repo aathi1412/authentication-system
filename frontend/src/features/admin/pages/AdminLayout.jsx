@@ -1,22 +1,10 @@
-import {NavLink, Outlet} from "react-router-dom";
+import {Outlet} from "react-router-dom";
+import Sidebar from '../components/Sidebar'
 
 function AdminLayout() {
     return (
         <div>
-            <aside>
-                <h2>Admin Panel</h2>
-
-                <nav>
-                    <NavLink to="/admin">
-                        Dashboard
-                    </NavLink>
-
-                    <NavLink to="/admin/users">
-                        Users
-                    </NavLink>
-                </nav>
-            </aside>
-
+            <Sidebar />
             <main>
                 <Outlet />
             </main>
