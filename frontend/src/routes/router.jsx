@@ -145,7 +145,7 @@ export const router = createBrowserRouter([
 
         // Admin
         {
-            path: "/admin",
+            path: PATHS.ADMIN.HOME,
             element: withSuspense(
                 <RoleBasedRoute allowedRoles={["ADMIN", "SUPER_ADMIN"]}>
                     <AdminLayout />
