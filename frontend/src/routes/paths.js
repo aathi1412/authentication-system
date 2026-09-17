@@ -13,14 +13,17 @@ const PATHS = {
     },
 
     USER: {
-        HOME: `/user/account`,
+        HOME: `${ACCOUNT}`,
         PROFILE: `${ACCOUNT}/profile`,
         SECURITY: `${ACCOUNT}/security`,
         ACTIVITY: `${ACCOUNT}/activity`,
     },
 
     ADMIN: {
-        HOME: '/admin'
+        HOME: '/admin',
+        USER: "/admin/users",
+        ACTIVITY: "/admin/activity",
+        SETTINGS: "/admin/settings"
     }
 }
 
