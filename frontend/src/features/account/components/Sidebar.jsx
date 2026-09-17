@@ -1,4 +1,4 @@
-import BrandMark from '@/components/Sidebar'
+import BrandMark from '@/components/BrandMark'
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet";
 import {toast} from "@/components/ui/use-toast";
