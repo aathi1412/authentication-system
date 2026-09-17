@@ -1,33 +1,20 @@
-import {NavLink} from "react-router-dom";
+import BrandMark from '@/components/BrandMark';
+import {LayoutGrid, ScrollText, ShieldCheck, UserRound} from "lucide-react";
 
-function LogOutButton(){
+const NAV_ITEMS = [
+    { to: PATHS.ADMIN.HOME, label: "dashboard", icon: LayoutGrid, end: true },
+    { to: PATHS.ADMIN.ACTIVITY, label: "activity", icon: UserRound },
+    { to: PATHS.ADMIN.SETTINGS, label: "settings", icon: ShieldCheck },
+    { to: PATHS.ADMIN.USER, label: "users", icon: ScrollText },
+];
 
-}
+
+
 function Sidebar() {
     return (
         <>
             <aside>
                 <BrandMark />
-
-                <nav>
-                    <NavLink to="/admin">
-                        Dashboard
-                    </NavLink>
-
-                    <NavLink to="/admin/users">
-                        Users
-                    </NavLink>
-
-                    <NavLink to="/admin/activity">
-                        Activity
-                    </NavLink>
-
-                    <NavLink to="/admin/settings">
-                        Settings
-                    </NavLink>
-                </nav>
-
-                <LogOutButton/>
             </aside>
         </>
     )
