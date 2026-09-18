@@ -1,8 +1,10 @@
 import BrandMark from '@/components/BrandMark';
+import {Button} from "@/components/ui/button";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet";
 import {cn} from "@/lib/utils";
-import {LayoutGrid, ScrollText, ShieldCheck, UserRound} from "lucide-react";
-import {NavLink} from "react-router-dom";
-
+import {LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserRound} from "lucide-react";
+import {useState} from "react";
+import {NavLink, useNavigate} from "react-router-dom";
 // const NAV_ITEMS = [
 //     { to: PATHS.ADMIN.HOME, label: "dashboard", icon: LayoutGrid, end: true },
 //     { to: PATHS.ADMIN.ACTIVITY, label: "activity", icon: UserRound },
@@ -45,7 +47,32 @@ function NavList({ onNavigate }){
     );
 }
 
+function LogoutButton({ onNavigate }) {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        tokenStorage.clear();
+        toast({ title: "Signed out", description: "You've been logged out safely." });
+        onNavigate?.();
+        navigate(PATHS.AUTH.LOGIN);
+    };
+
+    return (
+        <Button
+            variant="ghost"
+            onClick={handleLogout}
+            className="justify-start gap-2.5 px-3 text-muted-foreground hover:text-destructive"
+        >
+            <LogOut className="h-4 w-4" />
+            Logout
+        </Button>
+    );
+}
+
+
 function Sidebar() {
+    const [mobileOpen, setMobileOpen] = useState(false);
+
     return (
         <>
             <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-background py-5 lg:fixed lg:inset-y-0 lg:flex">
@@ -57,6 +84,30 @@ function Sidebar() {
                     </div>
                 </div>
             </aside>
+
+            <header className="flex items-center justify-between border-b border-border bg-background px-4 py-3 lg:hidden">
+                <BrandMark />
+                <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="outline" size="icon" aria-label="Open menu">
+                            <Menu className="h-4 w-4" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="flex w-72 flex-col p-0">
+                        <SheetHeader>
+                            <SheetTitle asChild>
+                                <BrandMark />
+                            </SheetTitle>
+                        </SheetHeader>
+                        <div className="flex flex-1 flex-col justify-between py-4">
+                            <NavList onNavigate={() => setMobileOpen(false)} />
+                            <div className="px-2">
+                                <LogoutButton onNavigate={() => setMobileOpen(false)} />
+                            </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </header>
         </>
     )
 }
