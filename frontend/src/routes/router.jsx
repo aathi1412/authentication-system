@@ -81,6 +81,10 @@ function withSuspense(element) {
 
 export const router = createBrowserRouter([
         {
+            path: "/sample",
+            element: withSuspense(<AdminLayout />),
+        },
+        {
             path: "/",
             element: <Navigate to={PATHS.USER.HOME} replace />,
         },
