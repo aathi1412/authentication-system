@@ -1,8 +1,8 @@
 import BrandMark from '@/components/BrandMark';
 import {Button} from "@/components/ui/button";
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {cn} from "@/lib/utils";
-import {LayoutGrid, LogOut, Menu, ScrollText, ShieldCheck, UserRound} from "lucide-react";
+import {Activity, LayoutDashboard, LogOut, Menu, Settings, Users} from "lucide-react";
 import {useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
 // const NAV_ITEMS = [
@@ -13,16 +13,17 @@ import {NavLink, useNavigate} from "react-router-dom";
 // ];
 
 const NAV_ITEMS_TEMP = [
-    { to: "1", label: "dashboard", icon: LayoutGrid, end: true },
-    { to: "2", label: "activity", icon: UserRound },
-    { to: "3", label: "settings", icon: ShieldCheck },
-    { to: "#", label: "users", icon: ScrollText },
+    { to: "1", label: "dashboard", icon: LayoutDashboard, end: true },
+    { to: "2", label: "activity", icon: Activity },
+    { to: "3", label: "settings", icon: Settings },
+    { to: "#", label: "users", icon: Users },
 ];
 
 function NavList({ onNavigate }){
     return(
         <nav>
-            {NAV_ITEMS_TEMP.map(({to, label, icon, end}) => {
+            {NAV_ITEMS_TEMP.map(({to, label, icon: Icon, end}) => {
+                console.log(icon);
                 return(
                     <NavLink
                         key={to}
@@ -38,7 +39,7 @@ function NavList({ onNavigate }){
                             )
                         }
                     >
-                        {/*<Icon className="h-4 w-4 shrink-0" />*/}
+                        <Icon className="h-4 w-4" />
                         {label}
                     </NavLink>
                 )
@@ -80,7 +81,7 @@ function Sidebar() {
                 <div className="mt-6 flex flex-1 flex-col justify-between">
                     <NavList />
                     <div className="px-2">
-                        {/*<LogoutButton />*/}
+                        <LogoutButton />
                     </div>
                 </div>
             </aside>
