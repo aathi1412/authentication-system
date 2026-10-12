@@ -1,10 +1,10 @@
-# 🔐 Authentication System
+# Authentication System
 
 A full-stack authentication application built with **Spring Boot**, **Spring Security**, **JWT**, and **React**. Provides secure registration, email verification, login with brute-force protection, password recovery, refresh-token rotation, and role-based access control.
 
 ---
 
-## ✨ Features
+## Features
 
 ### Backend
 - User registration with email domain validation (live MX record lookup)
@@ -44,7 +44,7 @@ A full-stack authentication application built with **Spring Boot**, **Spring Sec
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 authentication-system/
@@ -72,7 +72,7 @@ authentication-system/
 
 ---
 
-## 🔄 Authentication Flow
+## Authentication Flow
 
 1. User registers through the React frontend.
 2. Backend validates the email domain (MX lookup) and sends a verification email.
@@ -86,7 +86,7 @@ authentication-system/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Java 21+
@@ -130,7 +130,7 @@ The frontend runs on `http://localhost:5173`; the backend on `http://localhost:8
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 **Do not commit real credentials to `application.properties`.** Set these as environment variables instead:
 
@@ -156,7 +156,7 @@ spring.mail.password=${MAIL_PASSWORD}
 
 ---
 
-## 📌 API Reference
+## API Reference
 
 Base URL: `http://localhost:8080`
 
@@ -194,7 +194,7 @@ Base URL: `http://localhost:8080`
 
 ---
 
-## 🔒 Security Features
+## Security Features
 
 - Stateless JWT access tokens (short-lived, 15 min default)
 - Opaque, rotating refresh tokens stored server-side and revocable on logout
@@ -207,7 +207,7 @@ Base URL: `http://localhost:8080`
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Use Postman or Swagger UI (`http://localhost:8080/swagger-ui.html`) to exercise the API. Suggested scenarios:
 
@@ -219,7 +219,7 @@ Use Postman or Swagger UI (`http://localhost:8080/swagger-ui.html`) to exercise 
 
 ---
 
-## 🔮 Roadmap
+## Roadmap
 
 - [ ] Wire dashboard/profile pages into the router with a route guard
 - [ ] Add an axios interceptor to attach the access token and handle silent refresh on 401
@@ -233,8 +233,8 @@ Use Postman or Swagger UI (`http://localhost:8080/swagger-ui.html`) to exercise 
 
 ---
 
-## 👨‍💻 Author
+## Author
 
-Aathi
+Aathithyan
 
 If you found this project helpful, feel free to ⭐ the repository.
