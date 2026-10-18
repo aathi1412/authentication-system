@@ -10,6 +10,9 @@ import com.aathi.authenticationsystem.service.ActivityLogsService;
 import com.aathi.authenticationsystem.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -49,9 +52,26 @@ public class UserController {
     }
 
     @PostMapping("/profile/image")
-    public ResponseEntity<?> updateProfileImage(@RequestParam("image")MultipartFile image){
-        userService.updateProfileImage(image);
-        return ResponseEntity.ok(new UserResponse());
+    public ResponseEntity<UserResponse> updateProfileImage(
+            @RequestParam("image") MultipartFile image,
+            @AuthenticationPrincipal CustomUserDetails userDetails){
+        UserResponse response = userService.updateProfileImage(userDetails, image);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/profile/image/{filename:.+}")
+    public ResponseEntity<Resource> getProfileImage(@PathVariable String filename) {
+        Resource resource = userService.loadProfileImage(filename);
+        MediaType mediaType = MediaType.IMAGE_JPEG;
+        if (filename.toLowerCase().endsWith(".png")) {
+            mediaType = MediaType.IMAGE_PNG;
+        } else if (filename.toLowerCase().endsWith(".webp")) {
+            mediaType = MediaType.parseMediaType("image/webp");
+        }
+        return ResponseEntity.ok()
+                .contentType(mediaType)
+                .header(HttpHeaders.CACHE_CONTROL, "max-age=86400")
+                .body(resource);
     }
 
     @GetMapping("/activity")
