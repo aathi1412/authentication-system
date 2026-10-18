@@ -18,4 +18,5 @@ public class UserResponse {
     private Role role;
     private String phone;
     private String bio;
+    private String profileImage;
 }
