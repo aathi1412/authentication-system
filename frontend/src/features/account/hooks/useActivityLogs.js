@@ -1,4 +1,4 @@
-import {apiClient} from '@/lib/axiosClient'
+import {accountApi} from '@/features/account/services/accountApi';
 import {useCallback, useEffect, useRef, useState} from "react";
 
 const PAGE_SIZE = 10;
@@ -27,14 +27,21 @@ export function useActivityLogs({ search, category }) {
       setError(null);
 
       try {
-        const { data } = await apiClient.get("/users/activity", {
-            params: { pageToLoad, PAGE_SIZE, search: search || undefined, category: category !== "ALL" ? category : undefined }
+        const { data } = await accountApi.getActivityLogs({
+          page: pageToLoad,
+          pageSize: PAGE_SIZE,
+          search: search || undefined,
+          category,
         });
 
         if (currentRequestId !== requestId.current) return; // stale response
 
-        const content = Array.isArray(data) ? data : data.content;
-        const more = Array.isArray(data) ? content.length === PAGE_SIZE : data.hasMore;
+        const content = Array.isArray(data) ? data : (data?.content || []);
+        const more = Array.isArray(data)
+          ? content.length === PAGE_SIZE
+          : (data?.page !== undefined && data?.totalPages !== undefined
+              ? data.page < data.totalPages - 1
+              : false);
 
         setItems((prev) => (append ? [...prev, ...content] : content));
         setHasMore(Boolean(more));
@@ -43,8 +50,9 @@ export function useActivityLogs({ search, category }) {
         if (currentRequestId !== requestId.current) return;
         setError(err);
       } finally {
-        if (currentRequestId !== requestId.current) return;
-        append ? setIsFetchingMore(false) : setIsLoading(false);
+        if (currentRequestId === requestId.current) {
+          append ? setIsFetchingMore(false) : setIsLoading(false);
+        }
       }
     },
     [search, category]
