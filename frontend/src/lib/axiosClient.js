@@ -2,15 +2,26 @@ import {toast} from "@/components/ui/use-toast";
 import axios from "axios";
 import PATHS from "../routes/paths"
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 /** Simple wrapper around localStorage so token storage has one seam to swap out later. */
 export const tokenStorage = {
   getAccessToken: () => localStorage.getItem("sa_access_token"),
-  getUserResponse: () => localStorage.getItem("userResponse"),
+  getUserResponse: () => {
+    const raw = localStorage.getItem("userResponse");
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  },
 
   setTokens: ({ accessToken, userResponse }) => {
     if (accessToken) localStorage.setItem("sa_access_token", accessToken);
-    if (userResponse) localStorage.setItem("userResponse", userResponse);
+    if (userResponse) {
+      const value = typeof userResponse === "string" ? userResponse : JSON.stringify(userResponse);
+      localStorage.setItem("userResponse", value);
+    }
   },
 
   clear: () => {
