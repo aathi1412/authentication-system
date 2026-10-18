@@ -21,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-
+import org.springframework.beans.factory.annotation.Value;
 import static com.aathi.authenticationsystem.constants.CookieConstants.REFRESH_TOKEN_COOKIE;
 
 @Slf4j
@@ -32,6 +32,9 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final CookieService cookieService;
+
+    @Value("${app.frontend.url:http://localhost:5173}")
+    private String frontendUrl;
 
 
     @PostMapping("/register")
@@ -84,10 +87,8 @@ public class AuthenticationController {
         VerificationStatus status = authenticationService.verifyEmail(token);
 
         log.info("redirected successfully");
-        return new RedirectView("http://localhost:5173/auth/email-verification?status=" +
+        return new RedirectView(frontendUrl + "/auth/email-verification?status=" +
                 status.name().toLowerCase());
-
-
     }
 
     @PostMapping("/resend-verification-email")
