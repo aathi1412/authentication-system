@@ -112,6 +112,52 @@ function toast({ ...props }) {
   return { id, dismiss, update };
 }
 
+toast.success = (title, description) => {
+  return toast({
+    title: typeof title === "string" ? title : (title?.title || "Success"),
+    description: typeof title === "object" ? title.description : description,
+    variant: "default",
+  });
+};
+
+toast.error = (title, description) => {
+  return toast({
+    title: typeof title === "string" ? title : (title?.title || "Error"),
+    description: typeof title === "object" ? title.description : description,
+    variant: "destructive",
+  });
+};
+
+toast.promise = async (promise, { loading, success, error } = {}) => {
+  const { id, update, dismiss } = toast({
+    title: typeof loading === "string" ? loading : "Loading...",
+  });
+  try {
+    const result = await promise;
+    const successMsg = typeof success === "function" ? success(result) : success;
+    if (successMsg) {
+      update({
+        id,
+        title: typeof successMsg === "string" ? successMsg : (successMsg?.title || "Success"),
+        description: typeof successMsg === "object" ? successMsg.description : undefined,
+        variant: "default",
+      });
+    } else {
+      dismiss();
+    }
+    return result;
+  } catch (err) {
+    const errorMsg = typeof error === "function" ? error(err) : error;
+    update({
+      id,
+      title: typeof errorMsg === "string" ? errorMsg : (errorMsg?.title || "Error"),
+      description: typeof errorMsg === "object" ? errorMsg.description : (err.response?.data?.message || err.message),
+      variant: "destructive",
+    });
+    throw err;
+  }
+};
+
 function useToast() {
   const [state, setState] = React.useState(memoryState);
 
