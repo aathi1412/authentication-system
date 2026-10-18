@@ -11,6 +11,15 @@ const USE_MOCKS = import.meta.env.VITE_USE_MOCKS !== "false";
  */
 export const accountApi = {
 
+  getProfile: () => apiClient.get("/users/me"),
+
+  updateProfile: (payload) => apiClient.put("/users/me", payload),
+
+  updateProfileImage: (formData) =>
+    apiClient.post("/users/profile/image", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
+
   changePassword: (payload) =>
     USE_MOCKS
       ? mockAccountApi.changePassword(payload)
@@ -21,10 +30,15 @@ export const accountApi = {
       ? mockAccountApi.getSecurityInfo()
       : apiClient.get("/users/security"),
 
-  getActivityLogs: ({ page = 0, size = 10, search = "", category = "ALL" }) =>
+  getActivityLogs: ({ page = 0, pageSize = 10, search = "", category = "ALL" }) =>
     USE_MOCKS
-      ? mockAccountApi.getActivityLogs({ page, size, search, category })
-      : apiClient.get("/activity", {
-          params: { page, size, search: search || undefined, category },
+      ? mockAccountApi.getActivityLogs({ page, size: pageSize, search, category })
+      : apiClient.get("/users/activity", {
+          params: {
+            page,
+            pageSize,
+            search: search || undefined,
+            category: category !== "ALL" ? category : undefined,
+          },
         }),
 };
