@@ -7,7 +7,7 @@ import {PasswordForm} from "@/features/account/components/PasswordForm";
 
 import {useChangePassword} from "@/features/account/hooks/useChangePassword";
 import {useSecurityInfo} from "@/features/account/hooks/useSecurityInfo";
-import {CalendarDays, Clock, Lock, LockOpen, MailCheck, MailWarning} from "lucide-react";
+import {CalendarDays, Clock, Lock, LockOpen, MailCheck, MailWarning, ShieldCheck} from "lucide-react";
 
 function formatDateTime(iso) {
   if (!iso) return "—";
