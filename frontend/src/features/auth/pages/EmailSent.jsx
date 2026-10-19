@@ -1,8 +1,7 @@
 import useCountDown from "@/hooks/useCountDown";
 import PATHS from '@/routes/paths'
-import {BASE_PATH_AUTH} from "@/utils/constants";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { forgotPassword } from "@/lib/authApi";
+import { toast } from "@/components/ui/use-toast";
 import {MdOutlineMarkEmailRead} from "react-icons/md";
 import AuthSwitch from "../components/AuthSwitch";
 import Button from "../components/Button";
@@ -16,11 +15,11 @@ export function EmailSent() {
         e.preventDefault();
 
         await toast.promise(
-            axios.post(BASE_PATH_AUTH + "/forgot-password", {email}),
+            forgotPassword({ email }),
             {
                 loading: "Sending reset link...",
                 success: "Reset link sent to your email.",
-                error: err => err.response?.data?.error?.message || "Something went wrong."
+                error: err => err.response?.data?.message || "Something went wrong."
             }
         )
         start()

@@ -4,7 +4,7 @@ import PATHS from "@/routes/paths"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/use-toast";
 import {Link, useNavigate} from "react-router-dom";
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
@@ -55,8 +55,11 @@ export function Login() {
             toast.success("Welcome back " + userResponse.name);
 
             reset()
-            console.log(response.data);
-            navigate(PATHS.USER.HOME)
+            if (userResponse.role === "ADMIN" || userResponse.role === "SUPER_ADMIN") {
+                navigate(PATHS.ADMIN.HOME);
+            } else {
+                navigate(PATHS.USER.HOME);
+            }
         } finally {
             setLoading(false)
         }

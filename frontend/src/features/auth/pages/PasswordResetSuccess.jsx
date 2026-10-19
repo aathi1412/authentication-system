@@ -1,3 +1,4 @@
+import PATHS from "@/routes/paths";
 import {FaCircleCheck} from "react-icons/fa6";
 import {useNavigate} from "react-router-dom";
 import Button from "../components/Button";
@@ -20,7 +21,7 @@ export function PasswordResetSuccess() {
 
                 <Button
                     type="button"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate(PATHS.AUTH.LOGIN)}
                 >
                     Continue
                 </Button>

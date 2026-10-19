@@ -1,8 +1,7 @@
 import useCountDown from "@/hooks/useCountDown"
 import PATHS from '@/routes/paths'
-import {BASE_PATH_AUTH} from "@/utils/constants";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { resendVerificationEmail } from "@/lib/authApi";
+import { toast } from "@/components/ui/use-toast";
 import {FaCircleCheck} from "react-icons/fa6";
 import {useSearchParams} from "react-router-dom";
 import AuthSwitch from "../components/AuthSwitch";
@@ -43,7 +42,7 @@ export function EmailVerification() {
     const handleResend = async () => {
 
         await toast.promise(
-            axios.post(BASE_PATH_AUTH + "/resend-verification-email", {email}),
+            resendVerificationEmail(email),
             {
                 loading: "Sending Verification Email...",
                 success: "verification email sent successfully.",

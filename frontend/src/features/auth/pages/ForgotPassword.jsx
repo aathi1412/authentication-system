@@ -2,7 +2,7 @@ import {forgotPassword} from "@/lib/authApi"
 import PATHS from "@/routes/paths"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "@/components/ui/use-toast";
 import {useNavigate} from "react-router-dom";
 import AuthSwitch from "../components/AuthSwitch.jsx";
 import Button from "../components/Button.jsx";
