@@ -33,7 +33,7 @@ public class CookieService {
         return ResponseCookie.from(REFRESH_TOKEN_COOKIE, "")
                 .httpOnly(cookiesProperties.httpOnly())
                 .secure(cookiesProperties.secure())
-                .path("/")
+                .path(cookiesProperties.path())
                 .sameSite(cookiesProperties.sameSite())
                 .maxAge(0)
                 .build();
