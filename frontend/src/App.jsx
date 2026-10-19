@@ -1,17 +1,14 @@
-import {Toaster as CustomToaster} from "@/components/ui/toaster";
-
-import {router} from "@/routes/router";
-import {Toaster} from "react-hot-toast";
-import {RouterProvider} from "react-router-dom"
+import { Toaster as CustomToaster } from "@/components/ui/toaster";
+import { router } from "@/routes/router";
+import { RouterProvider } from "react-router-dom";
 
 function App() {
-    return (
-        <>
-            <Toaster/>
-            <RouterProvider router={router} />
-            <CustomToaster />
-        </>
-    )
+  return (
+    <>
+      <RouterProvider router={router} />
+      <CustomToaster />
+    </>
+  );
 }
 
-export default App
+export default App;
