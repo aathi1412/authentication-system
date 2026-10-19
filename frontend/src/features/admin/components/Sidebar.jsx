@@ -1,49 +1,41 @@
 import BrandMark from '@/components/BrandMark';
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
+import {toast} from "@/components/ui/use-toast";
+import {apiClient, tokenStorage} from "@/lib/axiosClient";
 import {cn} from "@/lib/utils";
-import {Activity, LayoutDashboard, LogOut, Menu, Settings, Users} from "lucide-react";
+import PATHS from "@/routes/paths";
+import {LayoutDashboard, LogOut, Menu, Users} from "lucide-react";
 import {useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
-// const NAV_ITEMS = [
-//     { to: PATHS.ADMIN.HOME, label: "dashboard", icon: LayoutGrid, end: true },
-//     { to: PATHS.ADMIN.ACTIVITY, label: "activity", icon: UserRound },
-//     { to: PATHS.ADMIN.SETTINGS, label: "settings", icon: ShieldCheck },
-//     { to: PATHS.ADMIN.USER, label: "users", icon: ScrollText },
-// ];
 
-const NAV_ITEMS_TEMP = [
-    { to: "1", label: "dashboard", icon: LayoutDashboard, end: true },
-    { to: "2", label: "activity", icon: Activity },
-    { to: "3", label: "settings", icon: Settings },
-    { to: "#", label: "users", icon: Users },
+const NAV_ITEMS = [
+    { to: PATHS.ADMIN.HOME, label: "Dashboard", icon: LayoutDashboard, end: true },
+    { to: PATHS.ADMIN.USER, label: "Users", icon: Users },
 ];
 
 function NavList({ onNavigate }){
     return(
-        <nav>
-            {NAV_ITEMS_TEMP.map(({to, label, icon: Icon, end}) => {
-                console.log(icon);
-                return(
-                    <NavLink
-                        key={to}
-                        to={to}
-                        end={end}
-                        onClick={onNavigate}
-                        className={({ isActive }) =>
-                            cn(
-                                "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                                isActive
-                                    ? "bg-secondary text-secondary-foreground"
-                                    : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
-                            )
-                        }
-                    >
-                        <Icon className="h-4 w-4" />
-                        {label}
-                    </NavLink>
-                )
-            })}
+        <nav className="flex flex-1 flex-col gap-1 px-2">
+            {NAV_ITEMS.map(({to, label, icon: Icon, end}) => (
+                <NavLink
+                    key={to}
+                    to={to}
+                    end={end}
+                    onClick={onNavigate}
+                    className={({ isActive }) =>
+                        cn(
+                            "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                            isActive
+                                ? "bg-secondary text-secondary-foreground"
+                                : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+                        )
+                    }
+                >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {label}
+                </NavLink>
+            ))}
         </nav>
     );
 }
@@ -51,11 +43,17 @@ function NavList({ onNavigate }){
 function LogoutButton({ onNavigate }) {
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        tokenStorage.clear();
-        toast({ title: "Signed out", description: "You've been logged out safely." });
-        onNavigate?.();
-        navigate(PATHS.AUTH.LOGIN);
+    const handleLogout = async () => {
+        try {
+            await apiClient.post("/auth/logout");
+        } catch (e) {
+            console.error("Logout request failed:", e);
+        } finally {
+            tokenStorage.clear();
+            toast({ title: "Signed out", description: "You've been logged out safely." });
+            onNavigate?.();
+            navigate(PATHS.AUTH.LOGIN);
+        }
     };
 
     return (
