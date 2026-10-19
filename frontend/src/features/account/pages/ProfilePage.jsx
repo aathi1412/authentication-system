@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import PATHS from "@/routes/paths";
 
 import { useProfile } from "@/features/account/hooks/useProfile";
 import { ProfileForm } from "@/features/account/components/ProfileForm";
@@ -50,7 +51,7 @@ export default function ProfilePage() {
               profile={profile}
               isSaving={isSaving}
               onSave={saveProfile}
-              onCancel={() => navigate("/account")}
+              onCancel={() => navigate(PATHS.USER.HOME)}
             />
           )}
         </CardContent>

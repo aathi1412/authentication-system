@@ -6,7 +6,8 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
 
 import {profileSchema} from "@/features/account/schemas/profileSchema";
-import {apiClient} from "@/lib/axiosClient"
+import {apiClient, tokenStorage} from "@/lib/axiosClient";
+import {toast} from "@/components/ui/use-toast";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Camera} from "lucide-react";
 import {useEffect, useRef, useState} from "react";
@@ -96,16 +97,33 @@ export function ProfileForm({ profile, isSaving, onSave, onCancel }) {
   };
 
   const handleProfileImage = async (file) => {
-      try{
+      try {
           const formData = new FormData();
           formData.append("image", file);
 
-          await apiClient.post("/users/profile/image", formData);
-      }
-      catch (error) {
+          const response = await apiClient.post("/users/profile/image", formData);
+          toast({
+            title: "Photo updated",
+            description: "Your profile picture has been updated successfully.",
+          });
+          const currentUser = tokenStorage.getUserResponse();
+          if (currentUser && response.data) {
+            tokenStorage.setTokens({
+              userResponse: {
+                ...currentUser,
+                profileImage: response.data.profileImage,
+              },
+            });
+          }
+      } catch (error) {
           console.error("Image upload failed:", error);
+          toast({
+            variant: "destructive",
+            title: "Upload failed",
+            description: error.response?.data?.message || "Failed to upload profile picture.",
+          });
       }
-  }
+  };
 
   return (
     <Form {...form}>
