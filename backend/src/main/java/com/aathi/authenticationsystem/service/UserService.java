@@ -17,11 +17,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.aathi.authenticationsystem.exception.BadRequestException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -31,6 +43,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ActivityLogsService activityLogsService;
+
+    @Value("${app.upload.dir:./uploads/avatars}")
+    private String uploadDir;
+
+    private static final Set<String> ALLOWED_IMAGE_TYPES = Set.of(
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+    );
 
     public User getUserByEmail(String email){
         return userRepository.findByEmail(email)
@@ -117,6 +138,7 @@ public class UserService {
                 .role(user.getRole())
                 .phone(user.getPhone())
                 .bio(user.getBio())
+                .profileImage(user.getProfileImage())
                 .build();
     }
 
@@ -130,8 +152,95 @@ public class UserService {
                 .createdAt(user.getCreatedAt())
                 .build();
     }
-    public void updateProfileImage(MultipartFile image) {
+    
+    @Transactional
+    public UserResponse updateProfileImage(CustomUserDetails userDetails, MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            throw new BadRequestException("Please select an image file to upload");
+        }
 
+        if (image.getSize() > 5 * 1024 * 1024) {
+            throw new BadRequestException("Image size cannot exceed 5MB");
+        }
+
+        String contentType = image.getContentType();
+        if (contentType == null || !ALLOWED_IMAGE_TYPES.contains(contentType.toLowerCase())) {
+            throw new BadRequestException("Only JPEG, PNG, and WebP images are allowed");
+        }
+
+        String originalFilename = image.getOriginalFilename();
+        String extension = ".jpg";
+        if (originalFilename != null && originalFilename.lastIndexOf('.') > 0) {
+            String ext = originalFilename.substring(originalFilename.lastIndexOf('.')).toLowerCase();
+            if (ext.equals(".png") || ext.equals(".webp") || ext.equals(".jpeg") || ext.equals(".jpg")) {
+                extension = ext;
+            }
+        }
+
+        String uniqueFilename = UUID.randomUUID() + extension;
+
+        try {
+            Path targetDir = Paths.get(uploadDir).toAbsolutePath().normalize();
+            if (!Files.exists(targetDir)) {
+                Files.createDirectories(targetDir);
+            }
+
+            User user = getUserByEmail(userDetails.getUsername());
+
+            // Delete previous uploaded avatar file if it was managed locally
+            if (user.getProfileImage() != null && user.getProfileImage().contains("/profile/image/")) {
+                String oldFilename = user.getProfileImage().substring(user.getProfileImage().lastIndexOf('/') + 1);
+                Path oldFile = targetDir.resolve(oldFilename).normalize();
+                if (oldFile.startsWith(targetDir) && Files.exists(oldFile)) {
+                    Files.deleteIfExists(oldFile);
+                }
+            }
+
+            Path targetFile = targetDir.resolve(uniqueFilename).normalize();
+            if (!targetFile.startsWith(targetDir)) {
+                throw new BadRequestException("Invalid file path");
+            }
+
+            Files.copy(image.getInputStream(), targetFile, StandardCopyOption.REPLACE_EXISTING);
+
+            String imageUrl = "/api/users/profile/image/" + uniqueFilename;
+            user.setProfileImage(imageUrl);
+            User savedUser = userRepository.save(user);
+
+            activityLogsService.saveActivityLog(
+                    savedUser,
+                    "Profile image updated",
+                    ActivityType.PROFILE_UPDATED,
+                    "Updated profile picture",
+                    ActivityCategory.PROFILE
+            );
+
+            log.info("Profile image updated for user {}", user.getEmail());
+            return mapToUserResponse(savedUser);
+        } catch (IOException e) {
+            log.error("Failed to store profile image for user {}: {}", userDetails.getUsername(), e.getMessage());
+            throw new RuntimeException("Could not store profile image. Please try again.", e);
+        }
+    }
+
+    public Resource loadProfileImage(String filename) {
+        try {
+            Path targetDir = Paths.get(uploadDir).toAbsolutePath().normalize();
+            Path filePath = targetDir.resolve(filename).normalize();
+
+            if (!filePath.startsWith(targetDir)) {
+                throw new UserNotFoundException("Image not found");
+            }
+
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new UserNotFoundException("Image not found");
+            }
+        } catch (MalformedURLException e) {
+            throw new UserNotFoundException("Image not found");
+        }
     }
     @Transactional
     public void lockOrUnlockAccount(String email){
