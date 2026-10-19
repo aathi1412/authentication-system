@@ -2,7 +2,7 @@ import BrandMark from '@/components/BrandMark'
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet";
 import {toast} from "@/components/ui/use-toast";
-import {tokenStorage} from "@/lib/axiosClient";
+import {apiClient, tokenStorage} from "@/lib/axiosClient";
 
 import {cn} from "@/lib/utils";
 import PATHS from '@/routes/paths'
@@ -46,11 +46,17 @@ function NavList({ onNavigate }) {
 function LogoutButton({ onNavigate }) {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    tokenStorage.clear();
-    toast({ title: "Signed out", description: "You've been logged out safely." });
-    onNavigate?.();
-    navigate(PATHS.AUTH.LOGIN);
+  const handleLogout = async () => {
+    try {
+      await apiClient.post("/auth/logout");
+    } catch (e) {
+      console.error("Logout request failed:", e);
+    } finally {
+      tokenStorage.clear();
+      toast({ title: "Signed out", description: "You've been logged out safely." });
+      onNavigate?.();
+      navigate(PATHS.AUTH.LOGIN);
+    }
   };
 
   return (
