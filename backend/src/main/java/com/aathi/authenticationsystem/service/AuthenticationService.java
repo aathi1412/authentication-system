@@ -207,6 +207,7 @@ public class AuthenticationService {
                                 .role(savedUser.getRole())
                                 .phone(savedUser.getPhone())
                                 .bio(savedUser.getBio())
+                                .profileImage(savedUser.getProfileImage())
                                 .build()
                         )
                         .build(),
@@ -316,7 +317,7 @@ public class AuthenticationService {
 
                 validateEmail(user.getEmail());
 
-                emailService.sentResetToken(user, resetToken.getToken());
+                emailService.sendResetToken(user, resetToken.getToken());
 
                 activityLogsService.saveActivityLog(
                         user,
