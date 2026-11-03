@@ -1,1 +1,28 @@
-.idea/*
+# IDE & Editor
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Environment & Secrets
+.env
+*.env.local
+
+# Java / Maven build output
+**/target/
+**/*.class
+**/*.jar
+**/*.war
+
+# Node / Vite build output
+**/node_modules/
+**/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Uploads & Runtime storage
+uploads/
+**/uploads/
+logs/
+*.log
